@@ -1,0 +1,12 @@
+from pso import PSO
+
+# function we are attempting to optimize (minimize)
+def func1(x):
+    total=0
+    for i in range(len(x)):
+        total+=x[i]**2
+    return total
+
+initial=[5,5]               # initial starting location [x1,x2...]
+bounds=[(-10,10),(-10,10)]  # input bounds [(x1_min,x1_max),(x2_min,x2_max)...]
+PSO(func1,initial,bounds,num_particles=15,maxiter=30)
