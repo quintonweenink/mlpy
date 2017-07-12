@@ -1,1 +1,1 @@
-__all__ = ["rng"]
+__all__ = ["ng", "rng", "cprng"]
