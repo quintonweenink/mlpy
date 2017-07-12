@@ -1,4 +1,4 @@
-import random
+import rng
 
 class Particle:
     def __init__(self,x0, num_dimensions):
