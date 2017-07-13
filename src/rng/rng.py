@@ -1,18 +1,12 @@
-import six
-import abc
+from ng import NG
 
-class RNG:
-    __name = None
-    __sound = ""
-    __owner = ""
+class RNG(NG):
 
-    def __init__(self, name, sound, owner):
-        self.__name = name
-        self.__sound = sound
-        self.__owner = owner
+    def __init__(self, name):
+        super(RNG, self).__init__(name)
 
     def getRandomSet(self):
         return self.__name
 
     def toString(self):
-        pass
+        return "Printing the set"

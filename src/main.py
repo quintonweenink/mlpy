@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from pso import PSO
 
 # function we are attempting to optimize (minimize)

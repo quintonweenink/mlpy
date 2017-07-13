@@ -1,4 +1,9 @@
+import random
+
 import rng
+
+randomObj = rng.RNG("Set")
+print(randomObj.toString())
 
 class Particle:
     def __init__(self,x0, num_dimensions):

@@ -1,1 +1,3 @@
-__all__ = ["ng", "rng", "cprng"]
+from ng import NG
+from rng import RNG
+from cprng import CPRNG
