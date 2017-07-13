@@ -15,3 +15,7 @@ class NG:
     @abc.abstractmethod
     def toString(self):
         pass
+
+    @abc.abstractmethod
+    def random(self):
+        pass

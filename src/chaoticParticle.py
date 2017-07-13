@@ -1,6 +1,10 @@
+import random
+
 import rng
 
-class Particle:
+from particle import Particle
+
+class ChaoticParticle(Particle):
     def __init__(self,x0, num_dimensions):
         self.position_i=[]          # particle position
         self.velocity_i=[]          # particle velocity
@@ -8,10 +12,9 @@ class Particle:
         self.err_best_i=-1          # best error individual
         self.err_i=-1               # error individual
         self.num_dimensions = num_dimensions
-        self.ng = rng.RNG("Random")
 
         for i in range(0, num_dimensions):
-            self.velocity_i.append(self.ng.uniform(-1,1))
+            self.velocity_i.append(random.uniform(-1,1))
             self.position_i.append(x0[i])
 
     # evaluate current fitness
@@ -30,8 +33,8 @@ class Particle:
         c2=2        # social constant
 
         for i in range(0,self.num_dimensions):
-            r1=self.ng.random()
-            r2=self.ng.random()
+            r1=random.random()
+            r2=random.random()
 
             vel_cognitive=c1*r1*(self.pos_best_i[i]-self.position_i[i])
             vel_social=c2*r2*(pos_best_g[i]-self.position_i[i])
