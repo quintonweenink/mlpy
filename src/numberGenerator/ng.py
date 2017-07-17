@@ -3,14 +3,10 @@ import abc
 
 @six.add_metaclass(abc.ABCMeta)
 class NG:
-    __name = None
-
-    def __init__(self, name):
-        self.__name = name
 
     @abc.abstractmethod
     def getRandomSet(self):
-        return self.__name
+        pass
 
     @abc.abstractmethod
     def toString(self):

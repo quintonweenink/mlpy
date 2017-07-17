@@ -1,14 +1,14 @@
 import random
 
-from ng import NG
+from numberGenerator.ng import NG
 
-class RNG(NG):
+class CPRNG(NG):
 
-    def __init__(self, name):
-        super(RNG, self).__init__(name)
+    def __init__(self):
+        pass
 
     def getRandomSet(self):
-        return self.__name
+        return random.uniform(-1, 1)
 
     def random(self):
         return random.random()

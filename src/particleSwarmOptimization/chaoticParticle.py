@@ -1,12 +1,10 @@
 import random
 
-import rng
-
-from particle import Particle
+from particleSwarmOptimization.particle import Particle
 
 class ChaoticParticle(Particle):
     def __init__(self,x0, num_dimensions):
-        __position_i=[]          # particle position
+        self.position_i=[]          # particle position
         self.velocity_i=[]          # particle velocity
         self.pos_best_i=[]          # best position individual
         self.err_best_i=-1          # best error individual
