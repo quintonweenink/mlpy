@@ -4,7 +4,7 @@ import numberGenerator
 
 
 class Particle:
-    def __init__(self, x0, num_dimensions, costFunc):
+    def __init__(self, bounds, num_dimensions, costFunc):
         self.position_i = []  # particle position
         self.__velocity_i = []  # particle velocity
         self.__pos_best_i = []  # best position individual
@@ -16,11 +16,12 @@ class Particle:
         self.__cognitiveConstant = 0
         self.__socialConstant = 0
         self.__costFunc = costFunc
+        self.__bounds = bounds
 
         for i in range(0, num_dimensions):
             self.__num_dimensions = num_dimensions
             self.__velocity_i.append(self.__ng.uniform(-1, 1))
-            self.position_i.append(x0[i])
+            self.position_i.append(self.__ng.uniform(self.__bounds.minBound, self.__bounds.maxBound))
 
     # evaluate current fitness
     def evaluate(self):
@@ -46,17 +47,17 @@ class Particle:
             self.__velocity_i[i] = self.weight * self.__velocity_i[i] + vel_cognitive + vel_social
 
     # update the particle position based off new velocity updates
-    def update_position(self, bounds):
+    def update_position(self):
         for i in range(0, self.__num_dimensions):
             self.position_i[i] = self.position_i[i] + self.__velocity_i[i]
 
             # adjust maximum position if necessary
-            if self.position_i[i] > bounds.maxBound:
-                self.position_i[i] = bounds.maxBound
+            if self.position_i[i] > self.__bounds.maxBound:
+                self.position_i[i] = self.__bounds.maxBound
 
             # adjust minimum position if neseccary
-            if self.position_i[i] < bounds.minBound:
-                self.position_i[i] = bounds.minBound
+            if self.position_i[i] < self.__bounds.minBound:
+                self.position_i[i] = self.__bounds.minBound
 
     def toString(self):
         return ('\tPosition: {position}\n'+

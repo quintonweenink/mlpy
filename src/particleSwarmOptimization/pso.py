@@ -4,20 +4,19 @@ from particleSwarmOptimization.particle import Particle
 class PSO():
 
 
-    def __init__(self,costFunc,x0,bounds,num_particles,maxiter):
-        self.__num_dimensions=len(x0)
+    def __init__(self,costFunc,num_dimensions,bounds,num_particles,maxiter):
+        self.__num_dimensions=num_dimensions
         self.__err_best_g=-1                   # best error for group
         self.__pos_best_g=[]                   # best position for group
         self.__maxiter = maxiter
         self.__num_particles = num_particles
         self.__bounds = bounds
         self.__costFunc = costFunc
-        self.__x0 = x0
 
     def establishSwarm(self):
         self.__swarm = []
         for i in range(0, self.__num_particles):
-            self.__swarm.append(Particle(self.__x0, self.__num_dimensions, self.__costFunc))
+            self.__swarm.append(Particle(self.__bounds, self.__num_dimensions, self.__costFunc))
 
 
     def setGlobalBest(self):
@@ -43,7 +42,7 @@ class PSO():
             # cycle through __swarm and update velocities and position
             for j in range(0,self.__num_particles):
                 self.__swarm[j].update_velocity(self.__pos_best_g)
-                self.__swarm[j].update_position(self.__bounds)
+                self.__swarm[j].update_position()
             i+=1
             self.printGlobalBest()
 
