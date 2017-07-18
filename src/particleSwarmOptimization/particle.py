@@ -5,7 +5,7 @@ import numberGenerator
 
 class Particle:
     def __init__(self, x0, num_dimensions):
-        self.__position_i = []  # particle position
+        self.position_i = []  # particle position
         self.__velocity_i = []  # particle velocity
         self.__pos_best_i = []  # best position individual
         self.__err_best_i = -1  # best error individual
@@ -19,15 +19,15 @@ class Particle:
         for i in range(0, num_dimensions):
             self.__num_dimensions = num_dimensions
             self.__velocity_i.append(self.__ng.uniform(-1, 1))
-            self.__position_i.append(x0[i])
+            self.position_i.append(x0[i])
 
     # evaluate current fitness
     def evaluate(self, costFunc):
-        self.__err_i = costFunc(self.__position_i)
+        self.__err_i = costFunc(self.position_i)
 
         # check to see if the current position is an individual best
         if self.__err_i < self.__err_best_i or self.__err_best_i == -1:
-            self.__pos_best_i = self.__position_i
+            self.__pos_best_i = self.position_i
             self.__err_best_i = self.__err_i
 
     # update new particle velocity
@@ -40,22 +40,29 @@ class Particle:
             r1 = self.__ng.random()
             r2 = self.__ng.random()
 
-            vel_cognitive = self.cognitiveConstant * r1 * (self.__pos_best_i[i] - self.__position_i[i])
-            vel_social = self.socialConstant * r2 * (pos_best_g[i] - self.__position_i[i])
+            vel_cognitive = self.cognitiveConstant * r1 * (self.__pos_best_i[i] - self.position_i[i])
+            vel_social = self.socialConstant * r2 * (pos_best_g[i] - self.position_i[i])
             self.__velocity_i[i] = self.weight * self.__velocity_i[i] + vel_cognitive + vel_social
 
     # update the particle position based off new velocity updates
     def update_position(self, bounds):
         for i in range(0, self.__num_dimensions):
-            self.__position_i[i] = self.__position_i[i] + self.__velocity_i[i]
+            self.position_i[i] = self.position_i[i] + self.__velocity_i[i]
 
             # adjust maximum position if necessary
-            if self.__position_i[i] > bounds[i][1]:
-                self.__position_i[i] = bounds[i][1]
+            if self.position_i[i] > bounds[i][1]:
+                self.position_i[i] = bounds[i][1]
 
             # adjust minimum position if neseccary
-            if self.__position_i[i] < bounds[i][0]:
-                self.__position_i[i] = bounds[i][0]
+            if self.position_i[i] < bounds[i][0]:
+                self.position_i[i] = bounds[i][0]
+
+    def toString(self):
+        return ('\tPosition: {position}\n'+
+                '\tBest Position: {pos_best}\n' +
+                '\tError: {err}\n').format(position=self.position_i,
+                                        pos_best=self.__pos_best_i,
+                                        err=self.err_i)
 
     @property
     def position_i(self):

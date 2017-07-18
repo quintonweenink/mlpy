@@ -11,6 +11,7 @@ bounds = [(-10, 10), (-10, 10)]  # input bounds [(x1_min,x1_max),(x2_min,x2_max)
 num_particles = 15
 maxiter = 30
 standardPSO  = PSO(func1, initial, bounds, num_particles, maxiter)
+standardPSO.establishSwarm()
 
 standardPSO.begin()
 

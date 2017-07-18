@@ -12,25 +12,27 @@ class PSO():
         self.__num_particles = num_particles
         self.__bounds = bounds
         self.__costFunc = costFunc
+        self.__x0 = x0
 
-
-        # establish the __swarm
-        self.__swarm=[]
-        for i in range(0,self.__num_particles):
-            self.__swarm.append(Particle(x0, self.__num_dimensions))
+    def establishSwarm(self):
+        self.__swarm = []
+        for i in range(0, self.__num_particles):
+            self.__swarm.append(Particle(self.__x0, self.__num_dimensions))
 
 
     def setGlobalBest(self):
         # print i,err_best_g
         # cycle through particles in __swarm and evaluate fitness
+        print('[')
         for j in range(0, self.__num_particles):
             self.__swarm[j].evaluate(self.__costFunc)
+            print(self.__swarm[j].toString())
 
             # determine if current particle is the best (globally)
             if self.__swarm[j].err_i < self.__err_best_g or self.__err_best_g == -1:
                 self.__pos_best_g = list(self.__swarm[j].position_i)
                 self.__err_best_g = float(self.__swarm[j].err_i)
-
+        print(']')
 
     def begin(self):
         # begin optimization loop
@@ -43,11 +45,12 @@ class PSO():
                 self.__swarm[j].update_velocity(self.__pos_best_g)
                 self.__swarm[j].update_position(self.__bounds)
             i+=1
+            self.printGlobalBest()
+
+        print('FINAL:')
         self.printGlobalBest()
 
 
     def printGlobalBest(self):
-        # print final results
-        print('FINAL:')
         print(self.__pos_best_g)
         print(self.__err_best_g)
