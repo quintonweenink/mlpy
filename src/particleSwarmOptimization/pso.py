@@ -17,7 +17,7 @@ class PSO():
     def establishSwarm(self):
         self.__swarm = []
         for i in range(0, self.__num_particles):
-            self.__swarm.append(Particle(self.__x0, self.__num_dimensions))
+            self.__swarm.append(Particle(self.__x0, self.__num_dimensions, self.__costFunc))
 
 
     def setGlobalBest(self):
@@ -25,7 +25,7 @@ class PSO():
         # cycle through particles in __swarm and evaluate fitness
         print('[')
         for j in range(0, self.__num_particles):
-            self.__swarm[j].evaluate(self.__costFunc)
+            self.__swarm[j].evaluate()
             print(self.__swarm[j].toString())
 
             # determine if current particle is the best (globally)
