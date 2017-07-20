@@ -1,5 +1,5 @@
 
-class Bounds():
+class Bounds(object):
 
 
     def __init__(self, minBound, maxBound):

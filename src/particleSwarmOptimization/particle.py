@@ -3,18 +3,18 @@ import random
 import numberGenerator
 
 
-class Particle:
-    def __init__(self, bounds, num_dimensions, costFunc):
-        self.position_i = []  # particle position
+class Particle(object):
+    def __init__(self, bounds, num_dimensions, costFunc, weight, cognitiveConstant, socialConstant):
+        self.__position_i = []  # particle position
         self.__velocity_i = []  # particle velocity
         self.__pos_best_i = []  # best position individual
         self.__err_best_i = -1  # best error individual
         self.__err_i = -1  # error individual
         self.__num_dimensions = 2
         self.__ng = numberGenerator.RNG()
-        self.__weight = 0
-        self.__cognitiveConstant = 0
-        self.__socialConstant = 0
+        self.__weight = weight
+        self.__cognitiveConstant = cognitiveConstant
+        self.__socialConstant = socialConstant
         self.__costFunc = costFunc
         self.__bounds = bounds
 
@@ -34,10 +34,6 @@ class Particle:
 
     # update new particle velocity
     def update_velocity(self, pos_best_g):
-        self.weight = 0.5  # constant inertia weight (how much to weigh the previous velocity)
-        self.cognitiveConstant = 1
-        self.socialConstant = 2
-
         for i in range(0, self.__num_dimensions):
             r1 = self.__ng.random()
             r2 = self.__ng.random()
@@ -73,6 +69,22 @@ class Particle:
     @position_i.setter
     def position_i(self, value):
         self.__position_i = value
+
+    @property
+    def ng(self):
+        return self.__ng
+
+    @ng.setter
+    def ng(self, value):
+        self.__ng = value
+
+    @property
+    def costFunc(self):
+        return self.__costFunc
+
+    @costFunc.setter
+    def costFunc(self, value):
+        self.__costFunc = value
 
     @property
     def err_i(self):
