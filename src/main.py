@@ -1,9 +1,8 @@
 import math
 
-
 import numberGenerator
-from particleSwarmOptimization.pso import PSO
-from particleSwarmOptimization.bounds import Bounds
+from particleSwarmOptimization.cpso import CPSO
+from particleSwarmOptimization.structure.bounds import Bounds
 
 
 bounds = Bounds(-10, 10)
@@ -31,7 +30,7 @@ cognitiveConstant = 1
 socialConstant = 2
 numberGenerator = numberGenerator.Lozi()
 
-standardPSO  = PSO(func2, nam_dimensions, bounds, numberGenerator,
+standardPSO = CPSO(func1, nam_dimensions, bounds, numberGenerator,
                    num_particles, maxiter, weight, cognitiveConstant, socialConstant)
 standardPSO.establishSwarm()
 

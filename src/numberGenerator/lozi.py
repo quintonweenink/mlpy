@@ -6,17 +6,19 @@ from numberGenerator import CPRNG
 class Lozi(CPRNG):
 
     def __init__(self, a = 1.7, b = 0.5):
-        self.__a = a
-        self.__b = b
+        self._a = a
+        self._b = b
+        super(Lozi, self).__init__()
+
 
     def getRandomSet(self, x, y):
-        yn = x
-        xn = 1 - self.__a * abs(x) + self.__b * y
-
-        return (xn, yn)
+        pass
 
     def random(self):
-        return random.random()
+        self.y = self._b * self.x
+        self.x = 1 - (self._a * abs(self.x)) + self.y
+
+        return (self.x, self.y)
 
     def uniform(self, x, y):
         return random.uniform(x, y)
