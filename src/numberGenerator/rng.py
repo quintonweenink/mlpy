@@ -1,13 +1,13 @@
 import random
 
-from numberGenerator.ng import NG
+from numberGenerator import NG
 
 class RNG(NG):
 
     def __init__(self):
         pass
 
-    def getRandomSet(self):
+    def getRandomSet(self, x, y):
         return random.uniform(-1, 1)
 
     def random(self):

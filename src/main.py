@@ -1,7 +1,10 @@
 import math
 
+
+import numberGenerator
 from particleSwarmOptimization.pso import PSO
 from particleSwarmOptimization.bounds import Bounds
+
 
 bounds = Bounds(-10, 10)
 
@@ -20,15 +23,16 @@ def func3(x):
 
 
 
-#initial = [5, 5]  # initial starting location [x1,x2...]
 nam_dimensions = 1
 num_particles = 15
 maxiter = 30
 weight = 0.5  # constant inertia weight (how much to weigh the previous velocity)
 cognitiveConstant = 1
 socialConstant = 2
-standardPSO  = PSO(func3, nam_dimensions, bounds, num_particles, maxiter, weight, cognitiveConstant, socialConstant)
-#standardPSO.costFunc(func3)
+numberGenerator = numberGenerator.Lozi()
+
+standardPSO  = PSO(func2, nam_dimensions, bounds, numberGenerator,
+                   num_particles, maxiter, weight, cognitiveConstant, socialConstant)
 standardPSO.establishSwarm()
 
 standardPSO.begin()

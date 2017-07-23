@@ -4,24 +4,27 @@ import numberGenerator
 
 
 class Particle(object):
-    def __init__(self, bounds, num_dimensions, costFunc, weight, cognitiveConstant, socialConstant):
+    def __init__(self, bounds, ng, num_dimensions, costFunc,
+                 weight, cognitiveConstant, socialConstant):
         self.__position_i = []  # particle position
         self.__velocity_i = []  # particle velocity
         self.__pos_best_i = []  # best position individual
         self.__err_best_i = -1  # best error individual
         self.__err_i = -1  # error individual
-        self.__num_dimensions = 2
-        self.__ng = numberGenerator.RNG()
+
+        self.__num_dimensions = num_dimensions
+        self.__ng = ng
         self.__weight = weight
         self.__cognitiveConstant = cognitiveConstant
         self.__socialConstant = socialConstant
         self.__costFunc = costFunc
         self.__bounds = bounds
 
-        for i in range(0, num_dimensions):
-            self.__num_dimensions = num_dimensions
+    def initPos(self):
+        for i in range(0, self.__num_dimensions):
             self.__velocity_i.append(self.__ng.uniform(-1, 1))
             self.position_i.append(self.__ng.uniform(self.__bounds.minBound, self.__bounds.maxBound))
+
 
     # evaluate current fitness
     def evaluate(self):
@@ -69,14 +72,6 @@ class Particle(object):
     @position_i.setter
     def position_i(self, value):
         self.__position_i = value
-
-    @property
-    def ng(self):
-        return self.__ng
-
-    @ng.setter
-    def ng(self, value):
-        self.__ng = value
 
     @property
     def costFunc(self):

@@ -5,7 +5,7 @@ import abc
 class NG:
 
     @abc.abstractmethod
-    def getRandomSet(self):
+    def getRandomSet(self, x, y):
         pass
 
     @abc.abstractmethod

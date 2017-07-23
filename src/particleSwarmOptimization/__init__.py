@@ -1,1 +1,3 @@
 from particleSwarmOptimization.pso import PSO
+from particleSwarmOptimization.bounds import Bounds
+from particleSwarmOptimization.particle import Particle

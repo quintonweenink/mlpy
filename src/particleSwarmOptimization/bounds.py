@@ -2,7 +2,7 @@
 class Bounds(object):
 
 
-    def __init__(self, minBound, maxBound):
+    def __init__(self, minBound = -1, maxBound = 1):
         self.__minBound = minBound
         self.__maxBound = maxBound
 

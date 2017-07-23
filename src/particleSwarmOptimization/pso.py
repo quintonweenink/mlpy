@@ -1,25 +1,27 @@
 from particleSwarmOptimization.particle import Particle
-from particleSwarmOptimization.chaoticParticle import ChaoticParticle
 
 
 class PSO(object):
 
-    def __init__(self,costFunc,num_dimensions,bounds,num_particles,maxiter,weight,cognativeConstant,socialConstant):
+    def __init__(self, costFunc, num_dimensions, bounds, numberGenerator,
+                 num_particles, maxiter, weight, cognitiveConstant, socialConstant):
         self.__num_dimensions = num_dimensions
         self.__err_best_g = -1                   # best error for group
         self.__pos_best_g = []                   # best position for group
         self.__maxiter = maxiter
         self.__num_particles = num_particles
         self.__bounds = bounds
+        self.__ng = numberGenerator
         self.__costFunc = costFunc
         self.__weight = weight
-        self.__cognitiveConstant = cognativeConstant
+        self.__cognitiveConstant = cognitiveConstant
         self.__socialConstant = socialConstant
+        self.__swarm = []
 
     def establishSwarm(self):
-        self.__swarm = []
         for i in range(0, self.__num_particles):
-            self.__swarm.append(ChaoticParticle(self.__bounds, self.__num_dimensions, self.__costFunc, self.__weight, self.__cognitiveConstant, self.__socialConstant))
+            self.__swarm.append(Particle(self.__bounds, self.__ng, self.__num_dimensions, self.__costFunc, self.__weight, self.__cognitiveConstant, self.__socialConstant))
+            self.__swarm[i].initPos()
 
 
     def setGlobalBest(self):
