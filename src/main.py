@@ -29,7 +29,7 @@ maxiter = 30
 weight = 0.5  # constant inertia weight (how much to weigh the previous velocity)
 cognitiveConstant = 1
 socialConstant = 2
-numberGenerator = RNG()
+numberGenerator = Lozi()
 
 
 standardPSO = CPSO(func3, nam_dimensions, bounds, numberGenerator,

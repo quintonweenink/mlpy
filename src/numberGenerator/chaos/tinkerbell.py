@@ -3,20 +3,22 @@ import math
 
 from numberGenerator.chaos.cprng import CPRNG
 
-class Lozi(CPRNG):
+class Tinkerbell(CPRNG):
 
-    def __init__(self, a = 1.7, b = 0.5):
+    def __init__(self, a = 0.9, b = -0.6, c = 2, d = 0.5):
         self._A = a
         self._B = b
-        super(Lozi, self).__init__()
+        self._C = c
+        self._D = d
+        super(Tinkerbell, self).__init__()
 
 
     def getRandomSet(self, x, y):
         pass
 
     def random(self):
-        xn = 1 - (self._A * abs(self.x)) + self.y
-        yn = self._B * self.x
+        xn = math.pow(self._x,2) - math.pow(self._y,2) + (self._A * self._x) + (self._B * self._y)
+        yn = (2 * self._x * self._y) + (self._C * self._x) + (self._D * self._y)
 
         self.x = xn
         self.y = yn

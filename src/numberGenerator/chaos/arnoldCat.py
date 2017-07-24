@@ -3,20 +3,20 @@ import math
 
 from numberGenerator.chaos.cprng import CPRNG
 
-class Lozi(CPRNG):
+class ArnoldCat(CPRNG):
 
     def __init__(self, a = 1.7, b = 0.5):
         self._A = a
         self._B = b
-        super(Lozi, self).__init__()
+        super(ArnoldCat, self).__init__()
 
 
     def getRandomSet(self, x, y):
         pass
 
     def random(self):
-        xn = 1 - (self._A * abs(self.x)) + self.y
-        yn = self._B * self.x
+        xn = self._A * self._x - math.pow(self._y, 2)
+        yn = self._B * self._y + self._x * self.y
 
         self.x = xn
         self.y = yn
