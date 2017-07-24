@@ -1,6 +1,6 @@
 import random
 
-from numberGenerator import NG
+from numberGenerator.ng import NG
 
 class RNG(NG):
 

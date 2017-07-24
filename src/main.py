@@ -1,6 +1,7 @@
 import math
 
-import numberGenerator
+from numberGenerator.chaos.lozi import Lozi
+from numberGenerator.rng import RNG
 from particleSwarmOptimization.cpso import CPSO
 from particleSwarmOptimization.structure.bounds import Bounds
 
@@ -28,9 +29,10 @@ maxiter = 30
 weight = 0.5  # constant inertia weight (how much to weigh the previous velocity)
 cognitiveConstant = 1
 socialConstant = 2
-numberGenerator = numberGenerator.Lozi()
+numberGenerator = RNG()
 
-standardPSO = CPSO(func1, nam_dimensions, bounds, numberGenerator,
+
+standardPSO = CPSO(func3, nam_dimensions, bounds, numberGenerator,
                    num_particles, maxiter, weight, cognitiveConstant, socialConstant)
 standardPSO.establishSwarm()
 

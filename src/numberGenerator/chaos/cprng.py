@@ -2,8 +2,8 @@ import random
 import abc
 import six
 
-from numberGenerator import NG
-from numberGenerator import RNG
+from numberGenerator.ng import NG
+from numberGenerator.rng import RNG
 
 @six.add_metaclass(abc.ABCMeta)
 class CPRNG(NG):

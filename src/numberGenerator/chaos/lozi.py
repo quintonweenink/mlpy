@@ -1,7 +1,7 @@
 import random
 import math
 
-from numberGenerator import CPRNG
+from numberGenerator.chaos.cprng import CPRNG
 
 class Lozi(CPRNG):
 

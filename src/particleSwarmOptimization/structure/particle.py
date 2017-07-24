@@ -1,6 +1,6 @@
 import random
 
-import numberGenerator
+from numberGenerator.rng import RNG
 
 
 class Particle(object):
@@ -21,10 +21,10 @@ class Particle(object):
         self._bounds = bounds
 
     def initPos(self):
+        rng = RNG()
         for i in range(0, self._num_dimensions):
-            self._velocity_i.append(self._ng.uniform(-1, 1))
-            self.position_i.append(self._ng.uniform(self._bounds.minBound, self._bounds.maxBound))
-
+            self._velocity_i.append(rng.uniform(-1, 1))
+            self.position_i.append(rng.uniform(self._bounds.minBound, self._bounds.maxBound))
 
     def evaluate(self):
         self._err_i = self._costFunc(self._position_i)
