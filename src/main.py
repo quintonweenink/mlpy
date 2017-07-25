@@ -31,6 +31,11 @@ cognitiveConstant = 1
 socialConstant = 2
 numberGenerator = Lozi()
 
+i = 0
+while i < 1000:
+    print(numberGenerator.random())
+    i += 1
+
 
 standardPSO = CPSO(func3, nam_dimensions, bounds, numberGenerator,
                    num_particles, maxiter, weight, cognitiveConstant, socialConstant)
