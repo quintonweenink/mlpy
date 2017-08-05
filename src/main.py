@@ -1,9 +1,9 @@
 import math
 
-from numberGenerator.chaos.lozi import Lozi
-from numberGenerator.rng import RNG
-from particleSwarmOptimization.cpso import CPSO
-from particleSwarmOptimization.structure.bounds import Bounds
+from src.numberGenerator.chaos.lozi import Lozi
+from src.numberGenerator.rng import RNG
+from src.particleSwarmOptimization.cpso import CPSO
+from src.particleSwarmOptimization.structure.bounds import Bounds
 
 
 bounds = Bounds(-10, 10)
@@ -26,9 +26,10 @@ def func3(x):
 nam_dimensions = 1
 num_particles = 15
 maxiter = 30
-weight = 0.5  # constant inertia weight (how much to weigh the previous velocity)
+weight = 0.5
 cognitiveConstant = 1
 socialConstant = 2
+
 numberGenerator = Lozi()
 
 i = 0

@@ -20,4 +20,4 @@ class Bounds(object):
 
     @maxBound.setter
     def maxBound(self, value):
-        self.__maxBound = valuea
+        self.__maxBound = value
