@@ -75,7 +75,7 @@ fnn.sortModules()
 
 trainer = BackpropTrainer( fnn, dataset=trndata, momentum=0.1, verbose=True, weightdecay=0.01)
 
-for i in range(20):
+for i in range(20000):
     trainer.trainEpochs(1)
 
     trnresult = percentError( trainer.testOnClassData(), True)
