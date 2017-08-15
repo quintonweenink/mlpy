@@ -1,87 +1,42 @@
-from pybrain.structure import FeedForwardNetwork
-from pybrain.structure import LinearLayer, SigmoidLayer
-from pybrain.structure import FullConnection
+import numpy as np
 
-from pybrain.datasets.classification           import ClassificationDataSet
-from pybrain.utilities           import percentError
-from pybrain.tools.shortcuts     import buildNetwork
-from pybrain.supervised.trainers import BackpropTrainer
-from pybrain.structure.modules   import SoftmaxLayer
+from neuralNetwork.feedForwardNeuralNetwork import FeedForwardNeuralNetwork
+from neuralNetwork.layer import Layer
 
-# from pylab import ion, ioff, figure, draw, contourf, clf, show, hold, plot
-from scipy import diag, arange, meshgrid, where
-from numpy.random import multivariate_normal
+inputLayer = Layer(size = 2, prev = None, bias = True, label = "Input layer")
+hiddenLayer = Layer(size = 3, prev = inputLayer, bias = True, label = "Hidden layer")
+outputLayer = Layer(size = 1, prev = hiddenLayer, bias = False, label = "Output layer")
 
-with open('iris.data', 'r') as f:
-    content = f.readlines()
+fnn = FeedForwardNeuralNetwork()
+fnn.appendLayer(inputLayer)
+fnn.appendLayer(hiddenLayer)
+fnn.appendLayer(outputLayer)
 
-content = [x.strip() for x in content]
-content = [x.split(',') for x in content]
+input = np.array([[1, 1],
+                  [1, 0],
+                  [0, 1],
+                  [0, 0]])
 
-trainingSet = []
+target = np.array([[0],
+                   [1],
+                   [1],
+                   [0]])
 
-for x in content:
-    classification = x[len(x)-1]
-    trainingData = [float(x[i]) for i in range(0, len(x) - 1)]
-    tup = (trainingData, classification)
+output = fnn.fire(input[0])
+print(fnn.toString())
 
-    trainingSet.append(tup)
+output = fnn.backPropagation(target[0])
 
-print(len(trainingSet[0][0]))
+print(fnn.toString())
 
-class_labels = ['Iris-versicolor', 'Iris-setosa', 'Iris-virginica']
+for i in range(10000):
+    mod = i % 4
+    fnn.fire(input[mod])
+    fnn.backPropagation(target[mod])
 
-def getIndexOfClassLabel(label):
-    for x in range(0, len(class_labels) - 1):
-        if (class_labels[x] == label):
-            return x
-    return -1
+print("FIRE: " + str(fnn.fire(input[1])))
+print(fnn.toString())
 
-
-
-# Create data set object
-dataSet = ClassificationDataSet( len(trainingSet[0][0]), 1, len(class_labels))
-
-for x in trainingSet:
-    dataSet.addSample(x[0], getIndexOfClassLabel(x[1]))
-
-tstdata, trndata = dataSet.splitWithProportion( 0.25 )
-
-# trndata._convertToOneOfMany( )
-# tstdata._convertToOneOfMany( )
-
-#Create new FFNN object
-fnn = FeedForwardNetwork()
-
-# Construct layers
-inLayer = LinearLayer(2)
-hiddenLayer = SigmoidLayer(3)
-outLayer = LinearLayer(2)
-
-# Add layers to the NN
-fnn.addInputModule(inLayer)
-fnn.addModule(hiddenLayer)
-fnn.addOutputModule(outLayer)
-
-# Connect layers
-in_to_hidden = FullConnection(inLayer, hiddenLayer)
-hidden_to_out = FullConnection(hiddenLayer, outLayer)
-
-# Add connections the NN
-fnn.addConnection(in_to_hidden)
-fnn.addConnection(hidden_to_out)
-
-fnn.sortModules()
-
-trainer = BackpropTrainer( fnn, dataset=trndata, momentum=0.1, verbose=True, weightdecay=0.01)
-
-for i in range(20000):
-    trainer.trainEpochs(1)
-
-    trnresult = percentError( trainer.testOnClassData(), True)
-    tstresult = percentError( trainer.testOnClassData(dataset=tstdata), True)
-
-    print("epoch: %4d" % trainer.totalepochs + "  train error: %5.2f%%" % trnresult + "  test error: %5.2f%%" % tstresult)
 
 
 
