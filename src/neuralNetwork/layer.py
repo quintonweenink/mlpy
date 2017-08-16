@@ -31,7 +31,7 @@ class Layer(object):
             self.prev.deltaOutputSum = np.zeros(self.size)
             self.prev.deltaWeights = (2 * np.random.random((self.size, prev.size))) - 1
 
-    def toString(self):
+    def __str__(self):
         return ('=== Layer: {label} ===\n' +
                 'Syn: \n' +
                 '{syn}\n' +
@@ -50,8 +50,8 @@ class Layer(object):
             for neuron in range(self.size):
                 self.result[neuron] = nonlin(self.sum[neuron])
 
-    def calculateOutputDelta(self, delta):
-        self.error = np.subtract(delta, self.result)
+    def calculateOutputDelta(self, target):
+        self.error = np.subtract(target, self.result)
         for neuron in range(self.size):
             self.prev.deltaOutputSum[neuron] = np.multiply(nonlin(self.sum[neuron], deriv=True), self.error[neuron])
 

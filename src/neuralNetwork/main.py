@@ -23,20 +23,16 @@ target = np.array([[0],
                    [0]])
 
 output = fnn.fire(input[0])
-print(fnn.toString())
+print(fnn)
 
 output = fnn.backPropagation(target[0])
 
-print(fnn.toString())
+print(fnn)
 
-for i in range(10000):
+for i in range(10):
     mod = i % 4
     fnn.fire(input[mod])
     fnn.backPropagation(target[mod])
 
 print("FIRE: " + str(fnn.fire(input[1])))
-print(fnn.toString())
-
-
-
-
+print(fnn)

@@ -1,6 +1,4 @@
-import random
-
-from numberGenerator.rng import RNG
+from rng import RNG
 
 
 class Particle(object):

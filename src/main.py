@@ -1,7 +1,6 @@
 import math
 
-from src.numberGenerator.chaos.lozi import Lozi
-from src.numberGenerator.rng import RNG
+from chaos.lozi import Lozi
 from src.particleSwarmOptimization.cpso import CPSO
 from src.particleSwarmOptimization.structure.bounds import Bounds
 
