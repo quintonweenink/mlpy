@@ -29,7 +29,7 @@ class FeedForwardNeuralNetwork(object):
     def backPropagation(self, target):
         for layer in reversed(self._layers):
             target = layer.backPropagate(target)
-            print(layer)
+            print(self)
 
         for layer in self._layers:
             layer.applyDeltaWeights()

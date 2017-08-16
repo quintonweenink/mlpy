@@ -32,7 +32,7 @@ class Layer(object):
             self.prev.deltaWeights = (2 * np.random.random((self.size, prev.size))) - 1
 
     def __str__(self):
-        return ('=== Layer: {label} ===\n' +
+        return ('======= Layer: {label} =======\n' +
                 'Syn: \n' +
                 '{syn}\n' +
                 'Res: \n' +
@@ -40,8 +40,7 @@ class Layer(object):
                 'Error: \n' +
                 '{err}\n' +
                 'Delta Weights: \n' +
-                '{delta}\n' +
-                '===========================\n').format(label=self.label,
+                '{delta}\n').format(label=self.label,
                                            syn=self.syn, res=self.result, err=self.error, delta=self.deltaWeights)
 
     def propagate(self):
@@ -76,11 +75,11 @@ class Layer(object):
             for neuron in range(len(self.syn)):
                 self.prev.deltaOutputSum[neuron] = np.multiply(nonlin(self.result[neuron], deriv=True), self.prev.deltaOutputSum[neuron])
 
-
-            for synapse in range(self.size):
-                for neuron in range(self.prev.size):
-                    for item in range(len(self.prev.deltaOutputSum)):
-                        self.prev.deltaWeights[synapse][item] = self.prev.deltaOutputSum[item][synapse] / self.prev.result[neuron]
+            # I dont understand this at all let figure it out
+            for input in range(self.prev.size):
+                for neuron in range(self.size):
+                    for synapse in range(self.prev.size):
+                        self.prev.deltaWeights[neuron][synapse] = self.prev.deltaOutputSum[item][synapse] / self.prev.result[neuron]
 
             return self.prev.deltaOutputSum
 
