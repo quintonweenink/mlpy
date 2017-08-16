@@ -35,4 +35,3 @@ for i in range(10):
     fnn.backPropagation(target[mod])
 
 print("FIRE: " + str(fnn.fire(input[1])))
-print(fnn)

@@ -76,10 +76,9 @@ class Layer(object):
                 self.prev.deltaOutputSum[neuron] = np.multiply(nonlin(self.result[neuron], deriv=True), self.prev.deltaOutputSum[neuron])
 
             # I dont understand this at all let figure it out
-            for input in range(self.prev.size):
-                for neuron in range(self.size):
-                    for synapse in range(self.prev.size):
-                        self.prev.deltaWeights[neuron][synapse] = self.prev.deltaOutputSum[item][synapse] / self.prev.result[neuron]
+            for neuron in range(self.prev.size):
+                for synapse in range(self.size):    
+                    self.prev.deltaWeights[synapse][neuron] = self.prev.deltaOutputSum[0][synapse] / self.prev.result[neuron]
 
             return self.prev.deltaOutputSum
 
