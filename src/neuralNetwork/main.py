@@ -1,37 +1,40 @@
 import numpy as np
 
-from neuralNetwork.feedForwardNeuralNetwork import FeedForwardNeuralNetwork
+from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
 from neuralNetwork.layer import Layer
 
-inputLayer = Layer(size = 2, prev = None, bias = True, label = "Input layer")
-hiddenLayer = Layer(size = 3, prev = inputLayer, bias = True, label = "Hidden layer")
-outputLayer = Layer(size = 1, prev = hiddenLayer, bias = False, label = "Output layer")
+l_rate = 1.0
 
-fnn = FeedForwardNeuralNetwork()
+inputLayer = Layer(size = 2, prev = None, l_rate = l_rate, bias = True, label = "Input layer")
+hiddenLayer = Layer(size = 4, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+outputLayer = Layer(size = 1, prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
+
+fnn = NeuralNetwork()
 fnn.appendLayer(inputLayer)
 fnn.appendLayer(hiddenLayer)
 fnn.appendLayer(outputLayer)
 
-input = np.array([[1, 1],
+input = np.array([[0, 0],
                   [1, 0],
                   [0, 1],
-                  [0, 0]])
+                  [1, 1]])
 
 target = np.array([[0],
                    [1],
                    [1],
                    [0]])
 
-output = fnn.fire(input[0])
-print(fnn)
-
-output = fnn.backPropagation(target[0])
-
-print(fnn)
-
-for i in range(10):
+for i in range(60000):
     mod = i % 4
-    fnn.fire(input[mod])
-    fnn.backPropagation(target[mod])
+    i_input = np.array([input[i % 4]])
+    fnn.fire(i_input)
+    i_target = np.array([target[i % 4]])
+    fnn.backPropagation(i_target)
 
-print("FIRE: " + str(fnn.fire(input[1])))
+    if (i % 10000) == 0:
+        print("Error:" + str(fnn))
+
+print("FIRE: " + str(fnn.fire(np.array([input[0]]))))
+print("FIRE: " + str(fnn.fire(np.array([input[1]]))))
+print("FIRE: " + str(fnn.fire(np.array([input[2]]))))
+print("FIRE: " + str(fnn.fire(np.array([input[3]]))))

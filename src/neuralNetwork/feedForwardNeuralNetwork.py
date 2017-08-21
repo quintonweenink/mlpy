@@ -2,42 +2,41 @@ import numpy as np
 
 from neuralNetwork.layer import Layer
 
-class FeedForwardNeuralNetwork(object):
+class NeuralNetwork(object):
     def __init__(self):
-        self._layers = []
+        self.layers = []
 
     def appendLayer(self, layer):
         assert isinstance(layer, Layer)
 
-        self._layers.append(layer)
+        self.layers.append(layer)
 
     def canFire(self):
-        return len(self._layers) > 1
+        return len(self.layers) > 1
 
     def fire(self, input):
         assert isinstance(input, (np.ndarray, np.generic))
-        assert len(input) == self._layers[0].size
+        assert len(input[0]) == self.layers[0].size
         assert self.canFire()
 
-        self._layers[0].result = input
+        self.layers[0].result = input
 
-        for layer in self._layers:
+        for layer in self.layers:
             layer.propagate()
 
-        return self._layers[len(self._layers) - 1].result
+        return self.layers[len(self.layers) - 1].result
 
     def backPropagation(self, target):
-        for layer in reversed(self._layers):
+        for layer in reversed(self.layers):
             target = layer.backPropagate(target)
-            print(self)
 
-        for layer in self._layers:
+        for layer in self.layers:
             layer.applyDeltaWeights()
 
-        return self._layers[len(self._layers) - 1].result
+        return self.layers[len(self.layers) - 1].result
 
     def __str__(self):
         res = ""
-        for layer in self._layers:
+        for layer in self.layers:
             res += str(layer)
         return res
