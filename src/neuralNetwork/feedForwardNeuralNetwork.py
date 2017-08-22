@@ -1,6 +1,6 @@
 import numpy as np
 
-from neuralNetwork.layer import Layer
+from layer import Layer
 
 class NeuralNetwork(object):
     def __init__(self):
@@ -33,7 +33,7 @@ class NeuralNetwork(object):
         for layer in self.layers:
             layer.applyDeltaWeights()
 
-        return self.layers[len(self.layers) - 1].result
+        return self.layers[len(self.layers) - 1].error
 
     def __str__(self):
         res = ""

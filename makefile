@@ -1,11 +1,11 @@
 init:
 	pip install -r requirements.txt
 
-run:
-	python src/main.py
+run-nn:
+	python src/neuralNetwork/main.py
 
-nn:
-        python src/neuralNetwork/Test.py
+run-nn:
+        python src/main.py
 
 test:
 	py.test tests

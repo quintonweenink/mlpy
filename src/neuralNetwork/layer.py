@@ -1,11 +1,5 @@
 import numpy as np
 
-def nonlin(x, deriv = False):
-    if(deriv == True):
-        return x * (1 - x)
-
-    return 1 / (1 + np.exp(-x))
-
 class Layer(object):
     def __init__(self, size, prev, l_rate, bias = False, label = "Layer"):
         assert isinstance(size, int) and size > 0
@@ -25,7 +19,6 @@ class Layer(object):
         self.deltaWeights = None
 
         if not prev == None:
-            np.random.seed(0)
             prev.syn = 2 * np.random.random((self.prev.size + self.prev.bias, self.size)) - 1
 
     def __str__(self):
@@ -36,7 +29,7 @@ class Layer(object):
                 '{res}\n' +
                 'Error: \n' +
                 '{err}\n' +
-                'Delta Weights: \n' +
+                'Delta Weights: \n'+
                 '{delta}\n').format(label=self.label,
                                            syn=self.syn, res=self.result, err=self.error, delta=self.deltaWeights)
 
@@ -44,13 +37,13 @@ class Layer(object):
         if self.prev != None:
             if self.prev.bias:
                 self.prev.result = self.addBias(self.prev.result)
-            self.result = nonlin(np.dot(self.prev.result, self.prev.syn))
+            self.result = self.nonlin(np.dot(self.prev.result, self.prev.syn))
 
         return self.result
 
     def calculateOutputDelta(self, target):
         self.error = target - self.result
-        self.prev.deltaWeights = self.error * nonlin(self.result, deriv=True)
+        self.prev.deltaWeights = self.error * self.nonlin(self.result, deriv=True)
         return self.error
 
     def backPropagate(self, delta):
@@ -58,7 +51,7 @@ class Layer(object):
             return self.calculateOutputDelta(delta)
         elif not self.prev == None:
             self.error = self.deltaWeights.dot(self.syn.T)
-            self.prev.deltaWeights = self.error * nonlin(self.result, deriv=True)
+            self.prev.deltaWeights = self.error * self.nonlin(self.result, deriv=True)
             if self.bias:
                 self.prev.deltaWeights = self.removeBias(self.prev.deltaWeights)
             return self.error
@@ -73,3 +66,12 @@ class Layer(object):
 
     def removeBias(self, arr):
         return np.delete(arr, len(arr[0]) - 1, axis=1)
+
+    def gradientDecent(self, target):
+        return 0.5 * sum((target - self.result) ** 2)
+
+    def nonlin(self, x, deriv=False):
+        if (deriv == True):
+            return x * (1 - x)
+
+        return 1 / (1 + np.exp(-x))

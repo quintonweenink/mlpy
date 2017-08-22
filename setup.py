@@ -19,5 +19,5 @@ setup(
     include_package_data=True,
     test_suite='src.tests.test.run_tests',
     #package_data={'pso': ['rl/environments/ode/models/*.xode']},
-    install_requires = ["scipy"],
+    install_requires = ["numpy, matplotlib"],
 )
