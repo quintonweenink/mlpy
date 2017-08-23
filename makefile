@@ -4,8 +4,8 @@ init:
 run-nn:
 	python src/neuralNetwork/main.py
 
-run-nn:
-        python src/main.py
+run-pso:
+	python src/main.py
 
 test:
 	py.test tests
