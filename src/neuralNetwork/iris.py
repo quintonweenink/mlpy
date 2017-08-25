@@ -9,6 +9,7 @@ from layer import Layer
 plt.grid(1)
 plt.xlabel('Iterations')
 plt.ylabel('Error')
+plt.ylim([0,1])
 plt.legend(['error'])
 plt.ion()
 
@@ -63,7 +64,7 @@ testing = input_target[int(len(input_target)/2):]
 
 errors = []
 
-for i in range(1000):
+for i in range(8000):
     mod = i % len(training)
     in_out = training[mod]
     fnn.fire(np.array([in_out[0]]))
@@ -85,6 +86,7 @@ plt.close()
 plt.grid(1)
 plt.xlabel('Iterations')
 plt.ylabel('Error')
+plt.ylim([0,1])
 plt.legend(['error'])
 plt.ion()
 
@@ -112,7 +114,6 @@ for i in range(len(testing)):
     plt.scatter(i, abs(i_error[0][0]))
     plt.pause(0.1)
     plt.draw()
-
 
 plt.pause(5)
 print(fnn)
