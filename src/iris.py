@@ -67,8 +67,8 @@ errors = []
 for i in range(8000):
     mod = i % len(training)
     in_out = training[mod]
-    fnn.fire(np.array([in_out[0]]))
-    i_error = fnn.backPropagation(np.array([in_out[1]]))
+    result = fnn.fire(np.array([in_out[0]]))
+    #i_error = fnn.backPropagation(np.array([in_out[1]]))
 
     if (i % 50) == 0:
         #print("Error:" + str(fnn))

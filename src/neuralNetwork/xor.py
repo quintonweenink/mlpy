@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from feedForwardNeuralNetwork import NeuralNetwork
-from layer import Layer
+from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
+from neuralNetwork.layer import Layer
 
 plt.grid(1)
 plt.xlabel('Iterations')

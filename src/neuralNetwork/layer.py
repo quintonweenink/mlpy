@@ -67,6 +67,22 @@ class Layer(object):
     def removeBias(self, arr):
         return np.delete(arr, len(arr[0]) - 1, axis=1)
 
+    def getWeights(self):
+        weights = []
+        if np.any(self.syn):
+            for neuron in range(len(self.syn)):
+                for synapse in range(len(self.syn[0])):
+                    weights.append(self.syn[neuron][synapse])
+        return weights
+
+
+    def setWeights(self, weights):
+        if np.any(self.syn):
+            for neuron in range(len(self.syn)):
+                for synapse in range(len(self.syn[0])):
+                    self.syn[neuron][synapse] = weights.pop(0)
+        return weights
+
     def gradientDecent(self, target):
         return 0.5 * sum((target - self.result) ** 2)
 

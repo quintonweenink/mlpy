@@ -1,6 +1,6 @@
 import numpy as np
 
-from layer import Layer
+from neuralNetwork.layer import Layer
 
 class NeuralNetwork(object):
     def __init__(self):
@@ -25,6 +25,17 @@ class NeuralNetwork(object):
             layer.propagate()
 
         return self.layers[len(self.layers) - 1].result
+
+    def getAllWeights(self):
+        weights = []
+        for layer in self.layers:
+            weights += layer.getWeights()
+
+        return weights
+
+    def setAllWeights(self, weights):
+        for layer in self.layers:
+            weights = layer.setWeights(weights)
 
     def backPropagation(self, target):
         for layer in reversed(self.layers):
