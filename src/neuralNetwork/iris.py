@@ -10,7 +10,6 @@ plt.grid(1)
 plt.xlabel('Iterations')
 plt.ylabel('Error')
 plt.ylim([0,1])
-plt.legend(['error'])
 plt.ion()
 
 l_rate = 0.5
@@ -70,12 +69,12 @@ for i in range(8000):
     fnn.fire(np.array([in_out[0]]))
     i_error = fnn.backPropagation(np.array([in_out[1]]))
 
-    if (i % 50) == 0:
+    if (i % 35) == 0:
         #print("Error:" + str(fnn))
         errors.append(abs(i_error[0][0]))
-        plt.scatter(i, abs(i_error[0][0]))
-        plt.pause(0.001)
-        plt.draw()
+        plt.plot(errors, color='blue', label="test1")
+        plt.pause(0.01)
+        plt.show()
 
 
 plt.pause(5)
@@ -87,7 +86,6 @@ plt.grid(1)
 plt.xlabel('Iterations')
 plt.ylabel('Error')
 plt.ylim([0,1])
-plt.legend(['error'])
 plt.ion()
 
 setosa = np.array([[5.0,3.3,1.4,0.2]])#Iris-setosa
@@ -111,9 +109,9 @@ for i in range(len(testing)):
     i_error = fnn.backPropagation(np.array([in_out[1]]))
 
     errors.append(abs(i_error[0][0]))
-    plt.scatter(i, abs(i_error[0][0]))
-    plt.pause(0.1)
-    plt.draw()
+    plt.plot(errors, color='blue', label="test1")
+    plt.pause(0.01)
+    plt.show()
 
 plt.pause(5)
 print(fnn)

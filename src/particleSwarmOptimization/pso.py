@@ -5,56 +5,51 @@ class PSO(object):
 
     def __init__(self, costFunc, num_dimensions, bounds, numberGenerator,
                  num_particles, maxiter, weight, cognitiveConstant, socialConstant):
-        self._num_dimensions = num_dimensions
-        self._err_best_g = -1                   # best error for group
-        self._pos_best_g = []                   # best position for group
+        self.num_dimensions = num_dimensions
+        self.err_best_g = -1                   # best error for group
+        self.pos_best_g = []                   # best position for group
 
-        self._maxiter = maxiter
-        self._num_particles = num_particles
-        self._bounds = bounds
-        self._ng = numberGenerator
-        self._costFunc = costFunc
-        self._weight = weight
-        self._cognitiveConstant = cognitiveConstant
-        self._socialConstant = socialConstant
+        self.maxiter = maxiter
+        self.num_particles = num_particles
+        self.bounds = bounds
+        self.ng = numberGenerator
+        self.costFunc = costFunc
+        self.weight = weight
+        self.cognitiveConstant = cognitiveConstant
+        self.socialConstant = socialConstant
 
-        self._swarm = []
+        self.swarm = []
 
     def establishSwarm(self):
-        for i in range(0, self._num_particles):
-            self._swarm.append(Particle(self._bounds, self._ng, self._num_dimensions, self._costFunc, self._weight, self._cognitiveConstant, self._socialConstant))
-            self._swarm[i].initPos()
+        for i in range(self.num_particles):
+            self.swarm.append(Particle(self.bounds, self.ng, self.num_dimensions, self.costFunc, self.weight, self.cognitiveConstant, self.socialConstant))
+            self.swarm[i].initPos()
 
+    def evaluateSwarm(self):
+        for j in range(self.num_particles):
+            self.swarm[j].evaluate()
 
-    def setGlobalBest(self):
-        print('[')
-        for j in range(0, self._num_particles):
-            self._swarm[j].evaluate()
-            print(self._swarm[j].toString())
+    def getGlobalBest(self):
+        for j in range(self.num_particles):
+            if self.swarm[j].err_i < self.err_best_g or self.err_best_g == -1:
+                self.pos_best_g = list(self.swarm[j].position_i)
+                self.err_best_g = float(self.swarm[j].err_i)
 
-            # determine if current particle is the best (globally)
-            if self._swarm[j].err_i < self._err_best_g or self._err_best_g == -1:
-                self._pos_best_g = list(self._swarm[j].position_i)
-                self._err_best_g = float(self._swarm[j].err_i)
-        print(']')
+        return self.err_best_g
 
     def begin(self):
-        # begin optimization loop
-        i=0
-        while i < self._maxiter:
-            self.setGlobalBest()
+        for i in range(self.maxiter):
+            self.evaluateSwarm()
+            self.getGlobalBest()
 
-            # cycle through _swarm and update velocities and position
-            for j in range(0,self._num_particles):
-                self._swarm[j].update_velocity(self._pos_best_g)
-                self._swarm[j].update_position()
-            i+=1
-            self.printGlobalBest()
+            for j in range(self.num_particles):
+                self.swarm[j].update_velocity(self.pos_best_g)
+                self.swarm[j].update_position()
+            print(self)
 
         print('FINAL:')
-        self.printGlobalBest()
+        print(self)
 
 
-    def printGlobalBest(self):
-        print(self._pos_best_g)
-        print(self._err_best_g)
+    def __str__(self):
+        return "Best pos: " + str(self.pos_best_g) + "\nBest error: " + str(self.err_best_g) + "\n"
