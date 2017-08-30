@@ -1,5 +1,5 @@
 from rng import RNG
-
+import math
 
 class Particle(object):
     def __init__(self, bounds, ng, num_dimensions, costFunc,
@@ -7,8 +7,8 @@ class Particle(object):
         self.position_i = []  # particle position
         self.velocity_i = []  # particle velocity
         self.pos_best_i = []  # best position individual
-        self.err_best_i = -1  # best error individual
-        self.err_i = -1  # error individual
+        self.err_best_i = float('inf')  # best error individual
+        self.err_i = None  # error individual
 
         self.num_dimensions = num_dimensions
         self.ng = ng
@@ -27,14 +27,19 @@ class Particle(object):
     def evaluate(self):
         self.err_i = self.costFunc(self.position_i)
 
-        # check to see if the current position is an individual best
-        if self.err_i < self.err_best_i or self.err_best_i == -1:
+        self.getPersonalBest()
+
+    def getPersonalBest(self):
+        if abs(self.err_i) < abs(self.err_best_i):
             self.pos_best_i = self.position_i
             self.err_best_i = self.err_i
 
+        return self.err_best_i
 
     def update_velocity(self, pos_best_g):
         for i in range(self.num_dimensions):
+            assert not isinstance(self.ng.random(), tuple), "You need to use a random generator that does not return a tuple"
+
             r1 = self.ng.random()
             r2 = self.ng.random()
 

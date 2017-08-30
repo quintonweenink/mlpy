@@ -8,14 +8,15 @@ from neuralNetwork.layer import Layer
 
 import math
 
-from chaos.lozi import Lozi
+from src.particleSwarmOptimization.numberGenerator.chaos.lozi import Lozi
+from src.particleSwarmOptimization.numberGenerator.rng import RNG
 from src.particleSwarmOptimization.cpso import CPSO
 from src.particleSwarmOptimization.pso import PSO
 from src.particleSwarmOptimization.structure.particle import Particle
 from src.particleSwarmOptimization.structure.bounds import Bounds
 
 
-bounds = Bounds(-10, 10)
+bounds = Bounds(-1, 1)
 
 plt.grid(1)
 plt.xlabel('Iterations')
@@ -75,21 +76,15 @@ testing = input_target[int(len(input_target)/2):]
 
 errors = []
 
-num_particles = 15
+num_particles = 5
 maxiter = 30
 weight = 0.5
-cognitiveConstant = 1
-socialConstant = 2
+cognitiveConstant = 0.1
+socialConstant = 0.1
 
 num_dimensions = len(fnn.getAllWeights())
 
-numberGenerator = Lozi()
-
-i = 0
-while i < 1000:
-    print(numberGenerator.random())
-    i += 1
-
+numberGenerator = RNG()
 
 pso = PSO(None, num_dimensions, bounds, numberGenerator,
                    num_particles, maxiter, weight, cognitiveConstant, socialConstant)
@@ -99,35 +94,40 @@ for i in range(pso.num_particles):
         Particle(bounds, numberGenerator, num_dimensions, None, weight, cognitiveConstant, socialConstant))
     pso.swarm[i].initPos()
 
-for i in range(8000):
+for i in range(100):
     mod = i % len(training)
     in_out = training[mod]
     for j in range(pso.num_particles):
-        pso.swarm[j].err_i = fnn.fire(np.array([in_out[0]]))
+        fnn.setAllWeights(pso.swarm[j].position_i)
+        result = fnn.fire(np.array([in_out[0]]))[0]
+        # Need to use mean squared error or some equivalent in order to allow perspective
+        error = in_out[1] - result
+        pso.swarm[j].err_i = np.mean(error)
+        print(j, pso.swarm[j].getPersonalBest())
 
     pso.getGlobalBest()
 
     for j in range(pso.num_particles):
-        pso.swarm[j].update_velocity(self.pos_best_g)
+        pso.swarm[j].update_velocity(pso.pos_best_g)
         pso.swarm[j].update_position()
-    print(pso)
+
+    print("Error: " + str(pso.err_best_g))
 
 print('FINAL:')
 print(pso)
 
-for i in range(8000):
-    mod = i % len(training)
-    in_out = training[mod]
-    result = fnn.fire(np.array([in_out[0]]))
-    i_error = fnn.backPropagation(np.array([in_out[1]]))
-
-    if (i % 50) == 0:
-        #print("Error:" + str(fnn))
-        errors.append(abs(i_error[0][0]))
-        plt.scatter(i, abs(i_error[0][0]))
-        plt.pause(0.001)
-        plt.draw()
-
-
-plt.pause(5)
 print(fnn)
+
+setosa = np.array([[5.0,3.3,1.4,0.2]])#Iris-setosa
+setosa_o = np.array([[1,0,0]])
+versicolor = np.array([[5.7,2.8,4.1,1.3]])#Iris-versicolor
+versicolor_o = np.array([[0,1,0]])
+virginica = np.array([[5.9,3.0,5.1,1.8]])#Iris-virginica
+virginica_o = np.array([[0,0,1]])
+
+print("FIRE: " + str(fnn.fire(setosa)))
+print("OUT: " + str(setosa_o))
+print("FIRE: " + str(fnn.fire(versicolor)))
+print("OUT: " + str(versicolor_o))
+print("FIRE: " + str(fnn.fire(virginica)))
+print("OUT: " + str(virginica_o))

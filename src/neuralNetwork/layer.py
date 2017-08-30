@@ -77,11 +77,12 @@ class Layer(object):
 
 
     def setWeights(self, weights):
+        weightsClone = list(weights)
         if np.any(self.syn):
             for neuron in range(len(self.syn)):
                 for synapse in range(len(self.syn[0])):
-                    self.syn[neuron][synapse] = weights.pop(0)
-        return weights
+                    self.syn[neuron][synapse] = weightsClone.pop(0)
+        return weightsClone
 
     def gradientDecent(self, target):
         return 0.5 * sum((target - self.result) ** 2)

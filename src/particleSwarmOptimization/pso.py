@@ -6,7 +6,7 @@ class PSO(object):
     def __init__(self, costFunc, num_dimensions, bounds, numberGenerator,
                  num_particles, maxiter, weight, cognitiveConstant, socialConstant):
         self.num_dimensions = num_dimensions
-        self.err_best_g = -1                   # best error for group
+        self.err_best_g = float('inf')                   # best error for group
         self.pos_best_g = []                   # best position for group
 
         self.maxiter = maxiter
@@ -31,9 +31,9 @@ class PSO(object):
 
     def getGlobalBest(self):
         for j in range(self.num_particles):
-            if self.swarm[j].err_i < self.err_best_g or self.err_best_g == -1:
-                self.pos_best_g = list(self.swarm[j].position_i)
-                self.err_best_g = float(self.swarm[j].err_i)
+            if abs(self.swarm[j].err_i) < abs(self.err_best_g):
+                self.pos_best_g = self.swarm[j].position_i
+                self.err_best_g = self.swarm[j].err_i
 
         return self.err_best_g
 
