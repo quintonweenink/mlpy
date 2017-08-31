@@ -16,7 +16,7 @@ from src.particleSwarmOptimization.structure.particle import Particle
 from src.particleSwarmOptimization.structure.bounds import Bounds
 
 
-bounds = Bounds(-1, 1)
+bounds = Bounds(-10, 10)
 
 plt.grid(1)
 plt.xlabel('Iterations')
@@ -78,8 +78,8 @@ errors = []
 
 num_particles = 5
 maxiter = 30
-weight = 0.5
-cognitiveConstant = 0.1
+weight = 1
+cognitiveConstant = 1
 socialConstant = 0.1
 
 num_dimensions = len(fnn.getAllWeights())
@@ -94,16 +94,36 @@ for i in range(pso.num_particles):
         Particle(bounds, numberGenerator, num_dimensions, None, weight, cognitiveConstant, socialConstant))
     pso.swarm[i].initPos()
 
-for i in range(100):
+setosa = np.array([[5.0,3.3,1.4,0.2]])#Iris-setosa
+setosa_o = np.array([[1,0,0]])
+versicolor = np.array([[5.7,2.8,4.1,1.3]])#Iris-versicolor
+versicolor_o = np.array([[0,1,0]])
+virginica = np.array([[5.9,3.0,5.1,1.8]])#Iris-virginica
+virginica_o = np.array([[0,0,1]])
+
+print("FIRE: " + str(fnn.fire(setosa)))
+print("OUT: " + str(setosa_o))
+print("FIRE: " + str(fnn.fire(versicolor)))
+print("OUT: " + str(versicolor_o))
+print("FIRE: " + str(fnn.fire(virginica)))
+print("OUT: " + str(virginica_o))
+
+
+for i in range(20):
     mod = i % len(training)
     in_out = training[mod]
+    print(in_out[1])
     for j in range(pso.num_particles):
         fnn.setAllWeights(pso.swarm[j].position_i)
         result = fnn.fire(np.array([in_out[0]]))[0]
-        # Need to use mean squared error or some equivalent in order to allow perspective
         error = in_out[1] - result
-        pso.swarm[j].err_i = np.mean(error)
+        pso.swarm[j].err_i = np.sum(abs(error))
         print(j, pso.swarm[j].getPersonalBest())
+        print("Result: \t" + str(result))
+        print("Error: \t\t" + str(error))
+        print("Abs Error: \t" + str(abs(error)))
+        print("Final error: \t" + str(pso.swarm[j].err_i))
+        # Need to talk to Anna about PSO going to satisfy one classification in stead of solving multiple classifications. I think this would be solved by using multiple classifications at once training sets at once but that doesn't seem like a viable solution.
 
     pso.getGlobalBest()
 
@@ -111,19 +131,13 @@ for i in range(100):
         pso.swarm[j].update_velocity(pso.pos_best_g)
         pso.swarm[j].update_position()
 
-    print("Error: " + str(pso.err_best_g))
+    print("Best error: " + str(pso.err_best_g) + "\n")
+
 
 print('FINAL:')
 print(pso)
 
 print(fnn)
-
-setosa = np.array([[5.0,3.3,1.4,0.2]])#Iris-setosa
-setosa_o = np.array([[1,0,0]])
-versicolor = np.array([[5.7,2.8,4.1,1.3]])#Iris-versicolor
-versicolor_o = np.array([[0,1,0]])
-virginica = np.array([[5.9,3.0,5.1,1.8]])#Iris-virginica
-virginica_o = np.array([[0,0,1]])
 
 print("FIRE: " + str(fnn.fire(setosa)))
 print("OUT: " + str(setosa_o))

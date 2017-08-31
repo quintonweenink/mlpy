@@ -72,8 +72,8 @@ for i in range(8000):
     if (i % 35) == 0:
         #print("Error:" + str(fnn))
         errors.append(abs(i_error[0][0]))
-        plt.plot(errors, color='blue', label="test1")
-        plt.pause(0.01)
+        plt.scatter(i, abs(i_error[0][0]), color='blue', s=4, label="test1")
+        plt.pause(0.0001)
         plt.show()
 
 
@@ -109,7 +109,7 @@ for i in range(len(testing)):
     i_error = fnn.backPropagation(np.array([in_out[1]]))
 
     errors.append(abs(i_error[0][0]))
-    plt.plot(errors, color='blue', label="test1")
+    plt.scatter(i, abs(i_error[0][0]), color='blue', s=4, label="test1")
     plt.pause(0.01)
     plt.show()
 
