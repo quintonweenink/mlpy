@@ -15,24 +15,35 @@ from neuralNetwork.dataSet.dataSetTool import DataSetTool
 
 np.set_printoptions(suppress=True)
 
-dataSetTool = DataSetTool()
-training, testing = dataSetTool.getIrisDataSets('neuralNetwork/dataSet/iris.data')
+input = np.array([[0, 0],
+                  [1, 0],
+                  [0, 1],
+                  [1, 1]])
+
+target = np.array([[0],
+                   [1],
+                   [1],
+                   [0]])
+
+training = []
+for x, y in zip(input, target):
+    training.append((x, y))
 
 errors = []
 bounds = Bounds(-2, 2)
 
 # Create neural network
 l_rate = 0.5
-inputLayer = Layer(size = 4, prev = None, l_rate = l_rate, bias = True, label = "Input layer")
-hiddenLayer = Layer(size = 6, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
-outputLayer = Layer(size = 3, prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
+inputLayer = Layer(size = 2, prev = None, l_rate = l_rate, bias = True, label = "Input layer")
+hiddenLayer = Layer(size = 4, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+outputLayer = Layer(size = 1, prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
 fnn = NeuralNetwork()
 fnn.appendLayer(inputLayer)
 fnn.appendLayer(hiddenLayer)
 fnn.appendLayer(outputLayer)
 
 # Create the pso with the nn weights
-num_particles = 30
+num_particles = 15
 maxiter = None
 weight = 0.06
 cognitiveConstant = 0.9
@@ -45,7 +56,7 @@ for i in range(pso.num_particles):
     pso.swarm[i].initPos()
 
 # Iterate over training data
-for i in range(1000):
+for i in range(500):
     mod = i % len(training)
     in_out = training[mod]
     print(in_out[1])

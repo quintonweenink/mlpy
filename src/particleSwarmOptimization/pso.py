@@ -9,6 +9,9 @@ class PSO(object):
         self.err_best_g = float('inf')                   # best error for group
         self.pos_best_g = []                   # best position for group
 
+        self.err_best_i = float('inf')
+        self.pos_best_i = []
+
         self.maxiter = maxiter
         self.num_particles = num_particles
         self.bounds = bounds
@@ -30,10 +33,15 @@ class PSO(object):
             self.swarm[j].evaluate()
 
     def getGlobalBest(self):
+        self.err_best_i = float('inf')
         for j in range(self.num_particles):
             if abs(self.swarm[j].err_i) < abs(self.err_best_g):
                 self.pos_best_g = self.swarm[j].position_i
                 self.err_best_g = self.swarm[j].err_i
+            # Get current best as well
+            if abs(self.swarm[j].err_i) < abs(self.err_best_i):
+                self.pos_best_i = self.swarm[j].position_i
+                self.err_best_i = self.swarm[j].err_i
 
         return self.err_best_g
 

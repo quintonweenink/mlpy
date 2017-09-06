@@ -21,8 +21,8 @@ class Particle(object):
     def initPos(self):
         rng = RNG()
         for i in range(self.num_dimensions):
-            self.velocity_i.append(rng.uniform(-1, 1))
-            self.position_i.append(rng.uniform(self.bounds.minBound, self.bounds.maxBound))
+            self.velocity_i.append(rng.uniform(0, 1))
+            self.position_i.append(rng.uniform(-0.5, 0.5))
 
     def evaluate(self):
         self.err_i = self.costFunc(self.position_i)

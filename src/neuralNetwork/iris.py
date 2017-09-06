@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 
 from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
 from neuralNetwork.layer import Layer
+from neuralNetwork.dataSet.dataSetTool import DataSetTool
+
+dataSetTool = DataSetTool()
+training, testing = dataSetTool.getIrisDataSets('dataSet/iris.data')
 
 plt.grid(1)
 plt.xlabel('Iterations')
@@ -22,44 +26,6 @@ fnn = NeuralNetwork()
 fnn.appendLayer(inputLayer)
 fnn.appendLayer(hiddenLayer)
 fnn.appendLayer(outputLayer)
-
-from numpy import genfromtxt
-input = np.array(genfromtxt('dataSet/iris.data', delimiter=',', usecols=(0, 1, 2, 3)))
-outputClassification = np.array(genfromtxt('dataSet/iris.data', dtype=str, delimiter=',', usecols=4))
-
-classifications = []
-
-for item in outputClassification:
-    notInList = True
-    for classification in classifications:
-        if(classification == item):
-            notInList = False
-    if notInList:
-        classifications.append(item)
-
-
-output = []
-
-for item in outputClassification:
-    target = []
-    for classification in classifications:
-        if item == classification:
-            target.append(1)
-        else:
-            target.append(0)
-    output.append(target)
-
-output = np.array(output)
-
-input_target = []
-
-for i in range(len(input)):
-    input_target.append((input[i], output[i]))
-
-random.shuffle(input_target)
-
-training = input_target[:int(len(input_target)/2)]
-testing = input_target[int(len(input_target)/2):]
 
 errors = []
 
