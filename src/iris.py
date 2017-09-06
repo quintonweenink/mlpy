@@ -15,6 +15,7 @@ from neuralNetwork.dataSet.dataSetTool import DataSetTool
 
 np.set_printoptions(suppress=True)
 
+# Get data set
 dataSetTool = DataSetTool()
 training, testing = dataSetTool.getIrisDataSets('neuralNetwork/dataSet/iris.data')
 
@@ -39,26 +40,37 @@ cognitiveConstant = 0.9
 socialConstant = 0.9
 num_dimensions = len(fnn.getAllWeights())
 numberGenerator = RNG()
+# Configure PSO
 pso = PSO(None, num_dimensions, bounds, numberGenerator, num_particles, maxiter, weight, cognitiveConstant, socialConstant)
+
+# Create particles
 for i in range(pso.num_particles):
     pso.swarm.append(Particle(bounds, numberGenerator, num_dimensions, None, weight, cognitiveConstant, socialConstant))
     pso.swarm[i].initPos()
 
 # Iterate over training data
 for i in range(1000):
+    # Get the iteration
     mod = i % len(training)
     in_out = training[mod]
     print(in_out[1])
+    # Loop over particles
     for j in range(pso.num_particles):
+        # Set weights according to pso particle
         fnn.setAllWeights(pso.swarm[j].position_i)
+
+        # Fire the neural network and calculate error
         result = fnn.fire(np.array([in_out[0]]))[0]
         error = in_out[1] - result
         pso.swarm[j].err_i = np.sum(abs(error))
+
+        # Get & set personal best
         pso.swarm[j].getPersonalBest()
         print(j, np.array(pso.swarm[j].err_i))
         print("Result: \t" + str(np.array(result)))
         print("Error: \t\t" + str(np.array(error)))
 
+    # Get & set global best
     pso.getGlobalBest()
 
     for j in range(pso.num_particles):
