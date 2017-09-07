@@ -55,8 +55,9 @@ for i in range(pso.num_particles):
     pso.swarm.append(Particle(bounds, numberGenerator, num_dimensions, None, weight, cognitiveConstant, socialConstant))
     pso.swarm[i].initPos()
 
+
 # Iterate over training data
-for i in range(500):
+for i in range(20):
     mod = i % len(training)
     in_out = training[mod]
     print(in_out[1])
@@ -64,7 +65,7 @@ for i in range(500):
         fnn.setAllWeights(pso.swarm[j].position_i)
         result = fnn.fire(np.array([in_out[0]]))[0]
         error = in_out[1] - result
-        pso.swarm[j].err_i = np.sum(abs(error))
+        pso.swarm[j].err_i = np.mean(np.square(error))
         pso.swarm[j].getPersonalBest()
         print(j, np.array(pso.swarm[j].err_i))
         print("Result: \t" + str(np.array(result)))

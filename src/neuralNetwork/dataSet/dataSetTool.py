@@ -27,9 +27,12 @@ class DataSetTool(object):
                     target.append(0)
             output.append(target)
         output = np.array(output)
+        max = np.amax(input)
+        input = input / max
         input_target = []
         for i in range(len(input)):
             input_target.append((input[i], output[i]))
+        random.shuffle(input_target)
         random.shuffle(input_target)
         training = input_target[:int(len(input_target)/2)]
         testing = input_target[int(len(input_target)/2):]
