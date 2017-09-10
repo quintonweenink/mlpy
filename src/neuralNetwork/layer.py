@@ -1,7 +1,7 @@
 import numpy as np
 
 class Layer(object):
-    def __init__(self, size, prev, l_rate, bias = False, label = "Layer"):
+    def __init__(self, bounds, size, prev, l_rate, bias = False, label = "Layer"):
         assert isinstance(size, int) and size > 0
         assert isinstance(prev, Layer) or prev == None
         assert isinstance(bias, bool)
@@ -19,7 +19,7 @@ class Layer(object):
         self.deltaWeights = None
 
         if not prev == None:
-            prev.syn = 2 * np.random.random((self.prev.size + self.prev.bias, self.size)) - 1
+            prev.syn =  (bounds.maxBound - bounds.minBound) * np.random.random((self.prev.size + self.prev.bias, self.size)) + bounds.minBound
 
     def __str__(self):
         return ('======= Layer: {label} =======\n' +
@@ -92,3 +92,11 @@ class Layer(object):
             return x * (1 - x)
 
         return 1 / (1 + np.exp(-x))
+
+    def hyperTan(self, x, deriv=False):
+        if x < -20.0:
+            return -1.0
+        elif x > 20.0:
+            return 1.0
+        else:
+            return x #math.Tanh(x)

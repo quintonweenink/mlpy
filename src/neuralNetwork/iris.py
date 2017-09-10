@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
 from neuralNetwork.layer import Layer
 from neuralNetwork.dataSet.dataSetTool import DataSetTool
+from src.particleSwarmOptimization.structure.bounds import Bounds
 
 dataSetTool = DataSetTool()
 training, testing = dataSetTool.getIrisDataSets('dataSet/iris.data')
@@ -18,9 +19,11 @@ plt.ion()
 
 l_rate = 0.5
 
-inputLayer = Layer(size = 4, prev = None, l_rate = l_rate, bias = True, label = "Input layer")
-hiddenLayer = Layer(size = 6, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
-outputLayer = Layer(size = 3, prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
+bounds = Bounds(-2, 2)
+
+inputLayer = Layer(bounds, size = 4, prev = None, l_rate = l_rate, bias = True, label = "Input layer")
+hiddenLayer = Layer(bounds, size = 6, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+outputLayer = Layer(bounds, size = 3, prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
 
 fnn = NeuralNetwork()
 fnn.appendLayer(inputLayer)

@@ -1,45 +1,64 @@
+import random
 import math
 
-from chaos.lozi import Lozi
-from src.particleSwarmOptimization.cpso import CPSO
+import numpy as np
+
+from src.particleSwarmOptimization.numberGenerator.rng import RNG
+from src.particleSwarmOptimization.pso import PSO
+from src.particleSwarmOptimization.structure.particle import Particle
 from src.particleSwarmOptimization.structure.bounds import Bounds
 
+np.set_printoptions(suppress=True)
 
+errors = []
 bounds = Bounds(-10, 10)
 
+# Create the pso with the nn weights
+num_particles = 50
+inertia_weight = 0.729
+cognitiveConstant = 1.49
+socialConstant = 1.49
+num_dimensions = 50
+numberGenerator = RNG()
+# Configure PSO
+pso = PSO(bounds, numberGenerator, num_particles, inertia_weight, cognitiveConstant, socialConstant)
 
-def func1(x):
-    total = 0
-    for i in range(len(x)):
-        total += x[i] ** 2
-    return total
+def error(position):
+    err = 0.0
+    for i in range(len(position)):
+        xi = position[i]
+        err += (xi * xi) - (10 * math.cos(2 * math.pi * xi)) + 10
+    return err
 
-def func2(x):
-    return math.cos(x[0])
+# Create particles
+for i in range(pso.num_particles):
+    pso.swarm.append(Particle(bounds, numberGenerator, inertia_weight, cognitiveConstant, socialConstant))
+    pso.swarm[i].initPos(4 * np.random.random(num_dimensions) - 2)
 
-def func3(x):
-    return math.sin(x[0])
+# Iterate over training data
+for i in range(2000):
+    # Loop over particles
+    for j in range(pso.num_particles):
 
+        # Fire the neural network and calculate error
+        pso.swarm[j].error = error(pso.swarm[j].position)
 
+        # Get & set personal best
+        pso.swarm[j].getPersonalBest()
 
-nam_dimensions = 1
-num_particles = 15
-maxiter = 30
-weight = 0.5
-cognitiveConstant = 1
-socialConstant = 2
+        # Print results
+        print(j, np.array(pso.swarm[j].error))
 
-numberGenerator = Lozi()
+    # Get & set global best
+    pso.getGlobalBest()
 
-i = 0
-while i < 1000:
-    print(numberGenerator.random())
-    i += 1
+    for j in range(pso.num_particles):
+        pso.swarm[j].update_velocity(pso.group_best_position)
+        pso.swarm[j].update_position()
 
+    if(i % 1 == 0):
+        print("Best error:\t\t\t" + str(pso.group_best_error))
+        print("Current best error:\t" + str(pso.best_error) + "\n")
 
-standardPSO = CPSO(func3, nam_dimensions, bounds, numberGenerator,
-                   num_particles, maxiter, weight, cognitiveConstant, socialConstant)
-standardPSO.establishSwarm()
-
-standardPSO.begin()
-
+print('FINAL:')
+print(pso)

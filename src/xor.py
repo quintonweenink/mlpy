@@ -34,9 +34,9 @@ bounds = Bounds(-2, 2)
 
 # Create neural network
 l_rate = 0.5
-inputLayer = Layer(size = 2, prev = None, l_rate = l_rate, bias = True, label = "Input layer")
-hiddenLayer = Layer(size = 4, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
-outputLayer = Layer(size = 1, prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
+inputLayer = Layer(bounds, size = 2, prev = None, l_rate = l_rate, bias = True, label = "Input layer")
+hiddenLayer = Layer(bounds, size = 4, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+outputLayer = Layer(bounds, size = 1, prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
 fnn = NeuralNetwork()
 fnn.appendLayer(inputLayer)
 fnn.appendLayer(hiddenLayer)

@@ -1,15 +1,17 @@
 from particleSwarmOptimization.structure.particle import Particle
+import numpy as np
 
 
 class PSO(object):
 
     def __init__(self, bounds, numberGenerator, num_particles, weight, cognitiveConstant, socialConstant):
         self.num_dimensions = None
-        self.err_best_g = float('inf')                   # best error for group
-        self.pos_best_g = None                  # best position for group
 
-        self.err_best_i = float('inf')
-        self.pos_best_i = None
+        self.group_best_error = float('inf')                   # best error for group
+        self.group_best_position = None                  # best position for group
+
+        self.best_error = float('inf')
+        self.best_position = None
 
         self.num_particles = num_particles
         self.bounds = bounds
@@ -20,17 +22,17 @@ class PSO(object):
         self.swarm = []
 
     def getGlobalBest(self):
-        self.err_best_i = float('inf')
-        for j in range(self.num_particles):
-            if abs(self.swarm[j].err_i) < abs(self.err_best_g):
-                self.pos_best_g = self.swarm[j].position_i
-                self.err_best_g = self.swarm[j].err_i
+        self.best_error = float('inf')
+        for particle in self.swarm:
+            if abs(particle.error) < abs(self.group_best_error):
+                self.group_best_position = np.array(particle.position)
+                self.group_best_error = particle.error
             # Get current best as well
-            if abs(self.swarm[j].err_i) < abs(self.err_best_i):
-                self.pos_best_i = self.swarm[j].position_i
-                self.err_best_i = self.swarm[j].err_i
+            if abs(particle.error) < abs(self.best_error):
+                self.best_position = np.array(particle.position)
+                self.best_error = particle.error
 
-        return self.err_best_g
+        return self.group_best_position
 
     def __str__(self):
-        return "Best pos: " + str(self.pos_best_g) + "\nBest error: " + str(self.err_best_g) + "\n"
+        return "Best pos: " + str(self.group_best_position) + "\nBest error: " + str(self.group_best_error) + "\n"

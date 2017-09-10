@@ -27,8 +27,12 @@ class DataSetTool(object):
                     target.append(0)
             output.append(target)
         output = np.array(output)
+
+        # Scale input
         max = np.amax(input)
-        input = input / max
+        input = input / ( max / 2 )
+        input = input - 1
+
         input_target = []
         for i in range(len(input)):
             input_target.append((input[i], output[i]))
