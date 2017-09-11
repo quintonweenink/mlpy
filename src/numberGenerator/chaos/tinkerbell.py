@@ -1,7 +1,8 @@
 import random
-import math
 
+from experiments import math
 from numberGenerator.chaos.cprng import CPRNG
+
 
 class Tinkerbell(CPRNG):
 
@@ -17,7 +18,7 @@ class Tinkerbell(CPRNG):
         pass
 
     def random(self):
-        xn = math.pow(self._x,2) - math.pow(self._y,2) + (self._A * self._x) + (self._B * self._y)
+        xn = math.pow(self._x, 2) - math.pow(self._y, 2) + (self._A * self._x) + (self._B * self._y)
         yn = (2 * self._x * self._y) + (self._C * self._x) + (self._D * self._y)
 
         self.x = xn

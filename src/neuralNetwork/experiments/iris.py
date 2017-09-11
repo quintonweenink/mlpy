@@ -1,15 +1,13 @@
-import random
-
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
-from neuralNetwork.layer import Layer
+from numberGenerator.bounds import Bounds
 from neuralNetwork.dataSet.dataSetTool import DataSetTool
-from src.particleSwarmOptimization.structure.bounds import Bounds
+from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
+from neuralNetwork.structure.layer import Layer
 
 dataSetTool = DataSetTool()
-training, testing = dataSetTool.getIrisDataSets('dataSet/iris.data')
+training, testing = dataSetTool.getIrisDataSets('../dataSet/iris.data')
 
 plt.grid(1)
 plt.xlabel('Iterations')

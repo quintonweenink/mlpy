@@ -1,10 +1,9 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
+from numberGenerator.bounds import Bounds
 from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
-from neuralNetwork.layer import Layer
-from src.particleSwarmOptimization.structure.bounds import Bounds
-
+from neuralNetwork.structure.layer import Layer
 
 plt.grid(1)
 plt.xlabel('Iterations')

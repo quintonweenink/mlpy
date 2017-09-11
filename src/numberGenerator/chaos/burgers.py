@@ -1,7 +1,8 @@
 import random
-import math
 
+from experiments import math
 from numberGenerator.chaos.cprng import CPRNG
+
 
 class Burgers(CPRNG):
 

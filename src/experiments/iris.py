@@ -1,29 +1,18 @@
-import random
-
 import numpy as np
-import matplotlib.pyplot as plt
-import sys
 
-from src.particleSwarmOptimization.numberGenerator.rng import RNG
-from src.particleSwarmOptimization.pso import PSO
-from src.particleSwarmOptimization.structure.particle import Particle
-from src.particleSwarmOptimization.structure.bounds import Bounds
-from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
-from neuralNetwork.layer import Layer
+from numberGenerator.bounds import Bounds
+from numberGenerator.rng import RNG
 from neuralNetwork.dataSet.dataSetTool import DataSetTool
-
-setosa = np.array([[5.0,3.3,1.4,0.2]])#Iris-setosa
-setosa_o = np.array([[1,0,0]])
-versicolor = np.array([[5.7,2.8,4.1,1.3]])#Iris-versicolor
-versicolor_o = np.array([[0,1,0]])
-virginica = np.array([[5.9,3.0,5.1,1.8]])#Iris-virginica
-virginica_o = np.array([[0,0,1]])
+from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
+from neuralNetwork.structure.layer import Layer
+from particleSwarmOptimization.pso import PSO
+from particleSwarmOptimization.structure.particle import Particle
 
 np.set_printoptions(suppress=True)
 
 # Get data set
 dataSetTool = DataSetTool()
-training, testing = dataSetTool.getIrisDataSets('neuralNetwork/dataSet/iris.data')
+training, testing = dataSetTool.getIrisDataSets('../neuralNetwork/dataSet/iris.data')
 
 errors = []
 bounds = Bounds(-10, 10)
@@ -58,17 +47,11 @@ for i in range(pso.num_particles):
     pso.swarm.append(Particle(bounds, numberGenerator, inertia_weight, cognitiveConstant, socialConstant))
     pso.swarm[i].initPos((bounds.maxBound - bounds.minBound) * np.random.random(num_dimensions) + bounds.minBound)
 
-
-    # fnn.setAllWeights(pso.swarm[i].position)
-    #
-    # result = fnn.fire(np.array(group_training))
-    # error = group_target - result
-    # pso.swarm[j].error = np.mean(np.square(error))
 # Iterate over training data
-for i in range(100):
+for i in range(400):
     # Get the iteration data
-    # mod = i % len(training)
-    # in_out = training[mod]
+    mod = i % len(training)
+    in_out = training[mod]
     # Loop over particles
     for j in range(pso.num_particles):
         # Set weights according to pso particle
@@ -77,17 +60,13 @@ for i in range(100):
         # Fire the neural network and calculate error
         result = fnn.fire(np.array(group_training))
         error = group_target - result
-        pso.swarm[j].error = np.sum(np.square(error)) / len(group_training)
+        pso.swarm[j].error = np.mean(np.square(error))
 
         # Get & set personal best
         pso.swarm[j].getPersonalBest()
 
         # Print results
         print(j, np.array(pso.swarm[j].error))
-        print("Error: \t" + str(np.array(error)))
-        print("Result: \t" + str(np.array(result)))
-        print("Result: \t" + str(np.array(group_target)))
-        print("")
 
     # Get & set global best
     pso.getGlobalBest()
@@ -107,15 +86,3 @@ print("RESULT: " + str(result))
 print("TARGET: " + str(group_target))
 print("ERROR: " + str(error))
 
-# print('FINAL:')
-# print(pso)
-# print(fnn)
-#
-#
-# fnn.setAllWeights(pso.group_best_position)
-# print("FIRE: " + str(fnn.fire(setosa)))
-# print("OUT: " + str(setosa_o))
-# print("FIRE: " + str(fnn.fire(versicolor)))
-# print("OUT: " + str(versicolor_o))
-# print("FIRE: " + str(fnn.fire(virginica)))
-# print("OUT: " + str(virginica_o))

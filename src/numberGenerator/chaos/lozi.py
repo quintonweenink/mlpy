@@ -1,5 +1,4 @@
 import random
-import math
 
 from numberGenerator.chaos.cprng import CPRNG
 

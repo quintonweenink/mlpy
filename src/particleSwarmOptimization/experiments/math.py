@@ -1,12 +1,10 @@
-import random
+import numpy as np
 import math
 
-import numpy as np
-
-from src.particleSwarmOptimization.numberGenerator.rng import RNG
+from bounds import Bounds
+from rng import RNG
 from src.particleSwarmOptimization.pso import PSO
 from src.particleSwarmOptimization.structure.particle import Particle
-from src.particleSwarmOptimization.structure.bounds import Bounds
 
 np.set_printoptions(suppress=True)
 

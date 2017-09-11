@@ -1,5 +1,3 @@
-from rng import RNG
-import math
 import numpy as np
 
 class Particle(object):
