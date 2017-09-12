@@ -1,13 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from numberGenerator.bounds import Bounds
-from neuralNetwork.dataSet.dataSetTool import DataSetTool
+from dataSetTool import DataSetTool
 from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
 from neuralNetwork.structure.layer import Layer
+from numberGenerator.bounds import Bounds
 
 dataSetTool = DataSetTool()
-training, testing = dataSetTool.getIrisDataSets('../dataSet/iris.data')
+training, testing = dataSetTool.getIrisDataSets('../dataSet/iris/iris.data')
 
 plt.grid(1)
 plt.xlabel('Iterations')
