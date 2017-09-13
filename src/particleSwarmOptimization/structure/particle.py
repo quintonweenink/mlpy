@@ -1,7 +1,7 @@
 import numpy as np
 
 class Particle(object):
-    def __init__(self, bounds, ng, weight, cognitiveConstant, socialConstant):
+    def __init__(self, bounds, weight, cognitiveConstant, socialConstant):
         self.position = None  # particle position
         self.velocity = None  # particle velocity
 
@@ -11,7 +11,6 @@ class Particle(object):
         self.error = None  # error individual
 
         self.num_dimensions = None
-        self.ng = ng
         self.weight = weight
         self.cognitiveConstant = cognitiveConstant
         self.socialConstant = socialConstant
@@ -34,9 +33,6 @@ class Particle(object):
         return self.best_error
 
     def update_velocity(self, group_best_position):
-        assert not isinstance(self.ng.random(),
-                              tuple), "You need to use a random generator that does not return a tuple"
-
         r1 = np.random.random(self.num_dimensions)
         r2 = np.random.random(self.num_dimensions)
 

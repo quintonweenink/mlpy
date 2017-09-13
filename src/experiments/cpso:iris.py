@@ -35,7 +35,7 @@ socialConstant = 1.49445
 num_dimensions = len(fnn.getAllWeights())
 numberGenerator = Lozi()
 # Configure PSO
-pso = PSO(bounds, numberGenerator, num_particles, inertia_weight, cognitiveConstant, socialConstant)
+pso = PSO(bounds, num_particles, inertia_weight, cognitiveConstant, socialConstant)
 
 
 group_training = np.array([input[0] for input in training])

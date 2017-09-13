@@ -1,6 +1,5 @@
 import numpy as np
 
-from numberGenerator.rng import RNG
 from numberGenerator.bounds import Bounds
 from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
 from neuralNetwork.structure.layer import Layer
@@ -44,10 +43,10 @@ weight = 0.7
 cognitiveConstant = 1.4
 socialConstant = 1.4
 num_dimensions = len(fnn.getAllWeights())
-numberGenerator = RNG()
-pso = PSO(bounds, numberGenerator, num_particles, weight, cognitiveConstant, socialConstant)
+pso = PSO(bounds, num_particles, weight, cognitiveConstant, socialConstant)
+
 for i in range(pso.num_particles):
-    pso.swarm.append(Particle(bounds, numberGenerator, weight, cognitiveConstant, socialConstant))
+    pso.swarm.append(Particle(bounds, weight, cognitiveConstant, socialConstant))
     pso.swarm[i].initPos((bounds.maxBound - bounds.minBound) * np.random.random(num_dimensions) + bounds.minBound)
 
 

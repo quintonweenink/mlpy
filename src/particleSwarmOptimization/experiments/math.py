@@ -2,7 +2,6 @@ import numpy as np
 import math
 
 from bounds import Bounds
-from rng import RNG
 from src.particleSwarmOptimization.pso import PSO
 from src.particleSwarmOptimization.structure.particle import Particle
 
@@ -17,9 +16,8 @@ inertia_weight = 0.729
 cognitiveConstant = 1.49
 socialConstant = 1.49
 num_dimensions = 50
-numberGenerator = RNG()
 # Configure PSO
-pso = PSO(bounds, numberGenerator, num_particles, inertia_weight, cognitiveConstant, socialConstant)
+pso = PSO(bounds, num_particles, inertia_weight, cognitiveConstant, socialConstant)
 
 def error(position):
     err = 0.0
@@ -30,7 +28,7 @@ def error(position):
 
 # Create particles
 for i in range(pso.num_particles):
-    pso.swarm.append(Particle(bounds, numberGenerator, inertia_weight, cognitiveConstant, socialConstant))
+    pso.swarm.append(Particle(bounds, inertia_weight, cognitiveConstant, socialConstant))
     pso.swarm[i].initPos(4 * np.random.random(num_dimensions) - 2)
 
 # Iterate over training data

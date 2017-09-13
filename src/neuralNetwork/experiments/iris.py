@@ -55,20 +55,6 @@ plt.ylabel('Error')
 plt.ylim([0,1])
 plt.ion()
 
-setosa = np.array([[5.0,3.3,1.4,0.2]])#Iris-setosa
-setosa_o = np.array([[1,0,0]])
-versicolor = np.array([[5.7,2.8,4.1,1.3]])#Iris-versicolor
-versicolor_o = np.array([[0,1,0]])
-virginica = np.array([[5.9,3.0,5.1,1.8]])#Iris-virginica
-virginica_o = np.array([[0,0,1]])
-
-print("FIRE: " + str(fnn.fire(setosa)))
-print("OUT: " + str(setosa_o))
-print("FIRE: " + str(fnn.fire(versicolor)))
-print("OUT: " + str(versicolor_o))
-print("FIRE: " + str(fnn.fire(virginica)))
-print("OUT: " + str(virginica_o))
-
 for i in range(len(testing)):
     mod = i % len(testing)
     in_out = testing[mod]
@@ -85,3 +71,19 @@ print(fnn)
 
 weights = fnn.getAllWeights()
 fnn.setAllWeights(weights)
+
+
+setosa = np.array([[5.0,3.3,1.4,0.2]])#Iris-setosa
+setosa_o = np.array([[1,0,0]])
+versicolor = np.array([[5.7,2.8,4.1,1.3]])#Iris-versicolor
+versicolor_o = np.array([[0,1,0]])
+virginica = np.array([[5.9,3.0,5.1,1.8]])#Iris-virginica
+virginica_o = np.array([[0,0,1]])
+
+print("FIRE: " + str(fnn.fire(setosa)))
+print("OUT: " + str(setosa_o))
+print("FIRE: " + str(fnn.fire(versicolor)))
+print("OUT: " + str(versicolor_o))
+print("FIRE: " + str(fnn.fire(virginica)))
+print("OUT: " + str(virginica_o))
+

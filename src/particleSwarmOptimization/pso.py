@@ -1,10 +1,9 @@
-from particleSwarmOptimization.structure.particle import Particle
 import numpy as np
 
 
 class PSO(object):
 
-    def __init__(self, bounds, numberGenerator, num_particles, weight, cognitiveConstant, socialConstant):
+    def __init__(self, bounds, num_particles, weight, cognitiveConstant, socialConstant):
         self.num_dimensions = None
 
         self.group_best_error = float('inf')                   # best error for group

@@ -4,7 +4,6 @@ from dataSetTool import DataSetTool
 from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
 from neuralNetwork.structure.layer import Layer
 from numberGenerator.bounds import Bounds
-from numberGenerator.rng import RNG
 from particleSwarmOptimization.pso import PSO
 from particleSwarmOptimization.structure.particle import Particle
 
@@ -33,18 +32,16 @@ inertia_weight = 0.729
 cognitiveConstant = 1.49445
 socialConstant = 1.49445
 num_dimensions = len(fnn.getAllWeights())
-numberGenerator = RNG()
 # Configure PSO
-pso = PSO(bounds, numberGenerator, num_particles, inertia_weight, cognitiveConstant, socialConstant)
+pso = PSO(bounds, num_particles, inertia_weight, cognitiveConstant, socialConstant)
 
 
 group_training = np.array([input[0] for input in training])
 group_target = np.array([output[1] for output in training])
 
-# sys.exit(0)
 # Create particles
 for i in range(pso.num_particles):
-    pso.swarm.append(Particle(bounds, numberGenerator, inertia_weight, cognitiveConstant, socialConstant))
+    pso.swarm.append(Particle(bounds, inertia_weight, cognitiveConstant, socialConstant))
     pso.swarm[i].initPos((bounds.maxBound - bounds.minBound) * np.random.random(num_dimensions) + bounds.minBound)
 
 # Iterate over training data
