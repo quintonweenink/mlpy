@@ -17,7 +17,7 @@ training, testing = dataSetTool.getIrisDataSets('../dataSet/iris/iris.data')
 plt.grid(1)
 plt.xlabel('Iterations')
 plt.ylabel('Error')
-plt.ylim([0,0.5])
+plt.ylim([0, 0.5])
 plt.ion()
 
 errors = []
