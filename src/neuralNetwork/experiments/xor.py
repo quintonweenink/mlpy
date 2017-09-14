@@ -8,7 +8,7 @@ from neuralNetwork.structure.layer import Layer
 plt.grid(1)
 plt.xlabel('Iterations')
 plt.ylabel('Error')
-plt.legend(['error'])
+plt.ylim([0,1])
 plt.ion()
 
 l_rate = 1.0
@@ -39,9 +39,9 @@ errors = []
 for i in range(20000):
     mod = i % 4
     i_input = np.array([input[mod]])
-    fnn.fire(i_input)
+    fnn.fire(input)
     i_target = np.array([target[mod]])
-    i_error = fnn.backPropagation(i_target)
+    i_error = fnn.backPropagation(target)
 
     if (i % 500) == 0:
         #print("Error:" + str(fnn))

@@ -9,6 +9,12 @@ from particleSwarmOptimization.structure.particle import Particle
 
 np.set_printoptions(suppress=True)
 
+plt.grid(1)
+plt.xlabel('Iterations')
+plt.ylabel('Error')
+plt.ylim([0,1])
+plt.ion()
+
 input = np.array([[0, 0],
                   [1, 0],
                   [0, 1],

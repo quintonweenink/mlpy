@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 from dataSetTool import DataSetTool
 from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
@@ -12,6 +13,12 @@ np.set_printoptions(suppress=True)
 # Get data set
 dataSetTool = DataSetTool()
 training, testing = dataSetTool.getIrisDataSets('../dataSet/iris/iris.data')
+
+plt.grid(1)
+plt.xlabel('Iterations')
+plt.ylabel('Error')
+plt.ylim([0,0.5])
+plt.ion()
 
 errors = []
 bounds = Bounds(-10, 10)
@@ -56,8 +63,11 @@ for i in range(400):
 
         # Fire the neural network and calculate error
         result = fnn.fire(np.array(group_training))
-        error = group_target - result
-        pso.swarm[j].error = np.mean(np.square(error))
+        difference = group_target - result
+        error = np.mean(np.square(difference))
+        errors.append(error)
+
+        pso.swarm[j].error = error
 
         # Get & set personal best
         pso.swarm[j].getPersonalBest()
@@ -67,6 +77,10 @@ for i in range(400):
 
     # Get & set global best
     pso.getGlobalBest()
+
+    plt.scatter(i, pso.best_error, color='blue', s=4, label="test1")
+    plt.pause(0.0001)
+    plt.show()
 
     for j in range(pso.num_particles):
         pso.swarm[j].update_velocity(pso.group_best_position)
