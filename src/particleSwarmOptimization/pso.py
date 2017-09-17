@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class PSO(object):
 
     def __init__(self, bounds, num_particles, weight, cognitiveConstant, socialConstant):

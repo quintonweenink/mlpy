@@ -1,29 +1,53 @@
 import random
 import abc
 import six
+import numpy as np
 
 from numberGenerator.ng import NG
-from numberGenerator.rng import RNG
 
 @six.add_metaclass(abc.ABCMeta)
 class CPRNG(NG):
 
     def __init__(self):
-        self.__rng = RNG()
-        self.x = self.__rng.random()
-        self.y = self.__rng.random()
+        self.x = random.uniform(0, 1)
+        self.y = random.uniform(0, 1)
+        self.reevaluation = 0
+        self.listLen = 5000
+        self.chaoticList = np.zeros((self.listLen, 2))
 
-    @abc.abstractmethod
-    def getRandomSet(self, x, y):
-        pass
+        self.pos = 0
 
-    @abc.abstractmethod
+        self.generateChaoticData()
+
+    def generateChaoticData(self):
+        self.chaoticList[0] = np.array([self.x, self.y])
+
+        self.reevaluation += 1
+
+        index = 1
+        while index < len(self.chaoticList):
+            self.chaoticList[index] = self.getNext()
+            index += 1
+
+        max = np.max(self.chaoticList)
+        min = np.min(self.chaoticList)
+
+        # Normalization per listLen size
+        self.chaoticList = (self.chaoticList - min) / (max - min)
+
+
     def random(self):
-        pass
+        if self.pos < self.listLen - 1:
+            self.pos += 1
+            return self.chaoticList[self.pos]
+        else:
+            self.generateChaoticData()
+            self.pos = 0
+            return self.chaoticList[self.pos]
+
+    def randomArray(self, size):
+        return np.array([self.random()[0] for i in range(size)])
 
     @abc.abstractmethod
-    def uniform(self, x, y):
+    def getNext(self):
         pass
-
-    def toString(self):
-        return "Printing the set"
