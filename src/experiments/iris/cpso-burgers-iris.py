@@ -1,4 +1,4 @@
-from PSONeuralNetwork.psonn import PSONN
+from psoNeuralNetwork.psonn import PSONN
 
 from dataSetTool import DataSetTool
 from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
