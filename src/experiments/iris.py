@@ -37,7 +37,7 @@ fnn.appendLayer(outputLayer)
 num_particles = 30
 num_dimensions = len(fnn.getAllWeights())
 
-# GROUP TRAINING
+# BATCH TRAINING
 inertia_weight = 0.729
 cognitiveConstant = 1.49445
 socialConstant = 1.49445
@@ -69,7 +69,7 @@ for i in range(400):
         fnn.setAllWeights(pso.swarm[j].position)
 
         # Fire the neural network and calculate error
-        # GROUP TRAINING:
+        # BATCH TRAINING:
         result = fnn.fire(np.array(group_training))
         difference = group_target - result
         # SINGLE TRAINING:
