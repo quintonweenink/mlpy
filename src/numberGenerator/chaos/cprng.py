@@ -10,8 +10,8 @@ class CPRNG(NG):
 
     def __init__(self):
         self.__rng = RNG()
-        self.__x = self.__rng.random()
-        self.__y = self.__rng.random()
+        self.x = self.__rng.random()
+        self.y = self.__rng.random()
 
     @abc.abstractmethod
     def getRandomSet(self, x, y):
@@ -27,19 +27,3 @@ class CPRNG(NG):
 
     def toString(self):
         return "Printing the set"
-
-    @property
-    def x(self):
-        return self.__x
-
-    @x.setter
-    def x(self, value):
-        self.__x = value
-
-    @property
-    def y(self):
-        return self.__y
-
-    @y.setter
-    def y(self, value):
-        self.__y = value

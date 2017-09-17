@@ -20,6 +20,8 @@ class Lozi(CPRNG):
         self.x = xn
         self.y = yn
 
+        print(self.x, self.y)
+
         return self.x, self.y
 
     def uniform(self, x, y):
