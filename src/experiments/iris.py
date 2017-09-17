@@ -35,10 +35,17 @@ fnn.appendLayer(outputLayer)
 
 # Create the pso with the nn weights
 num_particles = 30
+num_dimensions = len(fnn.getAllWeights())
+
+# GROUP TRAINING
 inertia_weight = 0.729
 cognitiveConstant = 1.49445
 socialConstant = 1.49445
-num_dimensions = len(fnn.getAllWeights())
+# SINGLE TRAINING
+# inertia_weight = 0.06
+# cognitiveConstant = 0.1
+# socialConstant = 0.1
+
 # Configure PSO
 pso = PSO(bounds, num_particles, inertia_weight, cognitiveConstant, socialConstant)
 
@@ -62,8 +69,12 @@ for i in range(400):
         fnn.setAllWeights(pso.swarm[j].position)
 
         # Fire the neural network and calculate error
+        # GROUP TRAINING:
         result = fnn.fire(np.array(group_training))
         difference = group_target - result
+        # SINGLE TRAINING:
+        # result = fnn.fire(np.array([in_out[0]]))[0]
+        # difference = in_out[1] - result
         error = np.mean(np.square(difference))
         errors.append(error)
 
@@ -78,9 +89,9 @@ for i in range(400):
     # Get & set global best
     pso.getGlobalBest()
 
-    plt.scatter(i, pso.best_error, color='blue', s=4, label="test1")
-    plt.pause(0.0001)
-    plt.show()
+    # plt.scatter(i, pso.best_error, color='blue', s=4, label="test1")
+    # plt.pause(0.0001)
+    # plt.show()
 
     for j in range(pso.num_particles):
         pso.swarm[j].update_velocity(pso.group_best_position)
