@@ -9,7 +9,7 @@ from numberGenerator.bounds import Bounds
 np.set_printoptions(suppress=True)
 
 dataSetTool = DataSetTool()
-training, testing = dataSetTool.getIrisDataSets('../../dataSet/iris/iris.data')
+training, testing = dataSetTool.getGlassDataSets('../../dataSet/glass/glass.data')
 
 plt.grid(1)
 plt.xlabel('Iterations')
@@ -22,7 +22,7 @@ l_rate = 0.5
 bounds = Bounds(-2, 2)
 
 inputLayer = Layer(bounds, size = len(training[0][0]), prev = None, l_rate = l_rate, bias = True, label = "Input layer")
-hiddenLayer = Layer(bounds, size = 6, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+hiddenLayer = Layer(bounds, size = 9, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
 outputLayer = Layer(bounds, size = len(training[0][1]), prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
 
 fnn = NeuralNetwork()
@@ -35,7 +35,7 @@ group_target = np.array([output[1] for output in training])
 
 errors = []
 
-for i in range(400):
+for i in range(100):
     mod = i % len(training)
     in_out = training[mod]
     fnn.fire(group_training)
@@ -43,6 +43,7 @@ for i in range(400):
 
     #print("Error:" + str(fnn))
     errors.append(abs(i_error[0][0]))
+    print(abs(i_error[0][0]))
     plt.scatter(i, abs(i_error[0][0]), color='blue', s=4, label="test1")
     plt.pause(0.0001)
     plt.show()
