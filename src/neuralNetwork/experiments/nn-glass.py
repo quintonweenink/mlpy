@@ -11,23 +11,23 @@ np.set_printoptions(suppress=True)
 dataSetTool = DataSetTool()
 training, testing = dataSetTool.getGlassDataSets('../../dataSet/glass/glass.data')
 
-plt.grid(1)
 plt.xlabel('Iterations')
 plt.ylabel('Error')
-plt.ylim([0,1])
 plt.ion()
 
-l_rate = 0.5
+l_rate = 0.2
 
 bounds = Bounds(-2, 2)
 
 inputLayer = Layer(bounds, size = len(training[0][0]), prev = None, l_rate = l_rate, bias = True, label = "Input layer")
 hiddenLayer = Layer(bounds, size = 9, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
-outputLayer = Layer(bounds, size = len(training[0][1]), prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
+hiddenLayer2 = Layer(bounds, size = 9, prev = hiddenLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+outputLayer = Layer(bounds, size = len(training[0][1]), prev = hiddenLayer2, l_rate = l_rate, bias = False, label = "Output layer")
 
 fnn = NeuralNetwork()
 fnn.appendLayer(inputLayer)
 fnn.appendLayer(hiddenLayer)
+fnn.appendLayer(hiddenLayer2)
 fnn.appendLayer(outputLayer)
 
 group_training = np.array([input[0] for input in training])
@@ -35,22 +35,23 @@ group_target = np.array([output[1] for output in training])
 
 errors = []
 
-for i in range(100):
+for i in range(10000):
     mod = i % len(training)
     in_out = training[mod]
-    fnn.fire(group_training)
+    result = fnn.fire(group_training)
     i_error = fnn.backPropagation(group_target)
 
     #print("Error:" + str(fnn))
-    errors.append(abs(i_error[0][0]))
-    print(abs(i_error[0][0]))
-    plt.scatter(i, abs(i_error[0][0]), color='blue', s=4, label="test1")
-    plt.pause(0.0001)
-    plt.show()
+    error = np.mean(np.square(fnn.layers[len(fnn.layers) - 1].error))
+    errors.append(error)
+    print(error)
+    if i % 53 == 0:
+        plt.scatter(i, abs(error), color='blue', s=4, label="test1")
+        plt.pause(0.0001)
+        plt.show()
 
 
 plt.pause(5)
-print(fnn)
 
 plt.close()
 
@@ -60,20 +61,12 @@ plt.ylabel('Error')
 plt.ylim([0,1])
 plt.ion()
 
-for i in range(len(testing)):
-    mod = i % len(testing)
-    in_out = testing[mod]
-    result = fnn.fire(np.array([in_out[0]]))
-    i_error = fnn.backPropagation(np.array([in_out[1]]))
 
-    errors.append(abs(i_error[0][0]))
-    plt.scatter(i, abs(i_error[0][0]), color='blue', s=4, label="test1")
-    plt.pause(0.01)
-    plt.show()
+for i in range(len(testing)):
+    in_out = testing[i]
+    result = fnn.fire(np.array([in_out[0]]))
+
     print(result)
     print(in_out[1])
     print()
-
-plt.pause(5)
-#print(fnn)
 
