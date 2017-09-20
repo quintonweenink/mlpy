@@ -2,8 +2,6 @@ import numpy as np
 
 from psoNeuralNetwork.psonn import PSONN
 from dataSetTool import DataSetTool
-from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
-from neuralNetwork.structure.layer import Layer
 from numberGenerator.bounds import Bounds
 
 psonn = PSONN()
@@ -14,17 +12,7 @@ psonn.training, psonn.testing = dataSetTool.getGlassDataSets('../../../dataSet/g
 
 psonn.bounds = Bounds(-10, 10)
 
-l_rate = None
-inputLayer = Layer(psonn.bounds, size = len(psonn.training[0][0]), prev = None, l_rate = l_rate, bias = True, label = "Input layer")
-hiddenLayer = Layer(psonn.bounds, size = 9, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
-hiddenLayer2 = Layer(psonn.bounds, size = 9, prev = hiddenLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
-outputLayer = Layer(psonn.bounds, size = len(psonn.training[0][1]), prev = hiddenLayer2, l_rate = l_rate, bias = False, label = "Output layer")
-
-psonn.nn = NeuralNetwork()
-psonn.nn.appendLayer(inputLayer)
-psonn.nn.appendLayer(hiddenLayer)
-psonn.nn.appendLayer(hiddenLayer2)
-psonn.nn.appendLayer(outputLayer)
+psonn.createNeuralNetwork([12])
 
 # Create the pso with the nn weights
 psonn.num_particles = 40

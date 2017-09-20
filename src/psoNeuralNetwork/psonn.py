@@ -5,6 +5,8 @@ from numberGenerator.chaos.cprng import CPRNG
 from particleSwarmOptimization.pso import PSO
 from particleSwarmOptimization.structure.particle import Particle
 from particleSwarmOptimization.structure.chaoticParticle import ChaoticParticle
+from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
+from neuralNetwork.structure.layer import Layer
 
 np.set_printoptions(suppress=True)
 
@@ -24,6 +26,19 @@ class PSONN(object):
 
         self.batch_training_input = None
         self.batch_training_target = None
+
+    def createNeuralNetwork(self, hiddenArr):
+        l_rate = None
+        inputLayer = Layer(self.bounds, size=len(self.training[0][0]), prev=None, l_rate=l_rate, bias=True,
+                           label="Input layer")
+        hiddenLayer = Layer(self.bounds, size=hiddenArr[0], prev=inputLayer, l_rate=l_rate, bias=True, label="Hidden layer")
+        outputLayer = Layer(self.bounds, size=len(self.training[0][1]), prev=hiddenLayer, l_rate=l_rate, bias=False,
+                            label="Output layer")
+
+        self.nn = NeuralNetwork()
+        self.nn.appendLayer(inputLayer)
+        self.nn.appendLayer(hiddenLayer)
+        self.nn.appendLayer(outputLayer)
 
     def train(self):
 

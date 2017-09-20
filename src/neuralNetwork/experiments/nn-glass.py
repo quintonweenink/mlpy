@@ -20,14 +20,12 @@ l_rate = 0.2
 bounds = Bounds(-2, 2)
 
 inputLayer = Layer(bounds, size = len(training[0][0]), prev = None, l_rate = l_rate, bias = True, label = "Input layer")
-hiddenLayer = Layer(bounds, size = 9, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
-hiddenLayer2 = Layer(bounds, size = 9, prev = hiddenLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
-outputLayer = Layer(bounds, size = len(training[0][1]), prev = hiddenLayer2, l_rate = l_rate, bias = False, label = "Output layer")
+hiddenLayer = Layer(bounds, size = 12, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+outputLayer = Layer(bounds, size = len(training[0][1]), prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
 
 fnn = NeuralNetwork()
 fnn.appendLayer(inputLayer)
 fnn.appendLayer(hiddenLayer)
-fnn.appendLayer(hiddenLayer2)
 fnn.appendLayer(outputLayer)
 
 group_training = np.array([input[0] for input in training])
@@ -35,7 +33,7 @@ group_target = np.array([output[1] for output in training])
 
 errors = []
 
-for i in range(10000):
+for i in range(400):
     mod = i % len(training)
     in_out = training[mod]
     result = fnn.fire(group_training)
@@ -45,10 +43,10 @@ for i in range(10000):
     error = np.mean(np.square(fnn.layers[len(fnn.layers) - 1].error))
     errors.append(error)
     print(error)
-    if i % 53 == 0:
-        plt.scatter(i, abs(error), color='blue', s=4, label="test1")
-        plt.pause(0.0001)
-        plt.show()
+    #if i % 53 == 0:
+    plt.scatter(i, abs(error), color='blue', s=4, label="test1")
+    plt.pause(0.0001)
+    plt.show()
 
 
 plt.pause(5)
