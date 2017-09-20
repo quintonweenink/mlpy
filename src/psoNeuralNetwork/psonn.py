@@ -73,13 +73,8 @@ class PSONN(object):
                 # Set weights according to pso particle
                 self.nn.setAllWeights(self.pso.swarm[j].position)
 
-                # Fire the neural network and calculate error
-                # BATCH TRAINING:
                 result = self.nn.fire(np.array(self.batch_training_input))
                 difference = self.batch_training_target - result
-                # SINGLE TRAINING:
-                # result = self.nn.fire(np.array([in_out[0]]))[0]
-                # difference = in_out[1] - result
                 error = np.mean(np.square(difference))
                 errors.append(error)
 
