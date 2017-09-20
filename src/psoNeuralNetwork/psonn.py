@@ -29,19 +29,17 @@ class PSONN(object):
 
     def createNeuralNetwork(self, hiddenArr):
         l_rate = None
-        inputLayer = Layer(self.bounds, size=len(self.training[0][0]), prev=None, l_rate=l_rate, bias=True,
-                           label="Input layer")
-        hiddenLayer = Layer(self.bounds, size=hiddenArr[0], prev=inputLayer, l_rate=l_rate, bias=True, label="Hidden layer")
-        outputLayer = Layer(self.bounds, size=len(self.training[0][1]), prev=hiddenLayer, l_rate=l_rate, bias=False,
-                            label="Output layer")
-
         self.nn = NeuralNetwork()
-        self.nn.appendLayer(inputLayer)
-        self.nn.appendLayer(hiddenLayer)
-        self.nn.appendLayer(outputLayer)
+        self.nn.appendLayer(Layer(self.bounds, size=len(self.training[0][0]), prev=None, l_rate=l_rate, bias=True,
+                           label="Input layer"))
+        for i in hiddenArr:
+            prevLayer = self.nn.layers[len(self.nn.layers) - 1]
+            self.nn.appendLayer(Layer(self.bounds, size=i, prev=prevLayer, l_rate=l_rate, bias=True, label="Hidden layer"))
+
+        prevLayer = self.nn.layers[len(self.nn.layers) - 1]
+        self.nn.appendLayer(Layer(self.bounds, size=len(self.training[0][1]), prev=prevLayer, l_rate=l_rate, bias=False, label="Output layer"))
 
     def train(self):
-
         self.pso = PSO(self.bounds, self.num_particles, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
 
         self.batch_training_input = np.array([input[0] for input in self.training])
@@ -80,7 +78,7 @@ class PSONN(object):
                 result = self.nn.fire(np.array(self.batch_training_input))
                 difference = self.batch_training_target - result
                 # SINGLE TRAINING:
-                # result = fnn.fire(np.array([in_out[0]]))[0]
+                # result = self.nn.fire(np.array([in_out[0]]))[0]
                 # difference = in_out[1] - result
                 error = np.mean(np.square(difference))
                 errors.append(error)

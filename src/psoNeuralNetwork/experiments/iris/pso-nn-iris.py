@@ -1,8 +1,6 @@
 from psoNeuralNetwork.psonn import PSONN
 
 from dataSetTool import DataSetTool
-from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
-from neuralNetwork.structure.layer import Layer
 from numberGenerator.bounds import Bounds
 
 psonn = PSONN()

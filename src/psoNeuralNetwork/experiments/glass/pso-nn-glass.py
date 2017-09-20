@@ -17,8 +17,8 @@ psonn.createNeuralNetwork([12])
 # Create the pso with the nn weights
 psonn.num_particles = 40
 psonn.inertia_weight = 0.729
-psonn.cognitiveConstant = 0.9
-psonn.socialConstant = 0.9
+psonn.cognitiveConstant = 1.4
+psonn.socialConstant = 1.4
 
 psonn.train()
 
