@@ -16,12 +16,12 @@ plt.xlabel('Iterations')
 plt.ylabel('Error')
 plt.ion()
 
-l_rate = 1
+l_rate = 0.1
 
-bounds = Bounds(-5, 5)
+bounds = Bounds(-1, 1)
 
 inputLayer = Layer(bounds, size = len(training[0][0]), prev = None, l_rate = l_rate, bias = True, label = "Input layer")
-hiddenLayer = Layer(bounds, size = 20, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+hiddenLayer = Layer(bounds, size = 5, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
 outputLayer = Layer(bounds, size = len(training[0][1]), prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
 
 fnn = NeuralNetwork()
@@ -44,11 +44,12 @@ for i in range(400):
     error = np.mean(np.square(fnn.layers[len(fnn.layers) - 1].error))
     errors.append(error)
     print(error)
-    #print(fnn.layers[len(fnn.layers)-2].deltaWeights)
-    #if i % 53 == 0:
-    plt.scatter(i, abs(error), color='blue', s=4, label="test1")
-    plt.pause(0.0001)
-    plt.show()
+    print(fnn.layers[1].deltaWeights)
+    # print(fnn.layers[len(fnn.layers)-2].deltaWeights)
+    if i % 13 == 0:
+        plt.scatter(i, abs(error), color='blue', s=4, label="test1")
+        plt.pause(0.0001)
+        plt.show()
 
 
 plt.pause(5)
@@ -61,6 +62,7 @@ plt.ylabel('Error')
 plt.ylim([0,1])
 plt.ion()
 
+correct = 0
 
 for i in range(len(testing)):
     in_out = testing[i]
@@ -70,3 +72,8 @@ for i in range(len(testing)):
     print(in_out[1])
     print()
 
+    if np.argmax(result) == np.argmax(in_out[1]):
+        correct += 1
+
+
+print("Classification error: ", str(correct/len(testing)) + "%")
