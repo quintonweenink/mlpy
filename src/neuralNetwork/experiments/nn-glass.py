@@ -15,7 +15,7 @@ plt.xlabel('Iterations')
 plt.ylabel('Error')
 plt.ion()
 
-l_rate = 0.2
+l_rate = 0.1
 
 bounds = Bounds(-2, 2)
 
@@ -33,20 +33,20 @@ group_target = np.array([output[1] for output in training])
 
 errors = []
 
-for i in range(400):
+for i in range(20000):
     mod = i % len(training)
     in_out = training[mod]
     result = fnn.fire(group_training)
     i_error = fnn.backPropagation(group_target)
 
     #print("Error:" + str(fnn))
-    error = np.mean(np.square(fnn.layers[len(fnn.layers) - 1].error))
+    error = fnn.getMSE()
     errors.append(error)
     print(error)
-    #if i % 53 == 0:
-    plt.scatter(i, abs(error), color='blue', s=4, label="test1")
-    plt.pause(0.0001)
-    plt.show()
+    if i % 53 == 0:
+        plt.scatter(i, abs(error), color='blue', s=4, label="test1")
+        plt.pause(0.0001)
+        plt.show()
 
 
 plt.pause(5)
@@ -59,6 +59,7 @@ plt.ylabel('Error')
 plt.ylim([0,1])
 plt.ion()
 
+correct = 0
 
 for i in range(len(testing)):
     in_out = testing[i]
@@ -67,4 +68,10 @@ for i in range(len(testing)):
     print(result)
     print(in_out[1])
     print()
+
+    if np.argmax(result) == np.argmax(in_out[1]):
+        correct += 1
+
+
+print("Classification error: ", str(correct/len(testing)) + "%")
 

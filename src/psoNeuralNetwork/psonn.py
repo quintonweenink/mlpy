@@ -63,8 +63,14 @@ class PSONN(object):
 
         errors = []
 
+        plt.grid(1)
+        plt.xlabel('Iterations')
+        plt.ylabel('Error')
+        plt.ylim([0, 1])
+        plt.ion()
+
         # Iterate over training data
-        for i in range(400):
+        for i in range(8000):
             # Get the iteration data
             mod = i % len(self.training)
             in_out = self.training[mod]
@@ -84,22 +90,37 @@ class PSONN(object):
                 self.pso.swarm[j].getPersonalBest()
 
                 # Print results
-                print(j, np.array(self.pso.swarm[j].error))
+                # print(j, np.array(self.pso.swarm[j].error))
 
             # Get & set global best
             self.pso.getGlobalBest()
-
-            # plt.scatter(i, pso.best_error, color='blue', s=4, label="test1")
-            # plt.pause(0.0001)
-            # plt.show()
 
             for j in range(self.pso.num_particles):
                 self.pso.swarm[j].update_velocity(self.pso.group_best_position)
                 self.pso.swarm[j].update_position()
 
-            if (i % 1 == 0):
+            if (i % 53 == 0):
+                plt.scatter(i, self.pso.best_error, color='blue', s=4, label="test1")
+                plt.pause(0.0001)
+                plt.show()
+
                 print("Best error:\t\t\t" + str(self.pso.group_best_error))
                 print("Current best error:\t" + str(self.pso.best_error) + "\n")
+
+        correct = 0
+
+        for i in range(len(self.testing)):
+            in_out = self.testing[i]
+            result = self.nn.fire(np.array([in_out[0]]))
+
+            print(result)
+            print(in_out[1])
+            print()
+
+            if np.argmax(result) == np.argmax(in_out[1]):
+                correct += 1
+
+        print("Classification error: ", str(100 - correct / len(self.testing)) + "%")
 
         return errors
 

@@ -11,7 +11,7 @@ plt.ylabel('Error')
 plt.ylim([0,1])
 plt.ion()
 
-l_rate = 1.0
+l_rate = 0.2
 
 bounds = Bounds(-2, 2)
 

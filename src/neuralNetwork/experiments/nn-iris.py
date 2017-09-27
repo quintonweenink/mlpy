@@ -43,9 +43,10 @@ for i in range(400):
 
     #print("Error:" + str(fnn))
     errors.append(abs(i_error[0][0]))
-    plt.scatter(i, abs(i_error[0][0]), color='blue', s=4, label="test1")
-    plt.pause(0.0001)
-    plt.show()
+    if i % 23 == 0:
+        plt.scatter(i, abs(i_error[0][0]), color='blue', s=4, label="test1")
+        plt.pause(0.0001)
+        plt.show()
 
 
 plt.pause(5)
@@ -59,20 +60,18 @@ plt.ylabel('Error')
 plt.ylim([0,1])
 plt.ion()
 
-for i in range(len(testing)):
-    mod = i % len(testing)
-    in_out = testing[mod]
-    result = fnn.fire(np.array([in_out[0]]))
-    i_error = fnn.backPropagation(np.array([in_out[1]]))
+correct = 0
 
-    errors.append(abs(i_error[0][0]))
-    plt.scatter(i, abs(i_error[0][0]), color='blue', s=4, label="test1")
-    plt.pause(0.01)
-    plt.show()
+for i in range(len(testing)):
+    in_out = testing[i]
+    result = fnn.fire(np.array([in_out[0]]))
+
     print(result)
     print(in_out[1])
     print()
 
-plt.pause(5)
-#print(fnn)
+    if np.argmax(result) == np.argmax(in_out[1]):
+        correct += 1
 
+
+print("Classification error: ", str(correct/len(testing)) + "%")

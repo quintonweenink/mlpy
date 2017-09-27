@@ -10,7 +10,7 @@ psonn = PSONN()
 dataSetTool = DataSetTool()
 psonn.training, psonn.testing = dataSetTool.getGlassDataSets('../../../dataSet/glass/glass.data')
 
-psonn.bounds = Bounds(-10, 10)
+psonn.bounds = Bounds(-2, 2)
 
 psonn.createNeuralNetwork([12])
 
@@ -21,13 +21,3 @@ psonn.cognitiveConstant = 1.4
 psonn.socialConstant = 1.4
 
 psonn.train()
-
-errors = []
-psonn.nn.setAllWeights(psonn.pso.group_best_position)
-for i in range(len(psonn.testing)):
-    in_out = psonn.testing[i]
-    result = psonn.nn.fire(np.array([in_out[0]]))
-
-    print(result)
-    print(in_out[1])
-    print()

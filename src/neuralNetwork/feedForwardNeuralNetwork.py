@@ -26,17 +26,6 @@ class NeuralNetwork(object):
 
         return self.layers[len(self.layers) - 1].result
 
-    def getAllWeights(self):
-        weights = []
-        for layer in self.layers:
-            weights += layer.getWeights()
-
-        return weights
-
-    def setAllWeights(self, weights):
-        for layer in self.layers:
-            weights = layer.setWeights(weights)
-
     def backPropagation(self, target):
         for layer in reversed(self.layers):
             target = layer.backPropagate(target)
@@ -45,6 +34,26 @@ class NeuralNetwork(object):
             layer.applyDeltaWeights()
 
         return self.layers[len(self.layers) - 1].error
+
+    # Used for PSO NN training
+    def getAllWeights(self):
+        weights = []
+        for layer in self.layers:
+            weights += layer.getWeights()
+
+        return weights
+
+    # Used for PSO NN training
+    def setAllWeights(self, weights):
+        for layer in self.layers:
+            weights = layer.setWeights(weights)
+
+    # Used for PSO NN training
+    def getMSE(self):
+        last = self.layers[len(self.layers) - 1]
+        error = last.error
+        outUnits = last.size
+        return np.sum(np.square(error)) / ( outUnits * len(error) )
 
     def __str__(self):
         res = ""
