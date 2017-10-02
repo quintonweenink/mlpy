@@ -120,7 +120,7 @@ class PSONN(object):
             if np.argmax(result) == np.argmax(in_out[1]):
                 correct += 1
 
-        print("Classification error: ", str(100 - correct / len(self.testing)) + "%")
+        print("Classification accuracy: ", str(100 * (correct / len(self.testing))  ) + "%")
 
         return errors
 

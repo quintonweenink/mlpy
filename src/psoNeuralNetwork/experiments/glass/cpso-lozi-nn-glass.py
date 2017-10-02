@@ -9,7 +9,7 @@ psonn = PSONN()
 dataSetTool = DataSetTool()
 psonn.training, psonn.testing = dataSetTool.getGlassDataSets('../../../dataSet/glass/glass.data')
 
-psonn.bounds = Bounds(-10, 10)
+psonn.bounds = Bounds(-5, 5)
 
 # Create neural network
 psonn.createNeuralNetwork([12])

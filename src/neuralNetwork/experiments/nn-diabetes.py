@@ -34,7 +34,7 @@ group_target = np.array([output[1] for output in training])
 
 errors = []
 
-for i in range(400):
+for i in range(20000):
     mod = i % len(training)
     in_out = training[mod]
     result = fnn.fire(group_training)
@@ -43,10 +43,8 @@ for i in range(400):
     #print("Error:" + str(fnn))
     error = np.mean(np.square(fnn.layers[len(fnn.layers) - 1].error))
     errors.append(error)
-    print(error)
-    print(fnn.layers[1].deltaWeights)
     # print(fnn.layers[len(fnn.layers)-2].deltaWeights)
-    if i % 13 == 0:
+    if i % 53 == 0:
         plt.scatter(i, abs(error), color='blue', s=4, label="test1")
         plt.pause(0.0001)
         plt.show()
