@@ -1,5 +1,7 @@
 import numpy as np
 
+from neuralNetwork.structure.activations
+
 class Layer(object):
     def __init__(self, bounds, size, prev, l_rate, bias = False, label = "Layer"):
         assert isinstance(size, int) and size > 0
@@ -37,13 +39,13 @@ class Layer(object):
         if self.prev != None:
             if self.prev.bias:
                 self.prev.result = self.addBias(self.prev.result)
-            self.result = self.nonlin(np.dot(self.prev.result, self.prev.syn))
+            self.result = activations.nonlin(np.dot(self.prev.result, self.prev.syn))
 
         return self.result
 
     def calculateOutputDelta(self, target):
         self.error = target - self.result
-        self.prev.deltaWeights = self.error * self.nonlin(self.result, deriv=True)
+        self.prev.deltaWeights = self.error * activations.nonlin(self.result, deriv=True)
         return self.error
 
     def backPropagate(self, delta):
@@ -51,7 +53,7 @@ class Layer(object):
             return self.calculateOutputDelta(delta)
         elif not self.prev == None:
             self.error = self.deltaWeights.dot(self.syn.T)
-            self.prev.deltaWeights = self.error * self.nonlin(self.result, deriv=True)
+            self.prev.deltaWeights = self.error * activations.nonlin(self.result, deriv=True)
             if self.bias:
                 self.prev.deltaWeights = self.removeBias(self.prev.deltaWeights)
             return self.error
@@ -83,20 +85,3 @@ class Layer(object):
                 for synapse in range(len(self.syn[0])):
                     self.syn[neuron][synapse] = weightsClone.pop(0)
         return weightsClone
-
-    def gradientDecent(self, target):
-        return 0.5 * sum((target - self.result) ** 2)
-
-    def nonlin(self, x, deriv=False):
-        if (deriv == True):
-            return x * (1 - x)
-
-        return 1 / (1 + np.exp(-x))
-
-    def hyperTan(self, x, deriv=False):
-        if x < -20.0:
-            return -1.0
-        elif x > 20.0:
-            return 1.0
-        else:
-            return x #math.Tanh(x)
