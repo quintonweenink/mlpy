@@ -16,6 +16,8 @@ class Particle(object):
         self.socialConstant = socialConstant
         self.bounds = bounds
 
+        self.neighbourhood = []
+
     def initPos(self, pos):
         self.num_dimensions = len(pos)
 
