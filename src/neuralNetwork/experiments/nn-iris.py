@@ -35,7 +35,7 @@ group_target = np.array([output[1] for output in training])
 
 errors = []
 
-for i in range(400):
+for i in range(8000):
     mod = i % len(training)
     in_out = training[mod]
     fnn.fire(group_training)

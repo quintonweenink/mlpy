@@ -16,12 +16,18 @@ class VNPSONN(object):
         self.pso = None
 
         self.bounds = None
+
         self.training = None
         self.testing = None
+
         self.num_particles = None
+
         self.inertia_weight = None
         self.cognitiveConstant = None
         self.socialConstant = None
+
+        self.vmax = None
+
         self.numberGenerator = None
 
         self.batch_training_input = None
@@ -127,7 +133,7 @@ class VNPSONN(object):
                             self.pso.best_error = particle.error
 
                     self.pso.swarm[i][j].update_velocity(neighbourhoodBestPos)
-                    self.pso.swarm[i][j].update_position()
+                    self.pso.swarm[i][j].update_position(self.vmax)
 
             if (x % 53 == 0):
                 plt.scatter(x, self.pso.best_error, color='blue', s=4, label="test1")

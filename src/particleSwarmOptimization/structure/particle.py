@@ -45,9 +45,10 @@ class Particle(object):
 
         return self.velocity
 
-    def update_position(self):
+    def update_position(self, vmax=None):
         # Clip the velocity so jumps are not too big Vmax
-        # self.velocity = np.clip(self.velocity, -1, 1)
+        if vmax != None:
+            self.velocity = np.clip(self.velocity, -vmax, vmax)
 
         # Update the position according to the velocity
         self.position = self.position + self.velocity

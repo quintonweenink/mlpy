@@ -16,12 +16,18 @@ class PSONN(object):
         self.pso = None
 
         self.bounds = None
+
         self.training = None
         self.testing = None
+
         self.num_particles = None
+
         self.inertia_weight = None
         self.cognitiveConstant = None
         self.socialConstant = None
+
+        self.vmax = None
+
         self.numberGenerator = None
 
         self.batch_training_input = None
@@ -97,7 +103,7 @@ class PSONN(object):
 
             for j in range(self.pso.num_particles):
                 self.pso.swarm[j].update_velocity(self.pso.group_best_position)
-                self.pso.swarm[j].update_position()
+                self.pso.swarm[j].update_position(self.vmax)
 
             if (i % 53 == 0):
                 plt.scatter(i, self.pso.best_error, color='blue', s=4, label="test1")
