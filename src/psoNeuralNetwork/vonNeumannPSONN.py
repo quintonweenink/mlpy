@@ -91,7 +91,10 @@ class VNPSONN(object):
         self.batch_training_input = np.array([input[0] for input in self.training])
         self.batch_training_target = np.array([output[1] for output in self.training])
 
-        errors = []
+        self.batch_generalization_input = np.array([input[0] for input in self.training])
+        self.batch_generalization_target = np.array([output[1] for output in self.training])
+
+        trainingErrors = []
 
         plt.grid(1)
         plt.xlabel('Iterations')
@@ -111,7 +114,6 @@ class VNPSONN(object):
                     result = self.nn.fire(np.array(self.batch_training_input))
                     difference = self.batch_training_target - result
                     error = np.mean(np.square(difference))
-                    errors.append(error)
 
                     self.pso.swarm[i][j].error = error
 
@@ -139,7 +141,8 @@ class VNPSONN(object):
                     self.pso.swarm[i][j].update_velocity(neighbourhoodBestPos)
                     self.pso.swarm[i][j].update_position(self.vmax)
 
-            if (x % 103 == 0):
+            if (x % 100 == 0):
+                trainingErrors.append([self.pso.best_error, x])
                 plt.scatter(x, self.pso.best_error, color=self.color, s=4, label="test1")
                 plt.pause(0.0001)
                 plt.show()
@@ -149,6 +152,10 @@ class VNPSONN(object):
         correct = 0
 
         self.nn.setAllWeights(self.pso.best_position)
+
+        result = self.nn.fire(np.array(self.batch_generalization_input))
+        difference = self.batch_generalization_target - result
+        generalizationError = np.mean(np.square(difference))
 
         for i in range(len(self.testing)):
             in_out = self.testing[i]
@@ -163,5 +170,5 @@ class VNPSONN(object):
 
         print("Classification accuracy: ", str(100 * (correct / len(self.testing))  ) + "%")
 
-        return errors
+        return trainingErrors, generalizationError
 
