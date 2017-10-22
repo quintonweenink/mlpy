@@ -15,9 +15,11 @@ psonn.bounds = Bounds(-5, 5)
 psonn.createNeuralNetwork([12])
 
 # Create the pso with the nn weights
-psonn.num_particles = 40
+psonn.num_particles = 36
 psonn.inertia_weight = 0.729
 psonn.cognitiveConstant = 1.4
 psonn.socialConstant = 0.6
+
+psonn.vmax = 0.1
 
 psonn.train()

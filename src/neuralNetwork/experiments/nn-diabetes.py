@@ -10,7 +10,7 @@ np.set_printoptions(suppress=True)
 
 dataSetTool = DataSetTool()
 fileName = '../../dataSet/pima-indians-diabetes/pima-indians-diabetes.data'
-training, testing = dataSetTool.getPrimaIndiansDiabetesSets(fileName)
+training, generalization, testing = dataSetTool.getPrimaIndiansDiabetesSets(fileName)
 
 plt.xlabel('Iterations')
 plt.ylabel('Error')
@@ -21,7 +21,7 @@ l_rate = 0.1
 bounds = Bounds(-1, 1)
 
 inputLayer = Layer(bounds, size = len(training[0][0]), prev = None, l_rate = l_rate, bias = True, label = "Input layer")
-hiddenLayer = Layer(bounds, size = 5, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+hiddenLayer = Layer(bounds, size = 20, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
 outputLayer = Layer(bounds, size = len(training[0][1]), prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
 
 fnn = NeuralNetwork()

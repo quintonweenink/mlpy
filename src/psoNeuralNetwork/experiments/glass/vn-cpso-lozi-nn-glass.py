@@ -15,12 +15,16 @@ psonn.bounds = Bounds(-5, 5)
 psonn.createNeuralNetwork([12])
 
 # Create the pso with the nn weights
-psonn.num_particles = 40
+psonn.num_particles_x = 5
+psonn.num_particles_y = 5
 
-psonn.inertia_weight = 0.729
-psonn.cognitiveConstant = 1.4
-psonn.socialConstant = 1.4
+psonn.inertia_weight = 0.729844
+psonn.cognitiveConstant = 1.496180
+psonn.socialConstant = 1.496180
 
-psonn.vmax = 0.1
+psonn.vmax = 0.01
+
+from numberGenerator.chaos.lozi import Lozi
+psonn.numberGenerator = Lozi()
 
 psonn.train()

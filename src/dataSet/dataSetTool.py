@@ -9,79 +9,50 @@ class DataSetTool(object):
     def getIrisDataSets(self, filePath):
         input = np.array(np.genfromtxt(filePath, delimiter=',', usecols=(0, 1, 2, 3)))
         outputClassification = np.array(np.genfromtxt(filePath, dtype=str, delimiter=',', usecols=4))
-        classifications = []
-        for item in outputClassification:
-            notInList = True
-            for classification in classifications:
-                if(classification == item):
-                    notInList = False
-            if notInList:
-                classifications.append(item)
-        output = []
-        for item in outputClassification:
-            target = []
-            for classification in classifications:
-                if item == classification:
-                    target.append(1)
-                else:
-                    target.append(0)
-            output.append(target)
-        output = np.array(output)
 
-        input = self.scaleInput(input)
-
-        input_target = []
-        for i in range(len(input)):
-            input_target.append((input[i], output[i]))
-        random.shuffle(input_target)
-        random.shuffle(input_target)
-        training = input_target[:int(len(input_target)/2)]
-        testing = input_target[int(len(input_target)/2):]
-
-        return training, testing
+        return self.prepairData(input, outputClassification)
 
     def getGlassDataSets(self, filePath):
         input = np.array(np.genfromtxt(filePath, delimiter=',', usecols=(1, 2, 3, 4, 5, 6, 7, 8, 9))) # I don't care about the ID
         outputClassification = np.array(np.genfromtxt(filePath, dtype=str, delimiter=',', usecols=10))
-        classifications = []
-        for item in outputClassification:
-            notInList = True
-            for classification in classifications:
-                if(classification == item):
-                    notInList = False
-            if notInList:
-                classifications.append(item)
-        output = []
-        for item in outputClassification:
-            target = []
-            for classification in classifications:
-                if item == classification:
-                    target.append(1)
-                else:
-                    target.append(0)
-            output.append(target)
-        output = np.array(output)
 
-        input = self.scaleInput(input)
-
-        input_target = []
-        for i in range(len(input)):
-            input_target.append((input[i], output[i]))
-        random.shuffle(input_target)
-        random.shuffle(input_target)
-        training = input_target[:int(len(input_target)/2)]
-        testing = input_target[int(len(input_target)/2):]
-
-        return training, testing
+        return self.prepairData(input, outputClassification)
 
     def getPrimaIndiansDiabetesSets(self, filePath):
-        input = np.array(np.genfromtxt(filePath, delimiter=',', usecols=(0, 1, 2, 3, 4, 5, 6, 7))) # I don't care about the ID
+        input = np.array(np.genfromtxt(filePath, delimiter=',', usecols=(0, 1, 2, 3, 4, 5, 6, 7)))
         outputClassification = np.array(np.genfromtxt(filePath, dtype=str, delimiter=',', usecols=8))
+
+        return self.prepairData(input, outputClassification)
+
+    def getHeartDataSets(self, filePath):
+        input = np.array(np.genfromtxt(filePath, delimiter=',', usecols=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)))
+        outputClassification = np.array(np.genfromtxt(filePath, dtype=str, delimiter=',', usecols=13))
+
+        return self.prepairData(input, outputClassification)
+
+    def getWineDataSets(self, filePath):
+        input = np.array(np.genfromtxt(filePath, delimiter=',', usecols=(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)))
+        outputClassification = np.array(np.genfromtxt(filePath, dtype=str, delimiter=',', usecols=0))
+
+        return self.prepairData(input, outputClassification)
+
+    def prepairData(self, input, outputClassification):
+        output, classifications = self.associateClassifications(input, outputClassification)
+        input = self.scaleInput(input)
+
+        input_target = self.associateInputAndOutput(input, output)
+
+        random.shuffle(input_target)
+        random.shuffle(input_target)
+
+        return self.devideUpData(input_target)
+
+    def associateClassifications(self, input, outputClassification):
         classifications = []
         for item in outputClassification:
             notInList = True
             for classification in classifications:
-                if(classification == item):
+                if (classification == item):
                     notInList = False
             if notInList:
                 classifications.append(item)
@@ -96,17 +67,22 @@ class DataSetTool(object):
             output.append(target)
         output = np.array(output)
 
-        input = self.scaleInput(input)
+        return output, classifications
 
+    def associateInputAndOutput(self, input, output):
         input_target = []
         for i in range(len(input)):
             input_target.append((input[i], output[i]))
-        random.shuffle(input_target)
-        random.shuffle(input_target)
-        training = input_target[:int(len(input_target)/2)]
-        testing = input_target[int(len(input_target)/2):]
+        return input_target
 
-        return training, testing
+    def devideUpData(self, data):
+        size = int(len(data) / 3)
+
+        training = data[:size]
+        generalization = data[size:size*2]
+        testing = data[size*2:]
+
+        return training, generalization, testing
 
     def scaleInput(self, input):
         max = np.amax(input, axis=0)

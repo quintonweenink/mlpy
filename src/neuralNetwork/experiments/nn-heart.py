@@ -9,7 +9,7 @@ from numberGenerator.bounds import Bounds
 np.set_printoptions(suppress=True)
 
 dataSetTool = DataSetTool()
-training, generalization, testing = dataSetTool.getGlassDataSets('../../dataSet/glass/glass.data')
+training, generalization, testing = dataSetTool.getHeartDataSets('../../dataSet/heart/processed.cleveland.data')
 
 plt.xlabel('Iterations')
 plt.ylabel('Error')
@@ -20,7 +20,7 @@ l_rate = 0.1
 bounds = Bounds(-2, 2)
 
 inputLayer = Layer(bounds, size = len(training[0][0]), prev = None, l_rate = l_rate, bias = True, label = "Input layer")
-hiddenLayer = Layer(bounds, size = 12, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
+hiddenLayer = Layer(bounds, size = 6, prev = inputLayer, l_rate = l_rate, bias = True, label = "Hidden layer")
 outputLayer = Layer(bounds, size = len(training[0][1]), prev = hiddenLayer, l_rate = l_rate, bias = False, label = "Output layer")
 
 fnn = NeuralNetwork()

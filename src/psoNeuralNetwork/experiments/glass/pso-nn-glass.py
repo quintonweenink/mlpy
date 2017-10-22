@@ -20,4 +20,6 @@ psonn.inertia_weight = 0.729
 psonn.cognitiveConstant = 1.4
 psonn.socialConstant = 1.4
 
+psonn.vmax = 0.01
+
 psonn.train()

@@ -18,9 +18,11 @@ class VNPSONN(object):
         self.bounds = None
 
         self.training = None
+        self.generalization = None
         self.testing = None
 
-        self.num_particles = None
+        self.num_particles_x = None
+        self.num_particles_y = None
 
         self.inertia_weight = None
         self.cognitiveConstant = None
@@ -32,6 +34,8 @@ class VNPSONN(object):
 
         self.batch_training_input = None
         self.batch_training_target = None
+
+        self.color = None
 
     def createNeuralNetwork(self, hiddenArr):
         l_rate = None
@@ -46,7 +50,7 @@ class VNPSONN(object):
         self.nn.appendLayer(Layer(self.bounds, size=len(self.training[0][1]), prev=prevLayer, l_rate=l_rate, bias=False, label="Output layer"))
 
     def train(self):
-        self.pso = PSO(self.bounds, self.num_particles, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
+        self.pso = PSO(self.bounds, self.num_particles_x * self.num_particles_y, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
 
         self.batch_training_input = np.array([input[0] for input in self.training])
         self.batch_training_target = np.array([output[1] for output in self.training])
@@ -55,33 +59,33 @@ class VNPSONN(object):
 
         # Create particles
         if isinstance(self.numberGenerator, CPRNG):
-            for i in range(self.pso.num_particles):
+            for i in range(self.num_particles_x):
                 row = []
-                for j in range(self.pso.num_particles):
+                for j in range(self.num_particles_y):
                     particle = ChaoticParticle(self.bounds, self.numberGenerator, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
                     particle.initPos((self.bounds.maxBound - self.bounds.minBound) * np.random.random(self.num_dimensions) + self.bounds.minBound)
                     row.append(particle)
 
                 self.pso.swarm.append(row)
         else:
-            for i in range(self.pso.num_particles):
+            for i in range(self.num_particles_x):
                 row = []
-                for j in range(self.pso.num_particles):
+                for j in range(self.num_particles_y):
                     particle = Particle(self.bounds, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
                     particle.initPos((self.bounds.maxBound - self.bounds.minBound) * np.random.random(self.num_dimensions) + self.bounds.minBound)
                     row.append(particle)
 
                 self.pso.swarm.append(row)
 
-        for i in range(self.pso.num_particles):
-            for j in range(self.pso.num_particles):
+        for i in range(self.num_particles_x):
+            for j in range(self.num_particles_y):
                 if i > 0:  # We can go west
                     self.pso.swarm[i][j].neighbourhood.append(self.pso.swarm[i - 1][j])
-                if i < self.pso.num_particles - 1:  # We can go east
+                if i < self.num_particles_x - 1:  # We can go east
                     self.pso.swarm[i][j].neighbourhood.append(self.pso.swarm[i + 1][j])
                 if j > 0:  # We can go north
                     self.pso.swarm[i][j].neighbourhood.append(self.pso.swarm[i][j - 1])
-                if j < self.pso.num_particles - 1:  # We can go south
+                if j < self.num_particles_y - 1:  # We can go south
                     self.pso.swarm[i][j].neighbourhood.append(self.pso.swarm[i][j + 1])
 
         self.batch_training_input = np.array([input[0] for input in self.training])
@@ -96,7 +100,7 @@ class VNPSONN(object):
         plt.ion()
 
         # Iterate over training data
-        for x in range(8000):
+        for x in range(5000):
 
             # Loop over particles
             for i, row in enumerate(self.pso.swarm):
@@ -117,8 +121,8 @@ class VNPSONN(object):
                     # Print results
                     # print(j, np.array(self.pso.swarm[j].error))
 
-            for i in range(self.pso.num_particles):
-                for j in range(self.pso.num_particles):
+            for i, row in enumerate(self.pso.swarm):
+                for j, col in enumerate(row):
                     particle = self.pso.swarm[i][j]
                     neighbourhoodBest = particle.error
                     neighbourhoodBestPos = particle.position
@@ -135,12 +139,12 @@ class VNPSONN(object):
                     self.pso.swarm[i][j].update_velocity(neighbourhoodBestPos)
                     self.pso.swarm[i][j].update_position(self.vmax)
 
-            if (x % 53 == 0):
-                plt.scatter(x, self.pso.best_error, color='blue', s=4, label="test1")
+            if (x % 103 == 0):
+                plt.scatter(x, self.pso.best_error, color=self.color, s=4, label="test1")
                 plt.pause(0.0001)
                 plt.show()
 
-                print("Current best error:\t" + str(self.pso.best_error) + "\n")
+                #print("Current best error:\t" + str(self.pso.best_error) + "\n")
 
         correct = 0
 
@@ -150,9 +154,9 @@ class VNPSONN(object):
             in_out = self.testing[i]
             result = self.nn.fire(np.array([in_out[0]]))
 
-            print(result)
-            print(in_out[1])
-            print()
+            #print(result)
+            #print(in_out[1])
+            #print()
 
             if np.argmax(result) == np.argmax(in_out[1]):
                 correct += 1
