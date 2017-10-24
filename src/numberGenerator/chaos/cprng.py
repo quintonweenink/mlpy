@@ -29,6 +29,12 @@ class CPRNG(NG):
             self.chaoticList[index] = self.getNext()
             index += 1
 
+        # Regenerate if list has inf or nan in it
+        if np.isnan(self.chaoticList).any() == True or np.isinf(self.chaoticList).any() == True:
+            self.x = random.uniform(0, 1)
+            self.y = random.uniform(0, 1)
+            self.generateChaoticData()
+
         max = np.max(self.chaoticList)
         min = np.min(self.chaoticList)
 
