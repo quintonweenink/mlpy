@@ -11,10 +11,6 @@ np.set_printoptions(suppress=True)
 dataSetTool = DataSetTool()
 training, generalization, testing = dataSetTool.getGlassDataSets('../../dataSet/glass/glass.data')
 
-plt.xlabel('Iterations')
-plt.ylabel('Error')
-plt.ion()
-
 l_rate = 0.1
 
 bounds = Bounds(-2, 2)
@@ -33,31 +29,19 @@ group_target = np.array([output[1] for output in training])
 
 errors = []
 
-for i in range(8000):
-    mod = i % len(training)
-    in_out = training[mod]
+for i in range(5000):
     result = fnn.fire(group_training)
     i_error = fnn.backPropagation(group_target)
 
     #print("Error:" + str(fnn))
-    error = fnn.getMSE()
-    errors.append(error)
-    print(error)
-    if i % 53 == 0:
-        plt.scatter(i, abs(error), color='blue', s=4, label="test1")
+    difference = group_target - result
+    fnn.error = np.mean(np.square(difference))
+
+    if i % 100 == 0:
+        errors.append(fnn.error)
+        plt.scatter(i, abs(fnn.error), color='blue', s=4, label="test1")
         plt.pause(0.0001)
         plt.show()
-
-
-plt.pause(5)
-
-plt.close()
-
-plt.grid(1)
-plt.xlabel('Iterations')
-plt.ylabel('Error')
-plt.ylim([0,1])
-plt.ion()
 
 correct = 0
 

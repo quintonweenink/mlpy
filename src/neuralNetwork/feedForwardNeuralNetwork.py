@@ -53,7 +53,7 @@ class NeuralNetwork(object):
         last = self.layers[len(self.layers) - 1]
         error = last.error
         outUnits = last.size
-        return np.sum(np.square(error)) / ( outUnits * len(error) )
+        return np.mean(np.square(difference))
 
     def __str__(self):
         res = ""

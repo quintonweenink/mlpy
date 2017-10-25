@@ -120,9 +120,6 @@ class VNPSONN(object):
                     # Get & set personal best
                     self.pso.swarm[i][j].getPersonalBest()
 
-                    # Print results
-                    # print(j, np.array(self.pso.swarm[j].error))
-
             for i, row in enumerate(self.pso.swarm):
                 for j, col in enumerate(row):
                     particle = self.pso.swarm[i][j]
@@ -147,8 +144,6 @@ class VNPSONN(object):
                 plt.pause(0.0001)
                 plt.show()
 
-                #print("Current best error:\t" + str(self.pso.best_error) + "\n")
-
         correct = 0
 
         self.nn.setAllWeights(self.pso.best_position)
@@ -160,10 +155,6 @@ class VNPSONN(object):
         for i in range(len(self.testing)):
             in_out = self.testing[i]
             result = self.nn.fire(np.array([in_out[0]]))
-
-            #print(result)
-            #print(in_out[1])
-            #print()
 
             if np.argmax(result) == np.argmax(in_out[1]):
                 correct += 1
