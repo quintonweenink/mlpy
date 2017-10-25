@@ -12,7 +12,16 @@ class Tinkerbell(CPRNG):
         self._B = b
         self._C = c
         self._D = d
-        super(Tinkerbell, self).__init__()
+
+        self.x = -random.uniform(0.01, 0.1)
+        self.y = random.uniform(0, 0.1)
+        self.reevaluation = 0
+        self.listLen = 5000
+        self.chaoticList = np.zeros((self.listLen, 2))
+
+        self.pos = 0
+
+        self.generateChaoticData()
 
     def getNext(self):
         xn = math.pow(self.x, 2) - math.pow(self.y, 2) + (self._A * self.x) + (self._B * self.y)
@@ -20,9 +29,5 @@ class Tinkerbell(CPRNG):
 
         self.x = xn
         self.y = yn
-
-        if xn < 1000 or xn > 1000 or yn < 1000 or yn > 1000:
-            self.x = random.uniform(0, 1)
-            self.y = random.uniform(0, 1)
 
         return np.array([self.x, self.y])
