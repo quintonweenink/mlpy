@@ -78,11 +78,11 @@ class DataSetTool(object):
     def devideUpData(self, data):
         size = int(len(data) / 3)
 
-        training = data[:size]
-        generalization = data[size:size*2]
-        testing = data[size*2:]
+        training = data[:size*2]
+        testing = None
+        generalization = data[size*2:]
 
-        return training, generalization, testing
+        return training, testing, generalization
 
     def scaleInput(self, input):
         max = np.amax(input, axis=0)

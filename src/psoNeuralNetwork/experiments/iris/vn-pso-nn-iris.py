@@ -19,7 +19,7 @@ pso_generalization_error = []
 
 iterations = 10
 
-V_MAX = 0.005
+V_MAX = None
 
 print('Tinkerbell:')
 for _ in range(iterations):
