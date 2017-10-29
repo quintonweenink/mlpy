@@ -22,7 +22,7 @@ pso_error = []
 pso_generalization_error = []
 
 iterations = 5000
-samples = 15
+samples = 30
 
 NUM_PARTICLES_Y = 5
 NUM_PARTICLES_X = 5
