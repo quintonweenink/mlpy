@@ -29,7 +29,7 @@ NUM_PARTICLES_X = 5
 INERTIA_WEIGHT = 0.729844
 COGNITIVE_CONSTANT = 1.496180
 SOCIAL_CONSTANT = 1.496180
-BOUNDS = Bounds(-5, 5)
+BOUNDS = Bounds(-2, 2)
 
 DESC = 'Glass'
 DATA_SET_FUNC = dataSetTool.getGlassDataSets
@@ -58,13 +58,14 @@ HIDDEN_LAYER_NEURONS = [12]
 
 
 # None, 1, 0.1, 0.01
-V_MAX = 0.01
+V_MAX = None
 
 dataSetArray = []
 for _ in range(iterations):
     dataSetArray.append(DATA_SET_FUNC(DATA_SET_FILE_LOC))
 
 print('Vmax: ', V_MAX)
+print('Data Set: ', DESC)
 print('Tinkerbell:')
 for i in range(samples):
     psonn = VNPSONN()
@@ -233,9 +234,9 @@ print(cpso_tinkerbell_generalization_factor_std)
 print('- Lozi:')
 print('E_T:')
 print('Mean squared error: ')
-print(cpso_tinkerbell_error_mean)
+print(cpso_lozi_error_mean)
 print('Standard deviation: ')
-print(cpso_tinkerbell_error_std)
+print(cpso_lozi_error_std)
 print('E_G:')
 print('Mean squared error: ')
 print(cpso_lozi_generalization_error_mean)
@@ -250,9 +251,9 @@ print(cpso_lozi_generalization_factor_std)
 print('- Dissipative:')
 print('E_T:')
 print('Mean squared error: ')
-print(cpso_tinkerbell_error_mean)
+print(cpso_dissipative_error_mean)
 print('Standard deviation: ')
-print(cpso_tinkerbell_error_std)
+print(cpso_dissipative_error_std)
 print('E_G:')
 print('Mean squared error: ')
 print(cpso_dissipative_generalization_error_mean)
@@ -267,9 +268,9 @@ print(cpso_dissipative_generalization_factor_std)
 print('- Random:')
 print('E_T:')
 print('Mean squared error: ')
-print(cpso_tinkerbell_error_mean)
+print(pso_error_mean)
 print('Standard deviation: ')
-print(cpso_tinkerbell_error_std)
+print(pso_error_std)
 print('E_G:')
 print('Mean squared error: ')
 print(pso_generalization_error_mean)

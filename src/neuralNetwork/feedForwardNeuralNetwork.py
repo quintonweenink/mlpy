@@ -48,13 +48,6 @@ class NeuralNetwork(object):
         for layer in self.layers:
             weights = layer.setWeights(weights)
 
-    # Used for PSO NN training
-    def getMSE(self):
-        last = self.layers[len(self.layers) - 1]
-        error = last.error
-        outUnits = last.size
-        return np.mean(np.square(difference))
-
     def __str__(self):
         res = ""
         for layer in self.layers:
