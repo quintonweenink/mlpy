@@ -29,12 +29,12 @@ NUM_PARTICLES_X = 5
 INERTIA_WEIGHT = 0.729844
 COGNITIVE_CONSTANT = 1.496180
 SOCIAL_CONSTANT = 1.496180
-BOUNDS = Bounds(-2, 2)
+BOUNDS = Bounds(-5, 5)
 
-DESC = 'Glass'
-DATA_SET_FUNC = dataSetTool.getGlassDataSets
-DATA_SET_FILE_LOC = '../../../dataSet/glass/glass.data'
-HIDDEN_LAYER_NEURONS = [12]
+# DESC = 'Glass'
+# DATA_SET_FUNC = dataSetTool.getGlassDataSets
+# DATA_SET_FILE_LOC = '../../../dataSet/glass/glass.data'
+# HIDDEN_LAYER_NEURONS = [12]
 
 # DESC = 'Iris'
 # DATA_SET_FUNC = dataSetTool.getIrisDataSets
@@ -51,14 +51,14 @@ HIDDEN_LAYER_NEURONS = [12]
 # DATA_SET_FILE_LOC = '../../../dataSet/pima-indians-diabetes/pima-indians-diabetes.data'
 # HIDDEN_LAYER_NEURONS = [20]
 
-# DESC = 'Heart'
-# DATA_SET_FUNC = dataSetTool.getHeartDataSets
-# DATA_SET_FILE_LOC = '../../../dataSet/heart/processed.cleveland.data'
-# HIDDEN_LAYER_NEURONS = [10]
+DESC = 'Heart'
+DATA_SET_FUNC = dataSetTool.getHeartDataSets
+DATA_SET_FILE_LOC = '../../../dataSet/heart/processed.cleveland.data'
+HIDDEN_LAYER_NEURONS = [10]
 
 
-# None, 1, 0.1, 0.01
-V_MAX = None
+# None, 0.1
+V_MAX = 0.1
 
 dataSetArray = []
 for _ in range(iterations):
@@ -210,7 +210,6 @@ pso_generalization_error_mean = np.mean(pso_generalization_error)
 pso_generalization_error_std = np.std(pso_generalization_error)
 
 pso_generalization_factor = np.divide(pso_generalization_error, pso_error)
-print(pso_generalization_factor)
 pso_generalization_factor_mean = np.mean(pso_generalization_factor)
 pso_generalization_factor_std = np.std(pso_generalization_factor)
 

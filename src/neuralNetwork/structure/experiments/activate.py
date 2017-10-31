@@ -2,11 +2,13 @@ import matplotlib.pyplot as plt
 import neuralNetwork.structure.activations as activations
 
 
-y = -6
+y = -5
 arry = []
 arrx = []
 
-while y <= 6:
+print(activations.nonlin(-5))
+
+while y <= 5:
     arry.append(y)
     arrx.append(activations.nonlin(y))
     y += 0.01
