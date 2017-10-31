@@ -9,9 +9,9 @@ from numberGenerator.bounds import Bounds
 np.set_printoptions(suppress=True)
 
 dataSetTool = DataSetTool()
-training, generalization, testing = dataSetTool.getGlassDataSets('../../dataSet/glass/glass.data')
+training, testing, generalization= dataSetTool.getGlassDataSets('../../dataSet/glass/glass.data')
 
-l_rate = 0.1
+l_rate = 0.01
 
 bounds = Bounds(-2, 2)
 
@@ -29,11 +29,16 @@ group_target = np.array([output[1] for output in training])
 
 errors = []
 
+plt.grid(1)
+plt.xlabel('Iterations')
+plt.ylabel('Error')
+plt.ylim([0, 1])
+plt.ion()
+
 for i in range(5000):
     result = fnn.fire(group_training)
     i_error = fnn.backPropagation(group_target)
 
-    #print("Error:" + str(fnn))
     difference = group_target - result
     fnn.error = np.mean(np.square(difference))
 
@@ -45,17 +50,14 @@ for i in range(5000):
 
 correct = 0
 
-for i in range(len(testing)):
-    in_out = testing[i]
+for i in range(len(generalization)):
+    in_out = generalization[i]
     result = fnn.fire(np.array([in_out[0]]))
-
-    print(result)
-    print(in_out[1])
-    print()
 
     if np.argmax(result) == np.argmax(in_out[1]):
         correct += 1
 
 
-print("Classification error: ", str(correct/len(testing)) + "%")
+print("Classification accuracy: ")
+print(str(correct/len(generalization)) + "%")
 

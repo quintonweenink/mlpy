@@ -3,7 +3,7 @@ import numpy as np
 import neuralNetwork.structure.activations as activations
 
 class Layer(object):
-    def __init__(self, bounds, size, prev, l_rate, bias = False, label = "Layer"):
+    def __init__(self, bounds, size, prev, l_rate = 1, bias = False, label = "Layer"):
         assert isinstance(size, int) and size > 0
         assert isinstance(prev, Layer) or prev == None
         assert isinstance(bias, bool)
