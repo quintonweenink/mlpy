@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from psoNeuralNetwork.vonNeumannPSONN import VNPSONN
+from psoNeuralNetwork.psonn import PSONN
 from dataSetTool import DataSetTool
 from numberGenerator.bounds import Bounds
 
@@ -22,19 +22,18 @@ pso_error = []
 pso_generalization_error = []
 
 iterations = 5000
-samples = 30
+samples = 15
 
-NUM_PARTICLES_Y = 5
-NUM_PARTICLES_X = 5
+NUM_PARTICLES = 25
 INERTIA_WEIGHT = 0.729844
 COGNITIVE_CONSTANT = 1.496180
 SOCIAL_CONSTANT = 1.496180
 BOUNDS = Bounds(-5, 5)
 
-# DESC = 'Glass'
-# DATA_SET_FUNC = dataSetTool.getGlassDataSets
-# DATA_SET_FILE_LOC = '../../dataSet/glass/glass.data'
-# HIDDEN_LAYER_NEURONS = [12]
+DESC = 'Glass'
+DATA_SET_FUNC = dataSetTool.getGlassDataSets
+DATA_SET_FILE_LOC = '../../dataSet/glass/glass.data'
+HIDDEN_LAYER_NEURONS = [12]
 
 # DESC = 'Iris'
 # DATA_SET_FUNC = dataSetTool.getIrisDataSets
@@ -51,14 +50,14 @@ BOUNDS = Bounds(-5, 5)
 # DATA_SET_FILE_LOC = '../../dataSet/pima-indians-diabetes/pima-indians-diabetes.data'
 # HIDDEN_LAYER_NEURONS = [20]
 
-DESC = 'Heart'
-DATA_SET_FUNC = dataSetTool.getHeartDataSets
-DATA_SET_FILE_LOC = '../../dataSet/heart/processed.cleveland.data'
-HIDDEN_LAYER_NEURONS = [10]
+# DESC = 'Heart'
+# DATA_SET_FUNC = dataSetTool.getHeartDataSets
+# DATA_SET_FILE_LOC = '../../dataSet/heart/processed.cleveland.data'
+# HIDDEN_LAYER_NEURONS = [10]
 
 
 # None, 0.1
-V_MAX = 0.1
+V_MAX = None
 
 dataSetArray = []
 for _ in range(iterations):
@@ -68,12 +67,11 @@ print('Vmax: ', V_MAX)
 print('Data Set: ', DESC)
 print('Tinkerbell:')
 for i in range(samples):
-    psonn = VNPSONN()
+    psonn = PSONN()
     psonn.training, psonn.testing, psonn.generalization = dataSetArray[i]
     psonn.bounds = BOUNDS
     psonn.createNeuralNetwork(HIDDEN_LAYER_NEURONS)
-    psonn.num_particles_x = NUM_PARTICLES_X
-    psonn.num_particles_y = NUM_PARTICLES_Y
+    psonn.num_particles = NUM_PARTICLES
     psonn.inertia_weight = INERTIA_WEIGHT
     psonn.cognitiveConstant = COGNITIVE_CONSTANT
     psonn.socialConstant = SOCIAL_CONSTANT
@@ -91,12 +89,11 @@ for i in range(samples):
 
 print('Lozi:')
 for i in range(samples):
-    psonn = VNPSONN()
+    psonn = PSONN()
     psonn.training, psonn.testing, psonn.generalization = dataSetArray[i]
     psonn.bounds = BOUNDS
     psonn.createNeuralNetwork(HIDDEN_LAYER_NEURONS)
-    psonn.num_particles_x = NUM_PARTICLES_X
-    psonn.num_particles_y = NUM_PARTICLES_Y
+    psonn.num_particles = NUM_PARTICLES
     psonn.inertia_weight = INERTIA_WEIGHT
     psonn.cognitiveConstant = COGNITIVE_CONSTANT
     psonn.socialConstant = SOCIAL_CONSTANT
@@ -114,12 +111,11 @@ for i in range(samples):
 
 print('Dissipative:')
 for i in range(samples):
-    psonn = VNPSONN()
+    psonn = PSONN()
     psonn.training, psonn.testing, psonn.generalization = dataSetArray[i]
     psonn.bounds = BOUNDS
     psonn.createNeuralNetwork(HIDDEN_LAYER_NEURONS)
-    psonn.num_particles_x = NUM_PARTICLES_X
-    psonn.num_particles_y = NUM_PARTICLES_Y
+    psonn.num_particles = NUM_PARTICLES
     psonn.inertia_weight = INERTIA_WEIGHT
     psonn.cognitiveConstant = COGNITIVE_CONSTANT
     psonn.socialConstant = SOCIAL_CONSTANT
@@ -137,12 +133,11 @@ for i in range(samples):
 
 print('Random:')
 for i in range(samples):
-    psonn = VNPSONN()
+    psonn = PSONN()
     psonn.training, psonn.testing, psonn.generalization = dataSetArray[i]
     psonn.bounds = BOUNDS
     psonn.createNeuralNetwork(HIDDEN_LAYER_NEURONS)
-    psonn.num_particles_x = NUM_PARTICLES_X
-    psonn.num_particles_y = NUM_PARTICLES_Y
+    psonn.num_particles = NUM_PARTICLES
     psonn.inertia_weight = INERTIA_WEIGHT
     psonn.cognitiveConstant = COGNITIVE_CONSTANT
     psonn.socialConstant = SOCIAL_CONSTANT
