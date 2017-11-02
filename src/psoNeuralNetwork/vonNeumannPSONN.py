@@ -59,6 +59,7 @@ class VNPSONN(object):
         self.batch_generalization_target = np.array([output[1] for output in self.generalization])
 
         self.num_dimensions = len(self.nn.getAllWeights())
+        print('Dimensions', self.num_dimensions)
 
         # Create particles
         if isinstance(self.numberGenerator, CPRNG):
