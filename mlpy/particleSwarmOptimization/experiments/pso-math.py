@@ -2,15 +2,15 @@ import numpy as np
 import math
 
 from bounds import Bounds
-from src.particleSwarmOptimization.pso import PSO
-from src.particleSwarmOptimization.structure.particle import Particle
+from mlpy.particleSwarmOptimization.pso import PSO
+from mlpy.particleSwarmOptimization.structure.particle import Particle
 
 np.set_printoptions(suppress=True)
 
 errors = []
 bounds = Bounds(-10, 10)
 
-# Create the pso with the nn weights
+# Create the mlpy with the nn weights
 num_particles = 50
 inertia_weight = 0.729
 cognitiveConstant = 1.49

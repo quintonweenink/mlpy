@@ -106,7 +106,7 @@ class VNPSONN(object):
             # Loop over particles
             for i, row in enumerate(self.pso.swarm):
                 for j, col in enumerate(row):
-                    # Set weights according to pso particle
+                    # Set weights according to mlpy particle
                     self.nn.setAllWeights(self.pso.swarm[i][j].position)
 
                     result = self.nn.fire(np.array(self.batch_training_input))
