@@ -1,6 +1,3 @@
-import random
-import numpy as np
-
 from numberGenerator.chaos.cprng import CPRNG
 
 class Lozi(CPRNG):
@@ -17,4 +14,4 @@ class Lozi(CPRNG):
         self.x = xn
         self.y = yn
 
-        return np.array([self.x, self.y])
+        return [self.x, self.y]

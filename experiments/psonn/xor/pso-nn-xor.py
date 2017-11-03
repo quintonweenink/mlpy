@@ -1,7 +1,7 @@
 import numpy as np
 
-from psoNeuralNetwork.psonn import PSONN
 from dataSetTool import DataSetTool
+from experiments.psonn import PSONN
 from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
 from neuralNetwork.structure.layer import Layer
 from numberGenerator.bounds import Bounds

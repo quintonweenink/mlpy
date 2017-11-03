@@ -1,12 +1,12 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-from numberGenerator.chaos.cprng import CPRNG
-from particleSwarmOptimization.pso import PSO
-from particleSwarmOptimization.structure.particle import Particle
-from particleSwarmOptimization.structure.chaoticParticle import ChaoticParticle
-from neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
-from neuralNetwork.structure.layer import Layer
+from mlpy.numberGenerator.chaos.cprng import CPRNG
+from mlpy.particleSwarmOptimization.pso import PSO
+from mlpy.neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
+from mlpy.neuralNetwork.structure.layer import Layer
+from mlpy.particleSwarmOptimization.structure.chaoticParticle import ChaoticParticle
+from mlpy.particleSwarmOptimization.structure.particle import Particle
 
 np.set_printoptions(suppress=True)
 
@@ -16,6 +16,7 @@ class PSONN(object):
         self.pso = None
 
         self.bounds = None
+        self.initialPosition = None
 
         self.training = None
         self.generalization = None
@@ -33,6 +34,8 @@ class PSONN(object):
 
         self.batch_training_input = None
         self.batch_training_target = None
+
+        self.color = None
 
     def createNeuralNetwork(self, hiddenArr):
         l_rate = None
@@ -56,18 +59,22 @@ class PSONN(object):
         self.batch_generalization_target = np.array([output[1] for output in self.generalization])
 
         self.num_dimensions = len(self.nn.getAllWeights())
-        print('Dimensions', self.num_dimensions)
+        #print('Dimensions', self.num_dimensions)
 
         # Create particles
         if isinstance(self.numberGenerator, CPRNG):
             for i in range(self.pso.num_particles):
                 self.pso.swarm.append(ChaoticParticle(self.bounds, self.numberGenerator, self.inertia_weight, self.cognitiveConstant, self.socialConstant))
-                self.pso.swarm[i].initPos((self.bounds.maxBound - self.bounds.minBound) * np.random.random(self.num_dimensions) + self.bounds.minBound)
+                position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(self.num_dimensions) + self.initialPosition.minBound
+                velocity = np.zeros(self.num_dimensions)
+                self.pso.swarm[i].initPos(position, velocity)
 
         else:
             for i in range(self.pso.num_particles):
                 self.pso.swarm.append(Particle(self.bounds, self.inertia_weight, self.cognitiveConstant, self.socialConstant))
-                self.pso.swarm[i].initPos((self.bounds.maxBound - self.bounds.minBound) * np.random.random(self.num_dimensions) + self.bounds.minBound)
+                position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(self.num_dimensions) + self.initialPosition.minBound
+                velocity = np.zeros(self.num_dimensions)
+                self.pso.swarm[i].initPos(position, velocity)
 
         trainingErrors = []
 
@@ -127,7 +134,6 @@ class PSONN(object):
             if np.argmax(result) == np.argmax(in_out[1]):
                 correct += 1
 
-        print("Classification accuracy: ")
         print(str(correct / len(self.generalization)))
 
         return trainingErrors, trainingError, generalizationError

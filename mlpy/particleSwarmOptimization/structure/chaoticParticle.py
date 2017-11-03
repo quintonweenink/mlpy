@@ -1,7 +1,6 @@
-import numpy as np
+from mlpy.numberGenerator.chaos.cprng import CPRNG
+from mlpy.particleSwarmOptimization.structure.particle import Particle
 
-from particleSwarmOptimization.structure.particle import Particle
-from numberGenerator.chaos.cprng import CPRNG
 
 class ChaoticParticle(Particle):
 

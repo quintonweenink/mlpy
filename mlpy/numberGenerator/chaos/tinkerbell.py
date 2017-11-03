@@ -1,9 +1,9 @@
-import random
-import numpy as np
 import math
+import random
+
+import numpy as np
 
 from numberGenerator.chaos.cprng import CPRNG
-
 
 class Tinkerbell(CPRNG):
 

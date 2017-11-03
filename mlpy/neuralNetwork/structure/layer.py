@@ -1,6 +1,6 @@
 import numpy as np
 
-import neuralNetwork.structure.activations as activations
+import mlpy.neuralNetwork.structure.activations as activations
 
 class Layer(object):
     def __init__(self, bounds, size, prev, l_rate = 1, bias = False, label = "Layer"):

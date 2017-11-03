@@ -1,5 +1,4 @@
 import math
-import numpy as np
 
 from numberGenerator.chaos.cprng import CPRNG
 
@@ -21,4 +20,4 @@ class Dissipative(CPRNG):
         self.x = xn
         self.y = yn
 
-        return np.array([self.x, self.y])
+        return [self.x, self.y]

@@ -18,14 +18,11 @@ class Particle(object):
 
         self.neighbourhood = []
 
-    def initPos(self, pos):
-        self.num_dimensions = len(pos)
+    def initPos(self, position, velocity):
+        self.num_dimensions = len(position)
 
-        lo = 0.1 * self.bounds.minBound
-        hi = 0.1 * self.bounds.maxBound
-
-        self.velocity = (hi - lo) * np.random.random(self.num_dimensions) + lo
-        self.position = np.array(pos)
+        self.position = np.array(position)
+        self.velocity = np.array(velocity)
 
     def getPersonalBest(self):
         if abs(self.error) < abs(self.best_error):

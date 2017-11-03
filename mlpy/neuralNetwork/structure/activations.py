@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 def gradientDecent(target):
     return 0.5 * sum((target - self.result) ** 2)

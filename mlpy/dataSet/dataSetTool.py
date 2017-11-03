@@ -61,9 +61,9 @@ class DataSetTool(object):
             target = []
             for classification in classifications:
                 if item == classification:
-                    target.append(1)
+                    target.append(0.9)
                 else:
-                    target.append(0)
+                    target.append(0.1)
             output.append(target)
         output = np.array(output)
 
@@ -87,4 +87,4 @@ class DataSetTool(object):
     def scaleInput(self, input):
         max = np.amax(input, axis=0)
         min = np.amin(input, axis=0)
-        return (input - min) / (max - min)
+        return (((input - min) / (max - min)) * 2) - 1

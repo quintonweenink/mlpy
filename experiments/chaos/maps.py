@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
-from chaos.lozi import Lozi
-from chaos.dissipative import Dissipative
-from chaos.tinkerbell import Tinkerbell
+
+from chaos import Dissipative
+from chaos import Lozi
+from chaos import Tinkerbell
 
 cprng = Tinkerbell()
 

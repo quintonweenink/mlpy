@@ -1,8 +1,9 @@
-import numpy as np
 import math
 
+import numpy as np
+
 from bounds import Bounds
-from mlpy.particleSwarmOptimization.pso import PSO
+from experiments.pso import PSO
 from mlpy.particleSwarmOptimization.structure.particle import Particle
 
 np.set_printoptions(suppress=True)
