@@ -2129,8 +2129,8 @@ FUNCTION {misc}
   format.address "address" bibinfo.check output
   format.pages output
   format.date output
-  format.note output
   format.url output
+  format.note output
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing

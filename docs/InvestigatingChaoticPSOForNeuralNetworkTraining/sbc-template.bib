@@ -31,6 +31,14 @@
   url       = {http://www.sciencedirect.com/science/article/pii/S2210650215000838},
 }
 
+@misc{uci:mlr,
+  author    = {M. Lichman},
+  year      = {2013},
+  title     = {{UCI} Machine Learning Repository},
+  url       = {http://archive.ics.uci.edu/ml},
+  institution = {University of California, Irvine, School of Information and Computer Sciences},
+}
+
 @Article{pluhacek:pso-mutichaotic-ng,
   author    = {Michal Pluhacek and Roman Senkerik and Ivan Zelinka},
   title     = {Particle swarm optimization algorithm driven by multichaotic number generator},
@@ -41,6 +49,19 @@
   pages     = {631–639},
   abstract  = {In this paper, the utilization of different chaotic systems as pseudo-random number generators (PRNGs) for velocity calculation in the PSO algorithm are proposed. Two chaos-based PRNGs are used alternately within one run of the PSO algorithm and dynamically switched over when a certain criterion is met. By using this unique technique, it is possible to improve the performance of PSO algorithm as it is demonstrated on different benchmark functions.},
   publisher = {Springer International Publishing},
+  url       = {https://link.springer.com/article/10.1007/s00500-014-1222-z},
+}
+
+@Article{kennedy:pso,
+  author    = {J Kennedy and R C Eberhart},
+  title     = {Particle swarm optimization},
+  journal   = {Micro Machine and Human Science},
+  year      = {1995},
+  volume    = {5},
+  number    = {500},
+  pages     = {39–43},
+  abstract  = {In this paper, the utilization of different chaotic systems as pseudo-random number generators (PRNGs) for velocity calculation in the PSO algorithm are proposed. Two chaos-based PRNGs are used alternately within one run of the PSO algorithm and dynamically switched over when a certain criterion is met. By using this unique technique, it is possible to improve the performance of PSO algorithm as it is demonstrated on different benchmark functions.},
+  publisher = {Proceedings of the Sixth International Symposium},
   url       = {https://link.springer.com/article/10.1007/s00500-014-1222-z},
 }
 
@@ -56,15 +77,6 @@
   booktitle = {Nostradamus 2014: Prediction, Modeling and Analysis of Complex Systems},
   file      = {Tuning the Lozi Map in Chaos Driven PSO Inspired by the Multi-chaotic Approach:/home/qweenink/Dropbox/uni/cos700/Research/PapersToRead/p2/04.Pluhacek_NOSTR_2014_2_rev1_TuningLoziMapChaosPSOInsMulti-chaoticApp.pdf:PDF},
   keywords  = {anna, Particle swarm optimization, chaos, Lozi map, PSO, Evolutionary algorithm, rank4},
-  review    = {CPRNG not weight and inerita
-
-editor    = {Ivan Zelinka, Ponnuthurai Nagaratnam Suganthan, Guanrong Chen, Vaclav Snasel, Ajith Abraham, Otto Rössler},
-
-Lozi map
-
-Tuned Lozi map (Pluhacek)},
-  timestamp = {2017-03-17},
-  url       = {https://link.springer.com/chapter/10.1007/978-3-319-07401-6_8},
 }
 
 @Conference{vanwyk:overfitting-psoffnn,
@@ -143,11 +155,6 @@ Tuned Lozi map (Pluhacek)},
   abstract     = {In this study the Particle Swarm Optimization (PSO) algorithm with two simultaneously used chaotic pseudo-random number generators (CPRNG) is investigated. The swarm is divided into two same-size sub-swarms of particles. Each sub-swarm is driven by different CPRNG. Six different chaotic systems are tested in various combinations. The results of proposed algorithm on IEEE CEC ́13 Real-Parameter Single Objective Optimization benchmark set are presented and compared with the best performing PSO based algorithm in the competition.},
   file         = {Multi-swarm aproach for chaotic PSO algorithm - An initial study:/home/qweenink/Dropbox/uni/cos700/Research/PapersToRead/p2/03.pluhacek_Mendel_2014_revised_Multi-SwarmAproachChaoricPSOAlg.pdf:PDF},
   keywords     = {anna, Chaos, Multi-swarm, Optimization, Particle Swarm, PSO, rank4},
-  review       = {Great paper on the use of different CPS swarms in the same PSO. And the results there of.
-
-This one uses a CPRNG not the inertia and weight method},
-  timestamp    = {2017-03-17},
-  url          = {https://publikace.k.utb.cz/handle/10563/1005274},
 }
 
 @Article{pluhacek:cpso-iw,
@@ -162,38 +169,6 @@ This one uses a CPRNG not the inertia and weight method},
   abstract  = {In this paper, the utilization of chaos pseudorandom number generators based on three different chaotic maps to alter the behavior and overall performance of PSO algorithm is proposed. This paper presents results of testing the performance and behavior of the proposed algorithm on typical benchmark functions that represent unimodal and multimodal problems. The promising results are analyzed and discussed.},
   file      = {On the behavior and performance of chaos driven PSO algorithm with inertia weight:/home/qweenink/Dropbox/uni/cos700/Research/PapersToRead/p2/01.pluhacek_CAMWA_2012_behavior&performaceChaosDrivenPSOwithInertiaWeight.pdf:PDF},
   keywords  = {anna, rank4, Evolutionary algorithms, Particle swarm Optimization, PSO, Swarm intelligence, Chaos},
-  review    = {Extends previous research on CPSO by observing the behaviour of the PSO in terms of convergence speed and premature convergince risk
-
-Not infulencing the PR
-
-number       = {2014},
-
-Improved  local search capability of PSO inertia weigh selections strategy is utilized
-> Modifications were applied to original
-> Defaults of all PSO parameters were chosen according to the recommmendations given
-> Inertia weight (w) designed to influence velocity, initial weight is minimal
-
-   v(t + 1) = w * v(t) + c1 * Rand * (pBest -(t)) + c2 * Rand * (gBest - x(t))
-
-Utilization of Chaos pseudorandom number gererators on three chaotic maps:
-> Dessipative standard map
-> Lozi map
-> Arnold's Cat map
-
-Test Functions:
-> First De Jong
-> Second De Jong
-> Rasteregin
-> Schwefel
-
-Experiments:
-
-
-Typical benchmark functions:
-> unimodal
-> multimodal
-
-Chaos dirven evolutionary algorithms seem to be a promissing area of research with many open questions still to answer},
   timestamp = {2017-03-14},
   url       = {http://www.sciencedirect.com/science/article/pii/S0898122113000333},
 }
