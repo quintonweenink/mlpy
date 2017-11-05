@@ -3,7 +3,7 @@ import abc
 import six
 import numpy as np
 
-from numberGenerator.ng import NG
+from mlpy.numberGenerator.ng import NG
 
 @six.add_metaclass(abc.ABCMeta)
 class CPRNG(NG):

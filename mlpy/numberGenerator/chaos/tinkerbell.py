@@ -3,7 +3,7 @@ import random
 
 import numpy as np
 
-from numberGenerator.chaos.cprng import CPRNG
+from mlpy.numberGenerator.chaos.cprng import CPRNG
 
 class Tinkerbell(CPRNG):
 

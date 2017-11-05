@@ -1,6 +1,6 @@
 import math
 
-from numberGenerator.chaos.cprng import CPRNG
+from mlpy.numberGenerator.chaos.cprng import CPRNG
 
 class Dissipative(CPRNG):
 
