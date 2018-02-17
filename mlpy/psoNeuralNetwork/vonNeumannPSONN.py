@@ -1,91 +1,31 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
-from mlpy.numberGenerator.chaos.cprng import CPRNG
-from mlpy.particleSwarmOptimization.pso import PSO
-from mlpy.neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
-from mlpy.neuralNetwork.structure.layer import Layer
-from mlpy.particleSwarmOptimization.structure.chaoticParticle import ChaoticParticle
 from mlpy.particleSwarmOptimization.structure.particle import Particle
 
-np.set_printoptions(suppress=True)
+from mlpy.psoNeuralNetwork.psonn import PSONN
 
-class VNPSONN(object):
+class VNPSONN(PSONN):
     def __init__(self):
-        self.nn = None
-        self.pso = None
-
-        self.bounds = None
-        self.initialPosition = None
-
-        self.training = None
-        self.generalization = None
-        self.testing = None
+        super(VNPSONN, self).__init__()
 
         self.num_particles_x = None
         self.num_particles_y = None
 
-        self.inertia_weight = None
-        self.cognitiveConstant = None
-        self.socialConstant = None
+    def createParticles(self):
+        for i in range(self.num_particles_x):
+            row = []
+            for j in range(self.num_particles_y):
+                particle = Particle(self.bounds, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
+                position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(self.num_dimensions) + self.initialPosition.minBound
+                velocity = np.zeros(self.num_dimensions)
+                particle.initPos(position, velocity)
+                row.append(particle)
 
-        self.vmax = None
+            self.pso.swarm.append(row)
 
-        self.numberGenerator = None
+        self.linkParticles()
 
-        self.batch_training_input = None
-        self.batch_training_target = None
-
-        self.color = None
-
-    def createNeuralNetwork(self, hiddenArr):
-        l_rate = None
-        self.nn = NeuralNetwork()
-        self.nn.appendLayer(Layer(self.bounds, size=len(self.training[0][0]), prev=None, l_rate=l_rate, bias=True,
-                           label="Input layer"))
-        for i in hiddenArr:
-            prevLayer = self.nn.layers[len(self.nn.layers) - 1]
-            self.nn.appendLayer(Layer(self.bounds, size=i, prev=prevLayer, l_rate=l_rate, bias=True, label="Hidden layer"))
-
-        prevLayer = self.nn.layers[len(self.nn.layers) - 1]
-        self.nn.appendLayer(Layer(self.bounds, size=len(self.training[0][1]), prev=prevLayer, l_rate=l_rate, bias=False, label="Output layer"))
-
-    def train(self, iterations):
-        self.pso = PSO(self.bounds, self.num_particles_x * self.num_particles_y, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
-
-        self.batch_training_input = np.array([input[0] for input in self.training])
-        self.batch_training_target = np.array([output[1] for output in self.training])
-
-        self.batch_generalization_input = np.array([input[0] for input in self.generalization])
-        self.batch_generalization_target = np.array([output[1] for output in self.generalization])
-
-        self.num_dimensions = len(self.nn.getAllWeights())
-        #print('Dimensions', self.num_dimensions)
-
-        # Create particles
-        if isinstance(self.numberGenerator, CPRNG):
-            for i in range(self.num_particles_x):
-                row = []
-                for j in range(self.num_particles_y):
-                    particle = ChaoticParticle(self.bounds, self.numberGenerator, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
-                    position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(self.num_dimensions) + self.initialPosition.minBound
-                    velocity = np.zeros(self.num_dimensions)
-                    particle.initPos(position, velocity)
-                    row.append(particle)
-
-                self.pso.swarm.append(row)
-        else:
-            for i in range(self.num_particles_x):
-                row = []
-                for j in range(self.num_particles_y):
-                    particle = Particle(self.bounds, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
-                    position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(self.num_dimensions) + self.initialPosition.minBound
-                    velocity = np.zeros(self.num_dimensions)
-                    particle.initPos(position, velocity)
-                    row.append(particle)
-
-                self.pso.swarm.append(row)
-
+    def linkParticles(self):
         for i in range(self.num_particles_x):
             for j in range(self.num_particles_y):
                 if i > 0:  # We can go west
@@ -97,85 +37,45 @@ class VNPSONN(object):
                 if j < self.num_particles_y - 1:  # We can go south
                     self.pso.swarm[i][j].neighbourhood.append(self.pso.swarm[i][j + 1])
 
-        trainingErrors = []
+    def loopOverParticles(self):
+        # Loop over particles
+        for i, row in enumerate(self.pso.swarm):
+            for j, col in enumerate(row):
+                # Set weights according to mlpy particle
+                self.nn.setAllWeights(self.pso.swarm[i][j].position)
 
-        plt.grid(1)
-        plt.xlabel('Iterations')
-        plt.ylabel('Error')
-        plt.ylim([0, 1])
-        plt.ion()
+                result = self.nn.fire(np.array(self.batch_training_input))
+                difference = self.batch_training_target - result
+                error = np.mean(np.square(difference))
 
-        # Iterate over training data
-        for x in range(iterations):
+                self.pso.swarm[i][j].error = error
 
-            # Loop over particles
-            for i, row in enumerate(self.pso.swarm):
-                for j, col in enumerate(row):
-                    # Set weights according to mlpy particle
-                    self.nn.setAllWeights(self.pso.swarm[i][j].position)
+                # Get & set personal best
+                self.pso.swarm[i][j].getPersonalBest()
 
-                    result = self.nn.fire(np.array(self.batch_training_input))
-                    difference = self.batch_training_target - result
-                    error = np.mean(np.square(difference))
+        self.pso.group_best_position = None
+        self.pso.group_best_error = float('inf')
+        for i, row in enumerate(self.pso.swarm):
+            for j, col in enumerate(row):
+                particle = self.pso.swarm[i][j]
+                neighbourhoodBest = particle.error
+                neighbourhoodBestPos = particle.position
 
-                    self.pso.swarm[i][j].error = error
+                for neighbour in particle.neighbourhood:
+                    if abs(neighbour.error) < abs(neighbourhoodBest):
+                        neighbourhoodBestPos = np.array(neighbour.position)
+                        neighbourhoodBest = neighbour.error
 
-                    # Get & set personal best
-                    self.pso.swarm[i][j].getPersonalBest()
+                # Get current global best for this iteration
+                if abs(particle.error) < abs(self.pso.group_best_error):
+                    self.pso.group_best_position = np.array(particle.position)
+                    self.pso.group_best_error = particle.error
 
-            self.pso.group_best_position = None
-            self.pso.group_best_error = float('inf')
-            for i, row in enumerate(self.pso.swarm):
-                for j, col in enumerate(row):
-                    particle = self.pso.swarm[i][j]
-                    neighbourhoodBest = particle.error
-                    neighbourhoodBestPos = particle.position
+                # Get overall global best as well
+                if abs(particle.error) < abs(self.pso.best_error):
+                    self.pso.best_position = np.array(particle.position)
+                    self.pso.best_error = particle.error
 
-                    for neighbour in particle.neighbourhood:
-                        if abs(neighbour.error) < abs(neighbourhoodBest):
-                            neighbourhoodBestPos = np.array(neighbour.position)
-                            neighbourhoodBest = neighbour.error
-
-                    # Get current global best for this iteration
-                    if abs(particle.error) < abs(self.pso.group_best_error):
-                        self.pso.group_best_position = np.array(particle.position)
-                        self.pso.group_best_error = particle.error
-
-                    # Get overall global best as well
-                    if abs(particle.error) < abs(self.pso.best_error):
-                        self.pso.best_position = np.array(particle.position)
-                        self.pso.best_error = particle.error
-
-                    self.pso.swarm[i][j].update_velocity(neighbourhoodBestPos)
-                    self.pso.swarm[i][j].update_position(self.vmax)
-
-            if (x % 100 == 0):
-                trainingErrors.append([self.pso.best_error, x])
-                plt.scatter(x, self.pso.best_error, color=self.color, s=4, label="test1")
-                plt.pause(0.0001)
-                plt.show()
-
-        correct = 0
-
-        self.nn.setAllWeights(self.pso.best_position)
-
-        result = self.nn.fire(np.array(self.batch_training_input))
-        difference = self.batch_training_target - result
-        trainingError = np.mean(np.square(difference))
-        trainingErrors.append([trainingError, 5000])
-
-        result = self.nn.fire(np.array(self.batch_generalization_input))
-        difference = self.batch_generalization_target - result
-        generalizationError = np.mean(np.square(difference))
-
-        for i in range(len(self.generalization)):
-            in_out = self.generalization[i]
-            result = self.nn.fire(np.array([in_out[0]]))
-
-            if np.argmax(result) == np.argmax(in_out[1]):
-                correct += 1
-
-        print(str(correct / len(self.generalization)))
-
-        return trainingErrors, trainingError, generalizationError
+                self.pso.swarm[i][j].update_velocity(neighbourhoodBestPos)
+                self.pso.swarm[i][j].update_position(self.vmax)
 
