@@ -15,7 +15,7 @@ class VNPSONN(PSONN):
         for i in range(self.num_particles_x):
             row = []
             for j in range(self.num_particles_y):
-                particle = Particle(self.bounds, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
+                particle = Particle(self.bounds, self.weight, self.cognitiveConstant, self.socialConstant)
                 position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(self.num_dimensions) + self.initialPosition.minBound
                 velocity = np.zeros(self.num_dimensions)
                 particle.initPos(position, velocity)
