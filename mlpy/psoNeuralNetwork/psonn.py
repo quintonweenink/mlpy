@@ -8,30 +8,17 @@ from mlpy.particleSwarmOptimization.structure.particle import Particle
 
 np.set_printoptions(suppress=True)
 
-class PSONN(object):
+class PSONN(PSO):
     def __init__(self):
+        super(PSONN, self).__init__()
+
         self.nn = None
-        self.pso = None
-
-        self.bounds = None
-        self.initialPosition = None
-
-        self.training = None
-        self.generalization = None
-        self.testing = None
-
-        self.num_particles = None
-
-        self.inertia_weight = None
-        self.cognitiveConstant = None
-        self.socialConstant = None
-
-        self.vmax = None
 
         self.batch_training_input = None
         self.batch_training_target = None
 
-        self.color = None
+        self.batch_generalization_input = None
+        self.batch_generalization_target = None
 
     def createNeuralNetwork(self, hiddenArr):
         l_rate = None
@@ -46,40 +33,38 @@ class PSONN(object):
         self.nn.appendLayer(Layer(self.bounds, size=len(self.training[0][1]), prev=prevLayer, l_rate=l_rate, bias=False, label="Output layer"))
 
     def createParticles(self):
-        for i in range(self.pso.num_particles):
-            self.pso.swarm.append(
-                Particle(self.bounds, self.inertia_weight, self.cognitiveConstant, self.socialConstant))
+        for i in range(self.num_particles):
+            self.swarm.append(
+                Particle(self.bounds, self.weight, self.cognitiveConstant, self.socialConstant))
             position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(
                 self.num_dimensions) + self.initialPosition.minBound
             velocity = np.zeros(self.num_dimensions)
-            self.pso.swarm[i].initPos(position, velocity)
+            self.swarm[i].initPos(position, velocity)
 
     def loopOverParticles(self):
         # Loop over particles
-        for i, particle in enumerate(self.pso.swarm):
+        for i, particle in enumerate(self.swarm):
             # Set weights according to mlpy particle
-            self.nn.setAllWeights(self.pso.swarm[i].position)
+            self.nn.setAllWeights(self.swarm[i].position)
 
             result = self.nn.fire(np.array(self.batch_training_input))
             difference = self.batch_training_target - result
             error = np.mean(np.square(difference))
 
-            self.pso.swarm[i].error = error
+            self.swarm[i].error = error
 
             # Get & set personal best
-            self.pso.swarm[i].getPersonalBest()
+            self.swarm[i].getPersonalBest()
 
         # Get & set global best
-        self.pso.getGlobalBest()
+        self.getGlobalBest()
 
-        for j in range(self.pso.num_particles):
-            self.pso.swarm[j].update_velocity(self.pso.group_best_position)
-            self.pso.swarm[j].update_position(self.vmax)
+        for j in range(self.num_particles):
+            self.swarm[j].update_velocity(self.group_best_position)
+            self.swarm[j].update_position(self.vmax)
 
 
     def train(self, iterations):
-        self.pso = PSO(self.bounds, self.num_particles, self.inertia_weight, self.cognitiveConstant, self.socialConstant)
-
         self.batch_training_input = np.array([input[0] for input in self.training])
         self.batch_training_target = np.array([output[1] for output in self.training])
 
@@ -105,14 +90,14 @@ class PSONN(object):
             self.loopOverParticles()
 
             if (x % 100 == 0):
-                trainingErrors.append([self.pso.best_error, x])
-                plt.scatter(x, self.pso.best_error, color=self.color, s=4, label="test1")
+                trainingErrors.append([self.best_error, x])
+                plt.scatter(x, self.best_error, color=self.color, s=4, label="test1")
                 plt.pause(0.0001)
                 plt.show()
 
         correct = 0
 
-        self.nn.setAllWeights(self.pso.best_position)
+        self.nn.setAllWeights(self.best_position)
 
         result = self.nn.fire(np.array(self.batch_training_input))
         difference = self.batch_training_target - result
