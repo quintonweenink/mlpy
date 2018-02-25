@@ -7,7 +7,7 @@ np.set_printoptions(suppress=True)
 
 class PSO(object):
 
-    def __init__(self, bounds, num_particles, weight, cognitiveConstant, socialConstant):
+    def __init__(self):
         self.num_dimensions = None
 
         self.group_best_error = float('inf')
@@ -16,11 +16,11 @@ class PSO(object):
         self.best_error = float('inf')
         self.best_position = None
 
-        self.num_particles = num_particles
-        self.bounds = bounds
-        self.weight = weight
-        self.cognitiveConstant = cognitiveConstant
-        self.socialConstant = socialConstant
+        self.num_particles = None
+        self.bounds = None
+        self.weight = None
+        self.cognitiveConstant = None
+        self.socialConstant = None
 
         self.vmax = None
 
