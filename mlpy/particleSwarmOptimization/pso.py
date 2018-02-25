@@ -51,13 +51,16 @@ class PSO(object):
     def createParticles(self):
         for i in range(self.num_particles):
             self.swarm.append(Particle(self.bounds, self.weight, self.cognitiveConstant, self.socialConstant))
-            self.swarm[i].initPos(4 * np.random.random(self.num_dimensions) - 2, np.zeros(self.num_dimensions))
+            position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(
+                self.num_dimensions) + self.initialPosition.minBound
+            velocity = np.zeros(self.num_dimensions)
+            self.swarm[i].initPos(position, velocity)
 
     def loopOverParticles(self):
         # Loop over particles
         for j in range(self.num_particles):
             # Fire the neural network and calculate error
-            self.swarm[j].error = self.error(pso.swarm[j].position)
+            self.swarm[j].error = self.error(self.swarm[j].position)
 
             # Get & set personal best
             self.swarm[j].getPersonalBest()

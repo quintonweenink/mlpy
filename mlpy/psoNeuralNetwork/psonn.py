@@ -32,15 +32,6 @@ class PSONN(PSO):
         prevLayer = self.nn.layers[len(self.nn.layers) - 1]
         self.nn.appendLayer(Layer(self.bounds, size=len(self.training[0][1]), prev=prevLayer, l_rate=l_rate, bias=False, label="Output layer"))
 
-    def createParticles(self):
-        for i in range(self.num_particles):
-            self.swarm.append(
-                Particle(self.bounds, self.weight, self.cognitiveConstant, self.socialConstant))
-            position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(
-                self.num_dimensions) + self.initialPosition.minBound
-            velocity = np.zeros(self.num_dimensions)
-            self.swarm[i].initPos(position, velocity)
-
     def loopOverParticles(self):
         # Loop over particles
         for i, particle in enumerate(self.swarm):
