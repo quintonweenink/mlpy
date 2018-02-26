@@ -85,7 +85,7 @@ class PSO(object):
         plt.grid(1)
         plt.xlabel('Iterations')
         plt.ylabel('Error')
-        plt.ylim([0, 1])
+        # plt.ylim([0, 1])
         plt.ion()
 
         # Iterate over training data
