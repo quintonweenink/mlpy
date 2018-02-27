@@ -88,7 +88,6 @@ class PSO(object):
         # plt.ylim([0, 1])
         plt.ion()
 
-        # Iterate over training data
         for x in range(iterations):
 
             self.loopOverParticles()
@@ -102,4 +101,4 @@ class PSO(object):
         print("Best error:\t\t\t" + str(self.group_best_error))
         print("Current best error:\t" + str(self.best_error) + "\n")
 
-        return self.group_best_error, self.best_error
+        return trainingErrors, self.group_best_error

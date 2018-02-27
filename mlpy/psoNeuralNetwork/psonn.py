@@ -4,7 +4,6 @@ import numpy as np
 from mlpy.particleSwarmOptimization.pso import PSO
 from mlpy.neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
 from mlpy.neuralNetwork.structure.layer import Layer
-from mlpy.particleSwarmOptimization.structure.particle import Particle
 
 np.set_printoptions(suppress=True)
 
