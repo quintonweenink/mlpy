@@ -4,6 +4,7 @@ import numpy as np
 from mlpy.particleSwarmOptimization.pso import PSO
 from mlpy.neuralNetwork.feedForwardNeuralNetwork import NeuralNetwork
 from mlpy.neuralNetwork.structure.layer import Layer
+from mlpy.psoNeuralNetwork.particlenn import ParticleNN
 
 np.set_printoptions(suppress=True)
 
@@ -12,6 +13,10 @@ class PSONN(PSO):
         super(PSONN, self).__init__()
 
         self.nn = None
+
+        self.training = None
+        self.generalization = None
+        self.testing = None
 
         self.batch_training_input = None
         self.batch_training_target = None
@@ -31,10 +36,29 @@ class PSONN(PSO):
         prevLayer = self.nn.layers[len(self.nn.layers) - 1]
         self.nn.appendLayer(Layer(self.bounds, size=len(self.training[0][1]), prev=prevLayer, l_rate=l_rate, bias=False, label="Output layer"))
 
+    def getGlobalBest(self):
+        self.best_error = float('inf')
+        for particle in self.swarm:
+            if abs(particle.error) < abs(self.group_best_error):
+                self.group_best_position = np.array(particle.position)
+                self.group_best_error = particle.error
+            # Get current best as well
+            if abs(particle.error) < abs(self.best_error):
+                self.best_position = np.array(particle.position)
+                self.best_error = particle.error
+
+        return self.group_best_position
+
+    def createParticles(self):
+        for i in range(self.num_particles):
+            self.swarm.append(ParticleNN(self.bounds, self.weight, self.cognitiveConstant, self.socialConstant))
+            position = (self.initialPosition.maxBound - self.initialPosition.minBound) * np.random.random(
+                self.num_dimensions) + self.initialPosition.minBound
+            velocity = np.zeros(self.num_dimensions)
+            self.swarm[i].initPos(position, velocity)
+
     def loopOverParticles(self):
-        # Loop over particles
         for i, particle in enumerate(self.swarm):
-            # Set weights according to mlpy particle
             self.nn.setAllWeights(self.swarm[i].position)
 
             result = self.nn.fire(np.array(self.batch_training_input))
@@ -43,10 +67,8 @@ class PSONN(PSO):
 
             self.swarm[i].error = error
 
-            # Get & set personal best
             self.swarm[i].getPersonalBest()
 
-        # Get & set global best
         self.getGlobalBest()
 
         for j in range(self.num_particles):

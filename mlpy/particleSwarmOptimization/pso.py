@@ -27,10 +27,6 @@ class PSO(object):
         self.swarm = []
         self.initialPosition = None
 
-        self.training = None
-        self.generalization = None
-        self.testing = None
-
         self.color = None
 
         self.error = None
@@ -38,11 +34,11 @@ class PSO(object):
     def getGlobalBest(self):
         self.best_error = float('inf')
         for particle in self.swarm:
-            if abs(particle.error) < abs(self.group_best_error):
+            if particle.error < self.group_best_error:
                 self.group_best_position = np.array(particle.position)
                 self.group_best_error = particle.error
             # Get current best as well
-            if abs(particle.error) < abs(self.best_error):
+            if particle.error < self.best_error:
                 self.best_position = np.array(particle.position)
                 self.best_error = particle.error
 
@@ -57,20 +53,12 @@ class PSO(object):
             self.swarm[i].initPos(position, velocity)
 
     def loopOverParticles(self):
-        # Loop over particles
         for j in range(self.num_particles):
-            # Fire the neural network and calculate error
             self.swarm[j].error = self.error(self.swarm[j].position)
 
-            # Get & set personal best
             self.swarm[j].getPersonalBest()
 
-            # Print results
-            # print(j, np.array(pso.swarm[j].error))
-
-        # Get & set global best
         self.getGlobalBest()
-        # print (pso.best_error)
 
         for j in range(self.num_particles):
             self.swarm[j].update_velocity(self.group_best_position)
