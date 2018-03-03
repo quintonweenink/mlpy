@@ -25,7 +25,7 @@ class Particle(object):
         self.velocity = np.array(velocity)
 
     def getPersonalBest(self):
-        if abs(self.error) < abs(self.best_error):
+        if self.error < self.best_error:
             self.best_position = np.array(self.position)
             self.best_error = self.error
 
@@ -42,18 +42,9 @@ class Particle(object):
 
         return self.velocity
 
-    def update_position(self, vmax=None):
-        # Clip the velocity so jumps are not too big Vmax
-        if vmax != None:
-            self.velocity = np.clip(self.velocity, -vmax, vmax)
-
-        # Update the position according to the velocity
+    def update_position(self):
         self.position = self.position + self.velocity
 
-        # Clip the position to within the bounds
-        self.position = np.clip(self.position, self.bounds.minBound, self.bounds.maxBound)
-
-        # print(self.velocity)
         return self.velocity
 
 

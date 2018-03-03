@@ -11,3 +11,13 @@ class ParticleNN(Particle):
             self.best_error = self.error
 
         return self.best_error
+
+    def update_position(self, vmax=None):
+        if vmax != None:
+            self.velocity = np.clip(self.velocity, -vmax, vmax)
+
+        self.position = self.position + self.velocity
+
+        self.position = np.clip(self.position, self.bounds.minBound, self.bounds.maxBound)
+
+        return self.velocity

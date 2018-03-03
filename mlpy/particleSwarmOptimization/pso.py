@@ -22,8 +22,6 @@ class PSO(object):
         self.cognitiveConstant = None
         self.socialConstant = None
 
-        self.vmax = None
-
         self.swarm = []
         self.initialPosition = None
 
@@ -73,7 +71,6 @@ class PSO(object):
         plt.grid(1)
         plt.xlabel('Iterations')
         plt.ylabel('Error')
-        # plt.ylim([0, 1])
         plt.ion()
 
         for x in range(iterations):
@@ -87,6 +84,5 @@ class PSO(object):
                 plt.show()
 
         print("Best error:\t\t\t" + str(self.group_best_error))
-        print("Current best error:\t" + str(self.best_error) + "\n")
 
         return trainingErrors, self.group_best_error
