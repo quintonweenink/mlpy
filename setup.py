@@ -9,14 +9,14 @@ from setuptools import setup, find_packages
 
 setup(
     name="mlpy",
+    author="Quinton Weenink",
     version="0.3.5",
-    description="PSO",
+    description="ML Library",
     license="MIT",
-    keywords="PSO",
+    keywords="PSO NN PSONN",
     url="git://github.com/quintonweenink/mlpy",
     packages=find_packages(exclude=['docs']),
     include_package_data=True,
     test_suite='mlpy.nn.test.run_tests',
-    #package_data={'mlpy': ['rl/environments/ode/models/*.xode']},
     install_requires = ["numpy", "matplotlib", "scipy"],
 )
