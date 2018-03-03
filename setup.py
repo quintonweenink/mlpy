@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="mlpy",
-    version="0.3.4",
+    version="0.3.5",
     description="PSO",
     license="MIT",
     keywords="PSO",
