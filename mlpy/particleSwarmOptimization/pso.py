@@ -70,7 +70,7 @@ class PSO(object):
             self.loopOverParticles()
 
             if (x % sampleSize == 0):
-                trainingErrors.append([self.group_best_position, x])
+                trainingErrors.append([self.group_best_error, x])
 
         trainingErrors.append([self.group_best_error, iterations])
 
