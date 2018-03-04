@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 setup(
     name="mlpy",
     author="Quinton Weenink",
-    version="0.3.5",
+    version="0.3.6",
     description="ML Library",
     license="MIT",
     keywords="PSO NN PSONN",

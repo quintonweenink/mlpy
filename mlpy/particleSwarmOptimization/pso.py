@@ -1,9 +1,6 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
 from mlpy.particleSwarmOptimization.structure.particle import Particle
-
-np.set_printoptions(suppress=True)
 
 class PSO(object):
 
@@ -63,26 +60,18 @@ class PSO(object):
             self.swarm[j].update_position()
 
 
-    def train(self, iterations):
+    def train(self, iterations, sampleSize):
         self.createParticles()
 
         trainingErrors = []
-
-        plt.grid(1)
-        plt.xlabel('Iterations')
-        plt.ylabel('Error')
-        plt.ion()
 
         for x in range(iterations):
 
             self.loopOverParticles()
 
-            if (x % 100 == 0):
-                trainingErrors.append([self.best_error, x])
-                plt.scatter(x, self.best_error, color=self.color, s=4, label="test1")
-                plt.pause(0.0001)
-                plt.show()
+            if (x % sampleSize == 0):
+                trainingErrors.append([self.group_best_position, x])
 
-        print("Best error:\t\t\t" + str(self.group_best_error))
+        trainingErrors.append([self.group_best_error, iterations])
 
         return trainingErrors, self.group_best_error
